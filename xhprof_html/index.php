@@ -1,8 +1,10 @@
 <?php
-$GLOBALS['XHPROF_LIB_ROOT'] = dirname(__FILE__) . '/../xhprof_lib';
-require ("../xhprof_lib/config.php");
-include_once $GLOBALS['XHPROF_LIB_ROOT'].'/display/xhprof.php';
-include ("../xhprof_lib/utils/common.php");
+if (!defined('XHPROF_LIB_ROOT')) {
+  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
+}
+require (XHPROF_LIB_ROOT . "/config.php");
+include_once XHPROF_LIB_ROOT . '/display/xhprof.php';
+include (XHPROF_LIB_ROOT . "/utils/common.php");
 
 if (!in_array($_SERVER['REMOTE_ADDR'], $controlIPs))
 {
@@ -82,27 +84,35 @@ if(isset($_GET['run1']) || isset($_GET['run']))
 	                    $symbol, $sort, $run1, $run2);	
 }elseif (isset($_GET['geturl']))
 {
+    $last = (isset($_GET['last'])) ?  $_GET['last'] : 100;
+    $last = (int) $last;
     $criteria['url'] = $_GET['geturl'];
-    $criteria['limit'] = 100;
+    $criteria['limit'] = $last;
+    $criteria['order by'] = 'timestamp';
     $rs = $xhprof_runs_impl->getUrlStats($criteria);
     list($header, $body) = showChart($rs);
     $_xh_header .= $header;
-    include ("../xhprof_lib/templates/header.phtml");
     
-    $rs = $xhprof_runs_impl->getRuns(array('url' => $_GET['geturl'], 'limit' => 100));
+    include ("../xhprof_lib/templates/header.phtml");
+    $rs = $xhprof_runs_impl->getRuns($criteria);
     include ("../xhprof_lib/templates/emptyBody.phtml");
-    $url = htmlentities($_GET['geturl'], ENT_QUOTES);
+    
+    $url = htmlentities($_GET['geturl'], ENT_QUOTES, "UTF-8");
     displayRuns($rs, "Runs with URL: $url");
 }elseif (isset($_GET['getcurl']))
 {
+    $last = (isset($_GET['last'])) ?  $_GET['last'] : 100;
+    $last = (int) $last;
     $criteria['c_url'] = $_GET['getcurl'];
-    $criteria['limit'] = 100;
+    $criteria['limit'] = $last;
+    $criteria['order by'] = 'timestamp';
+    
     $rs = $xhprof_runs_impl->getUrlStats($criteria);
     list($header, $body) = showChart($rs);
     $_xh_header .= $header;
     include ("../xhprof_lib/templates/header.phtml");
     
-    $url = htmlentities($_GET['getcurl'], ENT_QUOTES);
+    $url = htmlentities($_GET['getcurl'], ENT_QUOTES, "UTF-8");
     $rs = $xhprof_runs_impl->getRuns($criteria);
     include("../xhprof_lib/templates/emptyBody.phtml");
     displayRuns($rs, "Runs with Simplified URL: $url");

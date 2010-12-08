@@ -64,7 +64,7 @@ interface iXHProfRuns {
  * the data, it also stores additional information outside the run
  * itself (beyond simply the run id) to make comparisons and run
  * location easier
- * 
+ *
  * @author Kannan
  * @author Paul Reinheimer (http://blog.preinheimer.com)
  */
@@ -85,7 +85,7 @@ class XHProfRuns_Default implements iXHProfRuns {
 	global $_xhprof;
 
 	
-    $linkid = mysql_connect($_xhprof['dbhost'], $_xhprof['dbuser'], $_xhprof['dbpass']);
+    $linkid = mssql_connect($_xhprof['dbhost'], $_xhprof['dbuser'], $_xhprof['dbpass']);
     if ($linkid === FALSE)
     {
       xhprof_error("Could not connect to db");
@@ -93,37 +93,49 @@ class XHProfRuns_Default implements iXHProfRuns {
       throw new Exception("Unable to connect to database");
       return false;
     }
-    mysql_select_db($_xhprof['dbname'], $linkid);
+    mssql_select_db($_xhprof['dbname'], $linkid);
     $this->linkID = $linkid; 
   }
   /**
   * When setting the `id` column, consider the length of the prefix you're specifying in $this->prefix
   * 
   *
-CREATE TABLE `details` (
-  `id` char(17) NOT NULL,
-  `url` varchar(255) default NULL,
-  `c_url` varchar(255) default NULL,
-  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `server name` varchar(64) default NULL,
-  `perfdata` text,
-  `type` tinyint(4) default NULL,
-  `cookie` text,
-  `post` text,
-  `get` text,
-  `pmu` int(11) default NULL,
-  `wt` int(11) default NULL,
-  `cpu` int(11) default NULL,
-  `server_id` char(3) NOT NULL default 't11',
-  PRIMARY KEY  (`id`),
-  KEY `url` (`url`),
-  KEY `c_url` (`c_url`),
-  KEY `cpu` (`cpu`),
-  KEY `wt` (`wt`),
-  KEY `pmu` (`pmu`),
-  KEY `timestamp` (`timestamp`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-  
+CREATE TABLE dbo.details
+(
+   id nchar(17) NOT NULL, 
+   url nvarchar(255) NULL DEFAULT NULL, 
+   c_url nvarchar(255) NULL DEFAULT NULL, 
+   timestamp datetime NOT NULL DEFAULT getdate(), 
+   [server name] nvarchar(64) NULL DEFAULT NULL, 
+   perfdata nvarchar(max) NULL, 
+   type smallint NULL DEFAULT NULL, 
+   cookie nvarchar(max) NULL, 
+   post nvarchar(max) NULL, 
+   get nvarchar(max) NULL, 
+   pmu int NULL DEFAULT NULL, 
+   wt int NULL DEFAULT NULL, 
+   cpu int NULL DEFAULT NULL, 
+   server_id nchar(3) NOT NULL DEFAULT N't11', 
+   CONSTRAINT PK_details_id PRIMARY KEY (id)
+)
+GO
+CREATE NONCLUSTERED INDEX dbo.url
+   ON dbo.details (url ASC)
+GO
+CREATE NONCLUSTERED INDEX dbo.c_url
+   ON dbo.details (c_url ASC)
+GO
+CREATE NONCLUSTERED INDEX dbo.cpu
+   ON dbo.details (cpu ASC)
+GO
+CREATE NONCLUSTERED INDEX dbo.wt
+   ON dbo.details (wt ASC)
+GO
+CREATE NONCLUSTERED INDEX dbo.pmu
+   ON dbo.details (pmu ASC)
+GO
+CREATE NONCLUSTERED INDEX dbo.timestamp
+   ON dbo.details (timestamp
 */
 
     
@@ -172,7 +184,7 @@ CREATE TABLE `details` (
           {
               $query .= $column;
           }
-          $value = mysql_real_escape_string($value);
+          $value = addslashes($value);
           $query .= " `$column` = '$value' ";
       }
       
@@ -203,8 +215,8 @@ CREATE TABLE `details` (
       {
           $query .= " LIMIT {$stats['limit']} ";
       }
-
-      $resultSet = mysql_query($query);
+      
+      $resultSet = mssql_query($query, $this->linkID);
       return $resultSet;
   }
   
@@ -230,15 +242,15 @@ CREATE TABLE `details` (
   
   public function getDistinct($data)
   {
-	$sql['column'] = mysql_real_escape_string($data['column']);
+	$sql['column'] = addslashes($data['column']);
 	$query = "SELECT DISTINCT(`{$sql['column']}`) FROM `details`";
-	$rs = mysql_query($query);
+	$rs = mssql_query($query,$this->linkID);
 	return $rs;
   }
   
   public static function getNextAssoc($resultSet)
   {
-    return mysql_fetch_assoc($resultSet);
+    return mssql_fetch_assoc($resultSet);
   }
   
   /**
@@ -251,10 +263,10 @@ CREATE TABLE `details` (
   */
   public function get_run($run_id, $type, &$run_desc) 
   {
-    $run_id = mysql_real_escape_string($run_id);
+    $run_id = addslashes($run_id);
     $query = "SELECT * FROM `details` WHERE `id` = '$run_id'";
-    $resultSet = mysql_query($query, $this->linkID);
-    $data = mysql_fetch_assoc($resultSet);
+    $resultSet = mssql_query($query, $this->linkID);
+    $data = mssql_fetch_assoc($resultSet);
     
     //The Performance data is compressed lightly to avoid max row length
     $contents = unserialize(gzuncompress($data['perfdata']));
@@ -302,13 +314,13 @@ CREATE TABLE `details` (
   */
   public function getRunComparativeData($url, $c_url)
   {
-      $url = mysql_real_escape_string($url);
-      $c_url = mysql_real_escape_string($c_url);
+      $url = addslashes($url);
+      $c_url = addslashes($c_url);
       //Runs same URL
       //  count, avg/min/max for wt, cpu, pmu
       $query = "SELECT count(`id`), avg(`wt`), min(`wt`), max(`wt`),  avg(`cpu`), min(`cpu`), max(`cpu`), avg(`pmu`), min(`pmu`), max(`pmu`) FROM `details` WHERE `url` = '$url'";
-      $rs = mysql_query($query, $this->linkID);
-      $row = mysql_fetch_assoc($rs);
+      $rs = mssql_query($query, $this->linkID);
+      $row = mssql_fetch_assoc($rs);
       $row['url'] = $url;
       
       $row['95(`wt`)'] = $this->calculatePercentile(array('count' => $row['count(`id`)'], 'column' => 'wt', 'type' => 'url', 'url' => $url));
@@ -322,8 +334,8 @@ CREATE TABLE `details` (
       //Runs same c_url
       //  count, avg/min/max for wt, cpu, pmu
       $query = "SELECT count(`id`), avg(`wt`), min(`wt`), max(`wt`),  avg(`cpu`), min(`cpu`), max(`cpu`), avg(`pmu`), min(`pmu`), max(`pmu`) FROM `details` WHERE `c_url` = '$c_url'";
-      $rs = mysql_query($query, $this->linkID);
-      $row = mysql_fetch_assoc($rs);
+      $rs = mssql_query($query, $this->linkID);
+      $row = mssql_fetch_assoc($rs);
       $row['url'] = $c_url;
       $row['95(`wt`)'] = $this->calculatePercentile(array('count' => $row['count(`id`)'], 'column' => 'wt', 'type' => 'c_url', 'url' => $c_url));
       $row['95(`cpu`)'] = $this->calculatePercentile(array('count' => $row['count(`id`)'], 'column' => 'cpu', 'type' => 'c_url', 'url' => $c_url));
@@ -338,8 +350,8 @@ CREATE TABLE `details` (
   {
                   $limit = (int) ($details['count'] / 20);
                   $query = "SELECT `{$details['column']}` as `value` FROM `details` WHERE `{$details['type']}` = '{$details['url']}' ORDER BY `{$details['column']}` DESC LIMIT $limit, 1";
-                  $rs = mysql_query($query, $this->linkID);
-                  $row = mysql_fetch_assoc($rs);
+                  $rs = mssql_query($query, $this->linkID);
+                  $row = mssql_fetch_assoc($rs);
                   return $row['value'];
   }
   
@@ -385,16 +397,16 @@ CREATE TABLE `details` (
 		
 		*/
 
-        $sql['get'] = mysql_real_escape_string(serialize($_GET), $this->linkID);
-        $sql['cookie'] = mysql_real_escape_string(serialize($_COOKIE), $this->linkID);
+        $sql['get'] = addslashes(serialize($_GET));
+        $sql['cookie'] = addslashes(serialize($_COOKIE));
         
         //This code has not been tested
         if ($_xhprof['savepost'])
         {
-        	$sql['post'] = mysql_real_escape_string(serialize($_POST), $this->linkID);    
+        	$sql['post'] = addslashes(serialize($_POST));    
         }else
         {
-        	$sql['post'] = mysql_real_escape_string(serialize(array("Skipped" => "Post data omitted by rule")), $this->linkID);
+        	$sql['post'] = addslashes(serialize(array("Skipped" => "Post data omitted by rule")));
         }
         
         
@@ -406,23 +418,23 @@ CREATE TABLE `details` (
         //The MyISAM table type has a maxmimum row length of 65,535bytes, without compression XHProf data can exceed that. 
 		// The value of 2 seems to be light enugh that we're not killing the server, but still gives us lots of breathing room on 
 		// full production code. 
-        $sql['data'] = mysql_real_escape_string(gzcompress(serialize($xhprof_data), 2));
+        $sql['data'] = addslashes(gzcompress(serialize($xhprof_data), 2));
         
 	$url   = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF'];
  	$sname = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
 	
-        $sql['url'] = mysql_real_escape_string($url);
-        $sql['c_url'] = mysql_real_escape_string(_urlSimilartor($_SERVER['REQUEST_URI']));
-        $sql['servername'] = mysql_real_escape_string($sname);
+        $sql['url'] = addslashes($url);
+        $sql['c_url'] = addslashes(_urlSimilartor($_SERVER['REQUEST_URI']));
+        $sql['servername'] = addslashes($sname);
         $sql['type']  = (int) (isset($xhprof_details['type']) ? $xhprof_details['type'] : 0);
-        $sql['timestamp'] = mysql_real_escape_string($_SERVER['REQUEST_TIME']);
-		$sql['server_id'] = mysql_real_escape_string($_xhprof['servername']);
+        $sql['timestamp'] = addslashes($_SERVER['REQUEST_TIME']);
+		$sql['server_id'] = addslashes($_xhprof['servername']);
         
         
         $query = "INSERT INTO `details` (`id`, `url`, `c_url`, `timestamp`, `server name`, `perfdata`, `type`, `cookie`, `post`, `get`, `pmu`, `wt`, `cpu`, `server_id`) VALUES('$run_id', '{$sql['url']}', '{$sql['c_url']}', FROM_UNIXTIME('{$sql['timestamp']}'), '{$sql['servername']}', '{$sql['data']}', '{$sql['type']}', '{$sql['cookie']}', '{$sql['post']}', '{$sql['get']}', '{$sql['pmu']}', '{$sql['wt']}', '{$sql['cpu']}', '{$sql['server_id']}')";
         
-        mysql_query($query, $this->linkID);
-        if (mysql_affected_rows($this->linkID) == 1)
+        mssql_query($query, $this->linkID);
+        if (mssql_rows_affected($this->linkID) == 1)
         {
             return $run_id;
         }else
@@ -431,8 +443,7 @@ CREATE TABLE `details` (
             if ($_xhprof['display'] === true)
             {
                 echo "Failed to insert: $query <br>\n";
-                var_dump(mysql_error($this->linkID));
-                var_dump(mysql_errno($this->linkID));
+                var_dump(mssql_get_last_message($this->linkID));
             }
             return -1;
         }
