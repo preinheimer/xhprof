@@ -207,12 +207,14 @@ CODESE;
 }else 
 {
     include ("../xhprof_lib/templates/header.phtml");
-    $last = (isset($_GET['last'])) ?  $_GET['last'] : 25;
-    $last = (int) $last;
+    $last = (isset($_GET['last']) && !empty($_GET['last'])) ?  $_GET['last'] : 25;
+	if($last != 'all'){
+		$last = (int) $last;
+		$criteria['limit'] = $last;
+	}
     $criteria['order by'] = "timestamp";
-    $criteria['limit'] = $last;
     $rs = $xhprof_runs_impl->getRuns($criteria);
-    displayRuns($rs, "Last $last Runs");
+    displayRuns($rs, ($last=='all' ? 'All' : "Last ".$last)." Runs");
 }
 
 include ("../xhprof_lib/templates/footer.phtml");
