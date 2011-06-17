@@ -808,8 +808,8 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
   $data_copy = _aggregateCalls($data_copy, null, $run2);
   usort($data_copy, 'sortWT');
   
-  include( "../xhprof_lib/templates/profChart.phtml");
-  include( "../xhprof_lib/templates/profTable.phtml");
+  include( XHPROF_LIB_ROOT . "/templates/profChart.phtml");
+  include( XHPROF_LIB_ROOT . "/templates/profTable.phtml");
 
 }
 
@@ -845,11 +845,11 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2, $links) {
 
   if ($diff_mode) {
       global $xhprof_runs_impl;
-      include "../xhprof_lib/templates/diff_run_header_block.phtml";
+      include XHPROF_LIB_ROOT . "/templates/diff_run_header_block.phtml";
 
   } else {
       global $xhprof_runs_impl;
-    include "../xhprof_lib/templates/single_run_header_block.phtml";
+    include XHPROF_LIB_ROOT . "/templates/single_run_header_block.phtml";
   }
   
   

@@ -28,17 +28,15 @@
  *
  * @author Changhao Jiang (cjiang@facebook.com)
  */
-require ("../xhprof_lib/config.php");
+if (!defined('XHPROF_LIB_ROOT')) {
+  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
+}
+
+require (XHPROF_LIB_ROOT."/config.php");
 
 if (!in_array($_SERVER['REMOTE_ADDR'], $controlIPs))
 {
   die();
-}
-
-// by default assume that xhprof_html & xhprof_lib directories
-// are at the same level.
-if (!defined('XHPROF_LIB_ROOT')) {
-  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
 }
 
 include_once XHPROF_LIB_ROOT . '/display/xhprof.php';

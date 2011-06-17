@@ -79,7 +79,7 @@ if (!is_null($serverFilter))
 $_xh_header = "";
 if(isset($_GET['run1']) || isset($_GET['run']))
 {
-    include ("../xhprof_lib/templates/header.phtml");
+    include (XHPROF_LIB_ROOT . "/templates/header.phtml");
 	displayXHProfReport($xhprof_runs_impl, $params, $source, $run, $wts,
 	                    $symbol, $sort, $run1, $run2);	
 }elseif (isset($_GET['geturl']))
@@ -93,9 +93,9 @@ if(isset($_GET['run1']) || isset($_GET['run']))
     list($header, $body) = showChart($rs, true);
     $_xh_header .= $header;
     
-    include ("../xhprof_lib/templates/header.phtml");
+    include (XHPROF_LIB_ROOT . "/templates/header.phtml");
     $rs = $xhprof_runs_impl->getRuns($criteria);
-    include ("../xhprof_lib/templates/emptyBody.phtml");
+    include (XHPROF_LIB_ROOT . "/templates/emptyBody.phtml");
     
     $url = htmlentities($_GET['geturl'], ENT_QUOTES, "UTF-8");
     displayRuns($rs, "Runs with URL: $url");
@@ -110,15 +110,15 @@ if(isset($_GET['run1']) || isset($_GET['run']))
     $rs = $xhprof_runs_impl->getUrlStats($criteria);
     list($header, $body) = showChart($rs, true);
     $_xh_header .= $header;
-    include ("../xhprof_lib/templates/header.phtml");
+    include (XHPROF_LIB_ROOT . "/templates/header.phtml");
     
     $url = htmlentities($_GET['getcurl'], ENT_QUOTES, "UTF-8");
     $rs = $xhprof_runs_impl->getRuns($criteria);
-    include("../xhprof_lib/templates/emptyBody.phtml");
+    include(XHPROF_LIB_ROOT . "/templates/emptyBody.phtml");
     displayRuns($rs, "Runs with Simplified URL: $url");
 }elseif (isset($_GET['getruns']))
 {
-    include ("../xhprof_lib/templates/header.phtml");
+    include (XHPROF_LIB_ROOT . "/templates/header.phtml");
     $days = (int) $_GET['days'];
     
     switch ($_GET['getruns'])
@@ -141,7 +141,7 @@ if(isset($_GET['run1']) || isset($_GET['run']))
     displayRuns($rs, "Worst runs by $load");
 }elseif(isset($_GET['hit']))
 {
-    include ("../xhprof_lib/templates/header.phtml");
+    include (XHPROF_LIB_ROOT . "/templates/header.phtml");
     $last = (isset($_GET['hit'])) ?  $_GET['hit'] : 25;
     $last = (int) $last;
     $days = (isset($_GET['days'])) ?  $_GET['days'] : 1;
@@ -206,7 +206,7 @@ if(isset($_GET['run1']) || isset($_GET['run']))
 CODESE;
 }else 
 {
-    include ("../xhprof_lib/templates/header.phtml");
+    include (XHPROF_LIB_ROOT . "/templates/header.phtml");
     $last = (isset($_GET['last']) && !empty($_GET['last'])) ?  $_GET['last'] : 25;
 	if($last != 'all'){
 		$last = (int) $last;
@@ -217,4 +217,4 @@ CODESE;
     displayRuns($rs, ($last=='all' ? 'All' : "Last ".$last)." Runs");
 }
 
-include ("../xhprof_lib/templates/footer.phtml");
+include (XHPROF_LIB_ROOT . "/templates/footer.phtml");
