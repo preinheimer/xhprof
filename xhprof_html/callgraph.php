@@ -29,7 +29,7 @@
  * @author Changhao Jiang (cjiang@facebook.com)
  */
 if (!defined('XHPROF_LIB_ROOT')) {
-  define('XHPROF_LIB_ROOT', '/var/www/xhprof_lib');
+  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . 'xhprof_lib');
 }
 
 require (XHPROF_LIB_ROOT."/config.php");
