@@ -1,6 +1,6 @@
 <?php
 if (!defined('XHPROF_LIB_ROOT')) {
-  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . 'xhprof_lib');
+  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
 }
 require (XHPROF_LIB_ROOT . "/config.php");
 include_once XHPROF_LIB_ROOT . '/display/xhprof.php';
