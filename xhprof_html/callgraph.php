@@ -28,7 +28,13 @@
  *
  * @author Changhao Jiang (cjiang@facebook.com)
  */
-require ("../xhprof_lib/config.php");
+
+if (!defined('XHPROF_LIB_ROOT')) {
+  // by default, the parent directory is XHPROF lib root
+  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)));
+}
+
+require (XHPROF_LIB_ROOT . "/config.php");
 
 if (!in_array($_SERVER['REMOTE_ADDR'], $controlIPs))
 {
