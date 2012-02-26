@@ -2,6 +2,7 @@
 $_xhprof = array();
 
 // Change these:
+$_xhprof['dbtype'] = 'mysql'; // Only relevant for PDO
 $_xhprof['dbhost'] = 'localhost';
 $_xhprof['dbuser'] = 'root';
 $_xhprof['dbpass'] = 'password';
@@ -9,6 +10,12 @@ $_xhprof['dbname'] = 'xhprof';
 $_xhprof['servername'] = 'myserver';
 $_xhprof['namespace'] = 'myapp';
 $_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
+/*
+ * MySQL/MySQLi/PDO ONLY
+ * Switch to JSON for better performance and support for larger profiler data sets.
+ * WARNING: Will break with existing profile data, you will need to TRUNCATE the profile data table.
+ */
+$_xhprof['serializer'] = 'php'; 
 
 //Uncomment one of these, platform dependent. You may need to tune for your specific environment, but they're worth a try
 
@@ -25,6 +32,8 @@ $_xhprof['dot_binary']  = '/usr/bin/dot';
 $_xhprof['dot_tempdir'] = '/tmp';
 $_xhprof['dot_errfile'] = '/tmp/xh_dot.err';
 */
+
+$ignoreURLs = array();
 
 $exceptionURLs = array();
 

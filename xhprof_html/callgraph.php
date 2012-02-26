@@ -28,6 +28,7 @@
  *
  * @author Changhao Jiang (cjiang@facebook.com)
  */
+<<<<<<< HEAD
 
 if (!defined('XHPROF_LIB_ROOT')) {
   // by default, the parent directory is XHPROF lib root
@@ -35,10 +36,13 @@ if (!defined('XHPROF_LIB_ROOT')) {
 }
 
 require (XHPROF_LIB_ROOT . "/config.php");
+=======
+require_once ("../xhprof_lib/config.php");
+>>>>>>> upstream/master
 
 if (!in_array($_SERVER['REMOTE_ADDR'], $controlIPs))
 {
-  die();
+  die("You do not have permission to view this page.");
 }
 
 // by default assume that xhprof_html & xhprof_lib directories
