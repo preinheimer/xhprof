@@ -111,9 +111,9 @@ CREATE TABLE `details` (
   `cookie` BLOB,
   `post` BLOB,
   `get` BLOB,
-  `pmu` int(11) unsigned default NULL,
-  `wt` int(11) unsigned default NULL,
-  `cpu` int(11) unsigned default NULL,
+  `pmu` int(11) default NULL,
+  `wt` int(11) default NULL,
+  `cpu` int(11) default NULL,
   `server_id` char(3) NOT NULL default 't11',
   `aggregateCalls_include` varchar(255) DEFAULT NULL,
   PRIMARY KEY  (`id`),
@@ -258,12 +258,7 @@ CREATE TABLE `details` (
     $data = mysqli_fetch_assoc($resultSet);
     
     //The Performance data is compressed lightly to avoid max row length
-	if (!isset($GLOBALS['_xhprof']['serializer']) || strtolower($GLOBALS['_xhprof']['serializer'] == 'php')) {
-		$contents = unserialize(gzuncompress($data['perfdata']));
-	} else {
-		$contents = json_decode(gzuncompress($data['perfdata']), true);
-	}
-		
+    $contents = unserialize(gzuncompress($data['perfdata']));
     
     //This data isnt' needed for display purposes, there's no point in keeping it in this array
     unset($data['perfdata']);
@@ -391,31 +386,17 @@ CREATE TABLE `details` (
 		
 		*/
 
-		if (!isset($GLOBALS['_xhprof']['serializer']) || strtolower($GLOBALS['_xhprof']['serializer'] == 'php')) {
-			$sql['get'] = mysqli_real_escape_string($this->linkID, serialize($_GET));
-			$sql['cookie'] = mysqli_real_escape_string($this->linkID, serialize($_COOKIE));
-
-			//This code has not been tested
-			if ($_xhprof['savepost'])
-			{
-				$sql['post'] = mysqli_real_escape_string($this->linkID, serialize($_POST));    
-			}else
-			{
-				$sql['post'] = mysqli_real_escape_string($this->linkID, serialize(array("Skipped" => "Post data omitted by rule")));
-			}
-		} else {
-			$sql['get'] = mysqli_real_escape_string($this->linkID, json_encode($_GET));
-			$sql['cookie'] = mysqli_real_escape_string($this->linkID, json_encode($_COOKIE));
-
-			//This code has not been tested
-			if ($_xhprof['savepost'])
-			{
-				$sql['post'] = mysqli_real_escape_string($this->linkID, json_encode($_POST));    
-			}else
-			{
-				$sql['post'] = mysqli_real_escape_string($this->linkID, json_encode(array("Skipped" => "Post data omitted by rule")));
-			}
-		}
+        $sql['get'] = mysqli_real_escape_string($this->linkID, serialize($_GET));
+        $sql['cookie'] = mysqli_real_escape_string($this->linkID, serialize($_COOKIE));
+        
+        //This code has not been tested
+        if ($_xhprof['savepost'])
+        {
+        	$sql['post'] = mysqli_real_escape_string($this->linkID, serialize($_POST));    
+        }else
+        {
+        	$sql['post'] = mysqli_real_escape_string($this->linkID, serialize(array("Skipped" => "Post data omitted by rule")));
+        }
         
         
 	$sql['pmu'] = isset($xhprof_data['main()']['pmu']) ? $xhprof_data['main()']['pmu'] : '';
@@ -425,17 +406,13 @@ CREATE TABLE `details` (
 
 		// The value of 2 seems to be light enugh that we're not killing the server, but still gives us lots of breathing room on 
 		// full production code. 
-		if (!isset($GLOBALS['_xhprof']['serializer']) || strtolower($GLOBALS['_xhprof']['serializer'] == 'php')) {
-			$sql['data'] = mysqli_real_escape_string($this->linkID, gzcompress(serialize($xhprof_data), 2));
-		} else {
-			$sql['data'] = mysqli_real_escape_string($this->linkID, gzcompress(json_encode($xhprof_data), 2));
-		}
+        $sql['data'] = mysqli_real_escape_string($this->linkID, gzcompress(serialize($xhprof_data), 2));
         
 	$url   = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF'];
  	$sname = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
 	
         $sql['url'] = mysqli_real_escape_string($this->linkID, $url);
-        $sql['c_url'] = mysqli_real_escape_string($this->linkID, _urlSimilartor($url));
+        $sql['c_url'] = mysqli_real_escape_string($this->linkID, _urlSimilartor($_SERVER['REQUEST_URI']));
         $sql['servername'] = mysqli_real_escape_string($this->linkID, $sname);
         $sql['type']  = (int) (isset($xhprof_details['type']) ? $xhprof_details['type'] : 0);
         $sql['timestamp'] = mysqli_real_escape_string($this->linkID, $_SERVER['REQUEST_TIME']);
@@ -454,6 +431,8 @@ CREATE TABLE `details` (
             if ($_xhprof['display'] === true)
             {
                 echo "Failed to insert: $query <br>\n";
+                var_dump(mysqli_error($this->linkID));
+                var_dump(mysqli_errno($this->linkID));
             }
             return -1;
         }
