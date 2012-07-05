@@ -1,5 +1,6 @@
 <?php
-abstract class Db_Abstract
+require_once XHPROF_LIB_ROOT.'/utils/Db/Interface.php';
+abstract class Db_Abstract implements Db_Interface
 {
     protected $config;
     public $linkID;
@@ -8,14 +9,5 @@ abstract class Db_Abstract
     {
         $this->config = $config;
     }
-    
-    abstract public function connect();
-    abstract public function query($sql);
-    abstract public static function getNextAssoc($resultSet);
-    abstract public function escape($str);
-    abstract public function affectedRows();
-    abstract public static function unixTimestamp($field);
-    abstract public static function dateSub($days);
-    
     
 }
