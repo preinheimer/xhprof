@@ -40,7 +40,7 @@
                             return date[0];
                         },
                         rotation: -45,
-                        align: 'right',
+                        align: 'right'
                     }
                     
                 }],
@@ -50,7 +50,7 @@
                     labels:
                     {   
                         formatter: function() {
-                            return this.value;
+                            return bytesToSize(this.value, 2);
                         },
                         style: {
                             color: '#89A54E'
@@ -84,7 +84,7 @@
                     
                 }, { // Tertiary yAxis
                     title: {
-                        text: 'Wall Time (ms)',
+                        text: 'Wall Time',
                         margin: 80,
                         style: {
                             color: '#AA4643'
@@ -92,7 +92,7 @@
                     },
                     labels: {
                         formatter: function() {
-                            return this.value;
+                            return usecToSize(this.value, 2);
                         },
                         style: {
                             color: '#AA4643'
@@ -108,8 +108,15 @@
                             '': '',
                             '': ''
                         }[this.series.name];
+                        if(this.series.name == 'Peak Memory Usage'){
+                            return '<b>'+ this.series.name +'</b><br/><br/>' + bytesToSize(this.y, 2) +'';
+                        } else if(this.series.name == 'Wall Time') {
+                            return '<b>'+ this.series.name +'</b><br/><br/>' + usecToSize(this.y, 2) +'';
+                        } else {
+                            return '<b>'+ this.series.name +'</b><br/><br/>' + this.y +'';
+                        }
                           
-                        return '<b>'+ this.series.name +'</b><br/><br/>' + this.y +'';
+                        
                     }
                 },
                 legend: {
@@ -144,22 +151,19 @@
                     color: '#4572A7',
                     type: 'line',
                     yAxis: 1,
-                    data: [<?php echo $cpuJS;?>],
-                                 
+                    data: [<?php echo $cpuJS;?>]
                 },{
                     name: 'Wall Time',
                     type: 'line',
                     color: '#AA4643',
                     yAxis: 2,
-                    data: [<?php echo $wtJS;?>]        
-                
+                    data: [<?php echo $wtJS;?>]
                 },{
                     name: 'Peak Memory Usage',
                     color: '#89A54E',
                     type: 'line',
-                    data: [<?php echo $pmuJS;?>,]        
+                    data: [<?php echo $pmuJS;?>,]
                 }]
-              });            
-            
+              });
         });
 </script>
