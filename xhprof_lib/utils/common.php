@@ -11,7 +11,8 @@ function displayRuns($resultSet, $title = "")
         $url = urlencode($row['url']);
         $html['url'] = htmlentities($row['url'], ENT_QUOTES, 'UTF-8');
         $html['c_url'] = htmlentities($row['c_url'], ENT_QUOTES, 'UTF-8');
-        $date = date('M d H:i:s', $row['timestamp']);
+        $date = strtotime($row['timestamp']);
+        $date = date('M d H:i:s', $date);
         echo "\t<tr>";
         echo "\t\t<td raw=\"".$row['timestamp']."\"><a href=\"?run={$row['id']}\">$date</a><br /><span class=\"runid\">{$row['id']}</span></td>";
         echo "\t\t<td>{$row['cpu']}</td>";

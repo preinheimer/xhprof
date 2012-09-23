@@ -51,3 +51,11 @@ function usecToSize(usec, precision)
         return usec + ' µs';
     }
 }
+
+function rawextractor(node){
+    d = $(node).attr('raw');
+    if(typeof d != "undefined"){
+        return d;
+    }
+    return node.innerHTML;
+}
