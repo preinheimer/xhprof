@@ -247,7 +247,7 @@ CREATE TABLE `details` (
   public static function getNextAssoc($resultSet)
   {
     $class = self::getDbClass();
-    return $class::getNextAssoc($resultSet);
+	return call_user_func_array(array($class, "getNextAssoc"), array($resultSet));
   }
   
   /**
