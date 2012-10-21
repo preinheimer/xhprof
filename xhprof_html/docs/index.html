@@ -74,7 +74,7 @@ system-wide performance monitoring system in use at Facebook that is
 built on top of XHProf.  XHProfLive continually gathers function-level
 profiler data from production tier by running a sample of page
 requests under XHProf. XHProfLive then aggregates the profile data
-corresponding to individual requests by various dimensions such a
+corresponding to individual requests by various dimensions such as
 time, page type, and can help answer a variety of questions such as:
 What is the function-level profile for a specific page? How expensive
 is function "foo" across all pages, or on a specific page? What
@@ -98,7 +98,7 @@ historical trend for execution time of a page/function? and so on.
 <ul>
 <li><b>Flat profile</b> (<a href="sample-flat-view.jpg" >screenshot</a>)
 
-<p>Provides function-level summary information such number of calls,
+<p>Function-level summary information such as number of calls,
 inclusive/exclusive wall time, memory usage, and CPU time.
 
 <p><li><b>Hierarchical profile (Parent/Child View)</b>
@@ -261,7 +261,7 @@ due to b(), but that's not necessarily true.]
 <ul><hr>
 
 <p><b>Note:</b> A windows port hasn't been implemented yet. We have
-tested <code>xhprof</code> on <b>Linux/FreeBSD</b> so far. 
+tested <code>xhprof</code> on <b>Linux/FreeBSD</b> so far.
 
 <p>Version 0.9.2 and above of XHProf is also expected to work on <b>Mac
 OS</b>. [We have tested on Mac OS 10.5.]
