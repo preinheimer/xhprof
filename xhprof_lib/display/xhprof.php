@@ -802,15 +802,14 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
                                        http_build_query(xhprof_array_set($url_params,
                                                                          'all', 1)));
   }
-  
   //Find top $n requests
   $data_copy = $flat_data;
   $data_copy = _aggregateCalls($data_copy, null, $run2);
   usort($data_copy, 'sortWT');
-  
   $iterations = 0;
   $colors = array('#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92', '#EAFEBB', '#FEB4B1', '#2B6979', '#E9D6FE', '#FECDA3', '#FED980');
-  foreach($data_copy as $datapoint)
+  
+  foreach($data_copy as $index => $datapoint)
   {
     if (++$iterations > 14)
     {
@@ -820,7 +819,8 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
         $function_color[$datapoint['fn']] = $colors[$iterations-1];
     }
   }
-
+  
+  
   include( "../xhprof_lib/templates/profChart.phtml");
   include( "../xhprof_lib/templates/profTable.phtml");
 
@@ -868,11 +868,16 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2, $links) {
   
   //echo xhprof_render_actions($links);
 
-
   $flat_data = array();
   foreach ($symbol_tab as $symbol => $info) {
     $tmp = $info;
     $tmp["fn"] = $symbol;
+    
+    $aggr = _aggregateCalls(array($tmp));
+    $aggrKeys = array_keys($aggr);
+    if (isset($aggrKeys[0]) && !is_numeric($aggrKeys[0])) {
+    	$tmp['group'] = $aggr[$aggrKeys[0]]['fn'];
+    }
     
     $flat_data[] = $tmp;
   }
@@ -887,7 +892,7 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2, $links) {
     $all = false;
     $limit = 100;  // display only limited number of rows
   }
-
+  
   $desc = str_replace("<br />", " ", $descriptions[$sort_col]);
 
   if ($diff_mode) {
@@ -906,6 +911,7 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2, $links) {
       $title = "Displaying top $limit functions: Sorted by $desc";
     }
   }
+  
   print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $limit);
 }
 
