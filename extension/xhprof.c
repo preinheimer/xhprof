@@ -20,7 +20,7 @@
 #endif
 
 #ifdef linux
-/* To enable CPU_ZERO and CPU_SET, etc. */
+/* To enable CPU_ZERO and CPU_SET, etc.     */
 # define _GNU_SOURCE
 #endif
 
@@ -62,7 +62,7 @@
                           THREAD_AFFINITY_POLICY_COUNT)
 #elif PHP_WIN32
 /*
- * Patch for compiling in Win32/64
+ * Patch for compiling in Windows (i've used MS VC++ 6)
  * @author Benjamin Carl <opensource@clickalicious.de>
  */
 #    define CPU_SET(cpu_id, new_mask) (*(new_mask)) = (cpu_id + 1)
@@ -85,14 +85,14 @@
  * **********************
  */
 
-/* XHProf version */
+/* XHProf version                           */
 #define XHPROF_VERSION             "0.10.3"
 
 /* Fictitious function name to represent top of the call tree. The paranthesis
  * in the name is to ensure we don't conflict with user function names.  */
 #define ROOT_SYMBOL                "main()"
 
-/* Size of a temp scratch buffer */
+/* Size of a temp scratch buffer            */
 #define SCRATCH_BUF_LEN            512
 
 /* Various XHPROF modes. If you are adding a new mode, register the appropriate
@@ -106,13 +106,13 @@
  * The following optional flags can be used to control other aspects of
  * profiling.
  */
-#define XHPROF_FLAGS_NO_BUILTINS   0x0001   /* do not profile builtins */
-#define XHPROF_FLAGS_CPU           0x0002   /* gather CPU times for funcs */
+#define XHPROF_FLAGS_NO_BUILTINS   0x0001         /* do not profile builtins */
+#define XHPROF_FLAGS_CPU           0x0002      /* gather CPU times for funcs */
 #define XHPROF_FLAGS_MEMORY        0x0004   /* gather memory usage for funcs */
 #define XHPROF_FLAGS_LONGNAMES     0x0008   /* use long filenames in reports */
 
-/* Constants for XHPROF_MODE_SAMPLED */
-#define XHPROF_SAMPLING_INTERVAL       100000      /* In microsecs */
+/* Constants for XHPROF_MODE_SAMPLED        */
+#define XHPROF_SAMPLING_INTERVAL       100000      /* In microsecs        */
 
 /* Constant for ignoring functions, transparent to hierarchical profile */
 #define XHPROF_MAX_IGNORED_FUNCTIONS  256
@@ -245,10 +245,10 @@ typedef struct hp_global_t {
 static hp_global_t       hp_globals;
 
 /* Pointer to the original execute function */
-ZEND_DLEXPORT void (*_zend_execute) (zend_op_array *ops TSRMLS_DC);
+static ZEND_DLEXPORT void (*_zend_execute) (zend_op_array *ops TSRMLS_DC);
 
 /* Pointer to the origianl execute_internal function */
-ZEND_DLEXPORT void (*_zend_execute_internal) (zend_execute_data *data,
+static ZEND_DLEXPORT void (*_zend_execute_internal) (zend_execute_data *data,
                            int ret TSRMLS_DC);
 
 /* Pointer to the original compile function */
@@ -418,7 +418,7 @@ PHP_FUNCTION(xhprof_disable) {
  * Returns information about the environment XHProf is running in
  *
  * @param  void
- * @return 
+ * @return
  * @author Benjamin Carl <opensource@clickalicious.de>
  */
 PHP_FUNCTION(xhprof_debug) {
@@ -544,9 +544,10 @@ PHP_MINFO_FUNCTION(xhprof)
   char tmp[SCRATCH_BUF_LEN];
   /* Note(bcarl): changed to uint32 like defined in struct -> hp_global_t */
   uint32 i;
-
   int len;
 
+  // duplicate call needed?
+  get_all_cpu_frequencies();
 
   php_info_print_table_start();
   php_info_print_table_row(2, "xhprof", "enabled");
@@ -555,7 +556,7 @@ PHP_MINFO_FUNCTION(xhprof)
   buf[len] = 0;
   php_info_print_table_row(2, "CPU num", buf);
   /* information about the cpu the process is bound to */
-  len = snprintf(tmp, SCRATCH_BUF_LEN, "%d", hp_globals.cur_cpu_id);
+  len = snprintf(tmp, SCRATCH_BUF_LEN, " CPU %d ", hp_globals.cur_cpu_id);
   tmp[len] = 0;
   php_info_print_table_row(2, "process bound to CPU", tmp);
 
@@ -593,6 +594,7 @@ static void hp_register_constants(INIT_FUNC_ARGS) {
   REGISTER_LONG_CONSTANT("XHPROF_FLAGS_MEMORY",
                          XHPROF_FLAGS_MEMORY,
                          CONST_CS | CONST_PERSISTENT);
+
   REGISTER_LONG_CONSTANT("XHPROF_FLAGS_LONGNAMES",
                          XHPROF_FLAGS_LONGNAMES,
                          CONST_CS | CONST_PERSISTENT);
@@ -805,7 +807,6 @@ void hp_clean_profiler_state(TSRMLS_D) {
 size_t hp_get_entry_name(hp_entry_t  *entry,
                          char           *result_buf,
                          size_t          result_len) {
-  size_t    len = 0;
 
   /* Validate result_len */
   if (result_len <= 1) {
@@ -835,7 +836,7 @@ size_t hp_get_entry_name(hp_entry_t  *entry,
 /**
  * Check if this entry should be ignored, first with a conservative Bloomish
  * filter then with an exact check against the function names.
- * 
+ *
  * @author mpal
  */
 int  hp_ignore_entry_work(uint8 hash_code, char *curr_func) {
@@ -930,9 +931,8 @@ static char *hp_get_base_filename(char *filename) {
   if (!filename)
     return "";
 
-  /* return complete filename if requested */
-  if (hp_globals.xhprof_flags & XHPROF_FLAGS_LONGNAMES) {
-      return filename;
+  if(hp_globals.xhprof_flags & XHPROF_FLAGS_LONGNAMES) {
+	  return filename;
   }
   /* reverse search for "/" and return a ptr to the next char */
   for (ptr = filename + strlen(filename) - 1; ptr >= filename; ptr--) {
@@ -957,10 +957,10 @@ static char *hp_get_base_filename(char *filename) {
 static char *hp_get_function_name(zend_op_array *ops TSRMLS_DC) {
   zend_execute_data *data;
   char              *func = NULL;
-  const char        *cls  = NULL;
-  char              *ret  = NULL;
+  const char        *cls = NULL;
+  char              *ret = NULL;
   int                len;
-  zend_function     *curr_func;
+  zend_function      *curr_func;
 
   data = EG(current_execute_data);
 
@@ -1265,7 +1265,7 @@ inline uint64 cycle_timer() {
 #ifdef PHP_WIN32
   __asm {
     cpuid
-    rdtsc
+	rdtsc
     mov __a, eax
     mov __d, edx
   }
@@ -1365,17 +1365,17 @@ static double get_cpu_frequency() {
     perror("gettimeofday");
     return 0.0;
   }
-  
+
   tsc_start = cycle_timer();
 
-  /* Sleep for 5 miliseconds. Comparaing with gettimeofday's few microseconds
+  /* Sleep for 5 miliseconds. Comparaing with gettimeofday's  few microseconds
    * execution time, this should be enough. */
   usleep(5000);
   if (gettimeofday(&end, 0)) {
     perror("gettimeofday");
     return 0.0;
   }
-  
+
   tsc_end = cycle_timer();
 
   return (tsc_end - tsc_start) * 1.0 / (get_us_interval(&start, &end));
@@ -1398,14 +1398,22 @@ static void get_all_cpu_frequencies() {
   /* Iterate over all cpus found on the machine. */
   for (id = 0; id < hp_globals.cpu_num; ++id) {
     /* Only get the previous cpu affinity mask for the first call. */
-    bind_to_cpu(id);
+    if (bind_to_cpu(id)) {
+      clear_frequencies();
+      return;
+    }
 
     /* Make sure the current process gets scheduled to the target cpu. This
      * might not be necessary though. */
     usleep(0);
 
-    hp_globals.cpu_frequencies[id] = get_cpu_frequency();
+    frequency = get_cpu_frequency();
+    if (frequency == 0.0) {
+      clear_frequencies();
+      return;
   }
+    hp_globals.cpu_frequencies[id] = frequency;
+}
 }
 
 /**
@@ -1525,11 +1533,6 @@ void hp_mode_sampled_init_cb(TSRMLS_D) {
   uint64 truncated_tsc;
   double cpu_freq = hp_globals.cpu_frequencies[hp_globals.cur_cpu_id];
 
-  if (cpu_freq == 0.0) {
-    /* There is an insignificant chance that cpu_freq equals 0 
-       and we cannot do anything in this case */
-    return;
-  }
   /* Init the last_sample in tsc */
   hp_globals.last_sample_tsc = cycle_timer();
 
@@ -1608,6 +1611,8 @@ zval * hp_mode_shared_endfn_cb(hp_entry_t *top,
                                char          *symbol  TSRMLS_DC) {
   zval    *counts;
   uint64   tsc_end;
+
+  double gtod_value, rdtsc_value;
 
   /* Get end tsc counter */
   tsc_end = cycle_timer();
@@ -1751,7 +1756,6 @@ ZEND_DLEXPORT void hp_execute_internal(zend_execute_data *execute_data,
                        EX(function_state).function->common.return_reference ?
                        &EX_T(opline->result.u.var).var.ptr:NULL,
                        EX(object), ret TSRMLS_CC);
-
 #endif
   } else {
     /* call the old override */
@@ -1795,7 +1799,6 @@ ZEND_DLEXPORT zend_op_array* hp_compile_file(zend_file_handle *file_handle,
   efree(func);
   return ret;
 }
-
 
 /**
  * Proxy for zend_compile_string(). Used to profile PHP eval compilation time.
@@ -1927,7 +1930,7 @@ static void hp_stop(TSRMLS_D) {
   zend_compile_file     = _zend_compile_file;
   zend_compile_string   = _zend_compile_string;
 
-  /* Restore cpu affinity. */
+  /* Resore cpu affinity. */
   restore_cpu_affinity(&hp_globals.prev_mask);
 
   /* Stop profiling */
@@ -1942,8 +1945,8 @@ static void hp_stop(TSRMLS_D) {
  */
 
 /** Look in the PHP assoc array to find a key and return the zval associated
- *  with it.  
- *  
+ *  with it.
+ *
  *  @author mpal
  **/
 static zval *hp_zval_at_key(char  *key,
