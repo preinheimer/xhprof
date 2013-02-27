@@ -43,10 +43,12 @@
  ON dbo.details (timestamp
  */
 
+// @TODO MS SQL does most likely not work, e.g. see TODOs in XHProfRuns_Default about the use of LIMIT and OFFSET
+
 require_once XHPROF_LIB_ROOT.'/utils/Db/Abstract.php';
 class Db_Mssql extends Db_Abstract
 {
-    
+
     public function connect()
     {
         $linkid = mssql_connect($this->config['dbhost'], $this->config['dbuser'], $this->config['dbpass']);
@@ -59,33 +61,57 @@ class Db_Mssql extends Db_Abstract
         mssql_select_db($this->config['dbname'], $linkid);
         $this->linkID = $linkid;
     }
-    
+
     public function query($sql)
     {
         return mssql_query($sql);
     }
-    
+
     public static function getNextAssoc($resultSet)
     {
         return mssql_fetch_assoc($resultSet);
     }
-    
-    public static function escape($str)
+
+    public function escape($str)
     {
         return addslashes($str);
     }
-    
-    public function affectedRows()
+
+    public function escapeBinary($data)
     {
+        // @TODO is this correct behavior?
+        return $this->escape($data);
+    }
+
+    public function unescapeBinary($data)
+    {
+        // did not have any binary unescaping before introducing this method to Db_Abstract, needed?
+        return $data;
+    }
+
+    public function affectedRows($resultSet)
+    {
+        // NOTE: MS SQL uses the link identifier so $resultSet is unused on purpose
         return mssql_rows_affected($this->linkID);
     }
-    
-    public static function unixTimestamp($field)
+
+    public function quote($identifier)
+    {
+        return '"' . $identifier . '"';
+    }
+
+    public function unixTimestamp($field)
     {
         return 'UNIX_TIMESTAMP('.$field.')';
     }
-    
-    public static function dateSub($days)
+
+    public function fromUnixTimestamp($field)
+    {
+        // @TODO is this correct syntax?
+        return 'FROM_UNIXTIME(' . $field . ')';
+    }
+
+    public function dateSub($days)
     {
         return 'DATE_SUB(CURDATE(), INTERVAL '.$days.' DAY)';
     }

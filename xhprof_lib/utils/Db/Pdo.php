@@ -35,6 +35,7 @@ require_once XHPROF_LIB_ROOT.'/utils/Db/Abstract.php';
 class Db_Pdo extends Db_Abstract
 {
     protected $curStmt;
+    protected $db;
     
     public function connect()
     {
@@ -71,21 +72,45 @@ class Db_Pdo extends Db_Abstract
         $str = substr($str, 1);
         return $str;
     }
-    
-    public function affectedRows()
+
+    public function escapeBinary($data)
     {
+        return $this->escape($data);
+    }
+
+    public function unescapeBinary($data)
+    {
+        // did not have any binary unescaping before introducing this method to Db_Abstract, needed?
+        return $data;
+    }
+
+    public function affectedRows($resultSet)
+    {
+        // NOTE: PDO does not need $resultSet, unused on purpose
         if ($this->curStmt === false) {
             return 0;
         }
         return $this->curStmt->rowCount();
     }
+
+    public function quote($identifier)
+    {
+        // @TODO how should we handle this in PDO? https://bugs.php.net/bug.php?id=38196
+        return "`$identifier`";
+    }
     
-    public static function unixTimestamp($field)
+    public function unixTimestamp($field)
     {
         return 'UNIX_TIMESTAMP('.$field.')';
     }
     
-    public static function dateSub($days)
+    public function fromUnixTimestamp($field)
+    {
+        // @TODO is this correct syntax?
+        return 'FROM_UNIXTIME(' . $field . ')';
+    }
+
+    public function dateSub($days)
     {
         return 'DATE_SUB(CURDATE(), INTERVAL '.$days.' DAY)';
     }

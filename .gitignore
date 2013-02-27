@@ -2,3 +2,9 @@
 # Netbeans project files
 #
 /nbproject
+
+#
+# IntelliJ IDEA project files
+#
+.idea
+*.iml

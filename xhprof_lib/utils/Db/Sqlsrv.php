@@ -64,7 +64,7 @@ class Db_Sqlsrv extends Db_Abstract
     
     public function query($sql)
     {
-        $this->curStmt = sqlsrv_prepare($this->linkID, $query, array());
+        $this->curStmt = sqlsrv_prepare($this->linkID, $sql, array());
         return sqlsrv_execute($this->curStmt);
     }
     
@@ -77,18 +77,41 @@ class Db_Sqlsrv extends Db_Abstract
     {
         return addslashes($str);
     }
-    
-    public function affectedRows()
+
+    public function escapeBinary($data)
+    {
+        // did not have any binary escaping before introducing this method to Db_Abstract, needed?
+        return $data;
+    }
+
+    public function unescapeBinary($data)
+    {
+        // did not have any binary unescaping before introducing this method to Db_Abstract, needed?
+        return $data;
+    }
+
+    public function affectedRows($resultSet)
     {
         return sqlsrv_rows_affected($this->curStmt);
     }
-    
-    public static function unixTimestamp($field)
+
+    public function quote($identifier)
+    {
+        return '"' . $identifier . '"';
+    }
+
+    public function unixTimestamp($field)
     {
         return 'DATEDIFF(s, \'1970-01-01 00:00:00\', '.$field.')';
     }
+
+    public function fromUnixTimestamp($field)
+    {
+        // @TODO is this correct syntax?
+        return 'FROM_UNIXTIME(' . $field . ')';
+    }
     
-    public static function dateSub($days)
+    public function dateSub($days)
     {
         return 'dateadd(d, -'.$days.', getdate())';
     }

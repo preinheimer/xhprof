@@ -63,18 +63,40 @@ class Db_Mysqli extends Db_Abstract
     {
         return mysqli_real_escape_string($str);
     }
-    
-    public function affectedRows()
+
+    public function escapeBinary($data)
     {
+        return $this->escape($data);
+    }
+
+    public function unescapeBinary($data)
+    {
+        // did not have any binary unescaping before introducing this method to Db_Abstract, needed?
+        return $data;
+    }
+
+    public function affectedRows($resultSet)
+    {
+        // NOTE: MySQLi uses the link identifier so $resultSet is unused on purpose
         return mysqli_affected_rows($this->linkID);
     }
+
+    public function quote($identifier)
+    {
+        return "`$identifier`";
+    }
     
-    public static function unixTimestamp($field)
+    public function unixTimestamp($field)
     {
         return 'UNIX_TIMESTAMP('.$field.')';
     }
+
+    public function fromUnixTimestamp($field)
+    {
+        return 'FROM_UNIXTIME(' . $field . ')';
+    }
     
-    public static function dateSub($days)
+    public function dateSub($days)
     {
         return 'DATE_SUB(CURDATE(), INTERVAL '.$days.' DAY)';
     }

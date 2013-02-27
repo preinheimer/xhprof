@@ -48,7 +48,7 @@ class Db_Mysql extends Db_Abstract
         mysql_select_db($this->config['dbname'], $linkid);
         $this->linkID = $linkid;
     }
-    
+
     public function query($sql)
     {
         return mysql_query($sql);
@@ -63,18 +63,40 @@ class Db_Mysql extends Db_Abstract
     {
         return mysql_real_escape_string($str);
     }
-    
-    public function affectedRows()
+
+    public function escapeBinary($data)
     {
+        return $this->escape($data);
+    }
+
+    public function unescapeBinary($data)
+    {
+        // did not have any binary unescaping before introducing this method to Db_Abstract, needed?
+        return $data;
+    }
+
+    public function affectedRows($resultSet)
+    {
+        // NOTE: MySQL uses the link identifier so $resultSet is unused on purpose
         return mysql_affected_rows($this->linkID);
     }
-    
-    public static function unixTimestamp($field)
+
+    public function quote($identifier)
+    {
+        return "`$identifier`";
+    }
+
+    public function unixTimestamp($field)
     {
         return 'UNIX_TIMESTAMP('.$field.')';
     }
+
+    public function fromUnixTimestamp($field)
+    {
+        return 'FROM_UNIXTIME(' . $field . ')';
+    }
     
-    public static function dateSub($days)
+    public function dateSub($days)
     {
         return 'DATE_SUB(CURDATE(), INTERVAL '.$days.' DAY)';
     }

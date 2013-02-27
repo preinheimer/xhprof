@@ -1,4 +1,6 @@
 <?php
+global $_xhprof;
+
 if (PHP_SAPI == 'cli') {
   $_SERVER['REMOTE_ADDR'] = null;
   $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
@@ -63,7 +65,7 @@ foreach($exceptionURLs as $url)
 }
 unset($exceptionURLs);
 
-//Certain urls should have their POST data omitted. Think login forms, other privlidged info
+//Certain urls should have their POST data omitted. Think login forms, other privileged info
 $_xhprof['savepost'] = true;
 foreach ($exceptionPostURLs as $url)
 {
