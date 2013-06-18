@@ -84,7 +84,7 @@ unset($domain_weight);
       $url = preg_replace("!\d{4}!", "", $url);
       
       // For domain-specific configuration, you can use Apache setEnv xhprof_urlSimilartor_include [some_php_file]
-      if($similartorinclude = getenv('xhprof_urlSimilartor_include')) {
+      if (($similartorinclude = getenv('xhprof_urlSimilartor_include')) && file_exists($similartorinclude)) {
       	require_once($similartorinclude);
       }
       
