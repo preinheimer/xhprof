@@ -64,6 +64,8 @@ function xhprof_include_js_css($ui_dir_url_path = null) {
   // style sheets
   echo "<link href='$ui_dir_url_path/css/xhprof.css' rel='stylesheet' ".
     " type='text/css'></link>";
+  echo "<link href='$ui_dir_url_path/css/typo3.css' rel='stylesheet' ".
+    " type='text/css'></link>";
   echo "<link href='$ui_dir_url_path/jquery/jquery.tooltip.css' ".
     " rel='stylesheet' type='text/css'></link>";
   echo "<link href='$ui_dir_url_path/jquery/jquery.autocomplete.css' ".
@@ -1127,9 +1129,8 @@ function symbol_report($url_params,
 
   print("</center></h4><br />");
 
-  print('<table border=1 cellpadding=2 cellspacing=1 width="90%" '
-        .'rules=rows bordercolor="#bdc7d8" align=center>' . "\n");
-  print('<tr bgcolor="#bdc7d8" align=right>');
+  print('<table id="box-table-a" class="tablesorter" summary="Parent Child relationship">' . "\n");
+  print('<tr>');
 
   foreach ($pc_stats as $stat) {
     $desc = stat_description($stat);

@@ -20,6 +20,13 @@ $params = array('run'        => array(XHPROF_STRING_PARAM, ''),
                 'sort'       => array(XHPROF_STRING_PARAM, 'wt'), // wall time
                 'run1'       => array(XHPROF_STRING_PARAM, ''),
                 'run2'       => array(XHPROF_STRING_PARAM, ''),
+                'run3'       => array(XHPROF_STRING_PARAM, ''),
+                'run4'       => array(XHPROF_STRING_PARAM, ''),
+                'run5'       => array(XHPROF_STRING_PARAM, ''),
+                'run6'       => array(XHPROF_STRING_PARAM, ''),
+                'run7'       => array(XHPROF_STRING_PARAM, ''),
+                'run8'       => array(XHPROF_STRING_PARAM, ''),
+                'run9'       => array(XHPROF_STRING_PARAM, ''),
                 'source'     => array(XHPROF_STRING_PARAM, 'xhprof'),
                 'all'        => array(XHPROF_UINT_PARAM, 0),
                 );
