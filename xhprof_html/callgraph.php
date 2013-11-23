@@ -56,7 +56,7 @@ $params = array(// run id param
                 'func' => array(XHPROF_STRING_PARAM, ''),
 
                 // image type, can be 'jpg', 'gif', 'ps', 'png'
-                'type' => array(XHPROF_STRING_PARAM, 'png'),
+                'type' => array(XHPROF_STRING_PARAM, 'gif'),
 
                 // only functions whose exclusive time over the total time
                 // is larger than this threshold will be shown.
