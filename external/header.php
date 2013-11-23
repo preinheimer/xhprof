@@ -37,7 +37,6 @@ if ($controlIPs === FALSE || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || P
 	}
 
 	if (isset($_COOKIE[$_xhprof['cookieName']]) && $_COOKIE[$_xhprof['cookieName']] || PHP_SAPI == 'cli' && ((isset($_SERVER['XHPROF_PROFILE']) && $_SERVER['XHPROF_PROFILE']) || (isset($_ENV['XHPROF_PROFILE']) && $_ENV['XHPROF_PROFILE']))) {
-		$_xhprof['display'] = TRUE;
 		$_xhprof['doprofile'] = TRUE;
 		$_xhprof['type'] = 1;
 	}
