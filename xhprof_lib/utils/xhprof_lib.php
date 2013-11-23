@@ -31,13 +31,13 @@ function xhprof_error($message) {
  */
 function xhprof_get_possible_metrics() {
  static $possible_metrics =
-   array("wt" => array("Wall", "microsecs", "walltime" ),
-         "ut" => array("User", "microsecs", "user cpu time" ),
-         "st" => array("Sys", "microsecs", "system cpu time"),
-         "cpu" => array("Cpu", "microsecs", "cpu time"),
-         "mu" => array("MUse", "bytes", "memory usage"),
-         "pmu" => array("PMUse", "bytes", "peak memory usage"),
-         "samples" => array("Samples", "samples", "cpu time"));
+   array('wt' => array('Wall', 'μs', 'walltime' ),
+         'ut' => array('User', 'μs', 'user cpu time' ),
+         'st' => array('Sys', 'μs', 'system cpu time'),
+         'cpu' => array('Cpu', 'μs', 'cpu time'),
+         'mu' => array('MUse', 'bytes', 'memory usage'),
+         'pmu' => array('PMUse', 'bytes', 'peak memory usage'),
+         'samples' => array('Samples', 'samples', 'cpu time'));
  return $possible_metrics;
 }
 
