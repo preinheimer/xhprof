@@ -13,10 +13,8 @@ for ($idx = 1, $invertedIdx = $count; $invertedIdx > 0; $idx++, $invertedIdx--) 
 }
 
 print('<div id="view-diff-tables">');
-print("<div id=\"invert-wrapper\">");
-print("<div id=\"invert-image\">");
-print('<a class="invert" href="?' . http_build_query($invertedRuns) . '"><img src="img/invert-2.png" alt="Invert Report" /></a>');
-print("</div>");
+print('<div class="invert">');
+print('<a class="invertIcon" href="?' . http_build_query($invertedRuns) . '"><img src="img/invert.png" height="80" width="85" alt="Invert Report" /></a>');
 print("<div id=\"link-id\">");
 
 $idx = 0;
