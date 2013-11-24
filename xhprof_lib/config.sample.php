@@ -48,6 +48,9 @@ $_xhprof['cookieName'] = '_profile';
 $_xhprof['display'] = FALSE;
 $_xhprof['doprofile'] = FALSE;
 
+// Custom style sheet
+$_xhprof['styleSheet'] = 'css/xhprof.css';
+
 // Control IPs allow you to specify which IPs will be permitted to control when profiling is on or off within your application, and view the results via the UI.
 // $controlIPs = false; //Disables access controlls completely. 
 $controlIPs = array();

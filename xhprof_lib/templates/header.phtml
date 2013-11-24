@@ -6,8 +6,7 @@
 	<title>XHGui: Hierarchical Profiler Report</title>
 
 <link href='css/normalize.css' rel='stylesheet'  type='text/css'></link>
-<link href='css/xhprof.css' rel='stylesheet'  type='text/css'></link>
-<link href='css/typo3.css' rel='stylesheet'  type='text/css'></link>
+<link href='<?php echo ($_xhprof['styleSheet']) ? $_xhprof['styleSheet'] : 'css/xhprof.css' ?>' rel='stylesheet'  type='text/css'></link>
 <link href="css/tablesorter.pager.css" rel="stylesheet" type="text/css" />
 <link href='third-party/jquery/jquery.tooltip.css'  rel='stylesheet' type='text/css'></link>
 <link href='third-party/jquery/jquery.autocomplete.css'  rel='stylesheet' type='text/css'></link>
