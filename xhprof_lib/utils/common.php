@@ -17,41 +17,27 @@ function displayRuns($resultSet, $title = "")
     }
     echo "</tbody>\n";
     echo "</table>\n";
-    echo <<<SORTTABLE
-<script type="text/javascript">
-$(document).ready(function() 
-    { 
-        $("#box-table-a").tablesorter( {sortList: []} ); 
-    } 
-);
-</script>
-SORTTABLE;
 }
 
-function printSeconds($time)
-{
-    $suffix = "microsecond";
+function printSeconds($time) {
+	$suffix = 'μs';
 
-    if ($time > 1000)
-    {
-        $time = $time / 1000;
-        $suffix = "ms";
-        
-    }
-    
-    if ($time > 1000)
-    {
-        $time = $time / 1000;
-        $suffix = "s";
-    }
-    
-    if ($time > 60 && $suffix == "s")
-    {
-        $time = $time / 60;
-        $suffix = "minutes!";
-    }
-    return sprintf("%.4f {$suffix}", $time);
-    
+	if ($time > 1000) {
+		$time = $time / 1000;
+		$suffix = 'ms';
+	}
+
+	if ($time > 1000) {
+		$time = $time / 1000;
+		$suffix = 's';
+	}
+
+	if ($time > 60 && $suffix == 's') {
+		$time = $time / 60;
+		$suffix = 'minutes!';
+	}
+
+	return sprintf("%.4f {$suffix}", $time);
 }
  
 

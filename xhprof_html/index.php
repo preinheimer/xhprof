@@ -178,37 +178,7 @@ if(isset($_GET['run1']) || isset($_GET['run']))
     }
     echo "</tbody>\n";
     echo "</table>\n";   
-    echo <<<CODESE
-    <script type="text/javascript">
-    $(document).ready(function() { 
-      $.tablesorter.addParser({ 
-	  id: 'pretty', 
-	  is: function(s) { 
-	      return false; 
-	  }, 
-	  format: function(s) {
-	      s = s.replace(/ ms/g,"");
-	      return s.replace(/,/g,"");
-	  }, 
-	  // set type, either numeric or text 
-	  type: 'numeric' 
-      });
-      $(function() { 
-	  $("table").tablesorter({ 
-	      headers: { 
-		  2: { 
-		      sorter:'pretty' 
-		  },
-		  3: {
-		      sorter:'pretty'
-		  }
-	      }
-	  }); 
-      });
-    }); 
-    </script>
-CODESE;
-}else 
+}else
 {
     include ("../xhprof_lib/templates/header.phtml");
     $last = (isset($_GET['last'])) ?  $_GET['last'] : 25;

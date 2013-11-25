@@ -222,11 +222,17 @@ h1.xh-title a {
 }
 
 .tablesorter th.headerSortDown {
+	font-weight: bold !important;
 	background: url(../img/desc.gif) left no-repeat, linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%) !important;
 }
 
 .tablesorter th.headerSortUp {
+	font-weight: bold !important;
 	background: url(../img/asc.gif) left no-repeat, linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%) !important;
+}
+
+.tableFloatingHeaderOriginal {
+	top: 0;
 }
 
 .box-tables td,
@@ -237,8 +243,6 @@ h1.xh-title a {
 	font-family: 'Menlo', Monospace, 'Courier New', sans-serif;
 	font-size: 12px;
 	padding: 4px;
-	background: #fbfbfb;
-	border-bottom: 1px solid #f2f2f2;
 	border-top: 1px solid transparent;
 	max-width: 300px;
 	word-wrap: break-word;
@@ -249,6 +253,13 @@ h1.xh-title a {
 #box-table-a td:nth-child(2),
 td:nth-child(1) {
 	text-align: left !important;
+}
+
+tbody tr {
+	background-color: #fefefe;
+}
+tbody tr:nth-child(2n) {
+	background-color: #F7F7F7;
 }
 
 .box-tables tr:hover td,

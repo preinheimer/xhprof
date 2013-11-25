@@ -5,10 +5,12 @@
 'use strict';
 
 jQuery('document').ready(function($) {
-    $("[name='server_filter']").change(function() {
-        $(this).parent().trigger('submit');
+    $('table').tablesorter();
+    $('#box-table-a').stickyTableHeaders({fixedOffset: 0});
+    $('#domainFilterDomain').on('change', function() {
+        $('#domainFilter').submit();
     });
-    $("[name='domain_filter']").change(function() {
-        $(this).parent().trigger('submit');
+    $('#serverFilterServer').change(function() {
+        $('#serverFilter').submit();
     });
 });
