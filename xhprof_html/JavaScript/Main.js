@@ -4,10 +4,10 @@
 /*global chrome, safari, SAFARI, openTab, Ember, DS, localize */
 'use strict';
 
-jQuery('document').ready(function($) {
+jQuery(document).ready(function($) {
     $('table').tablesorter();
-    $('#box-table-a').stickyTableHeaders({fixedOffset: 0});
-    $('#domainFilterDomain').on('change', function() {
+    $('#box-table-a').stickyTableHeaders();
+    $('#domainFilterDomain').change(function() {
         $('#domainFilter').submit();
     });
     $('#serverFilterServer').change(function() {
