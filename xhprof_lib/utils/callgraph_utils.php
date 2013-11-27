@@ -384,7 +384,11 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 		$width = ", width=" . sprintf("%.1f", $max_width / $sizing_factor);
 		$height = ", height=" . sprintf("%.1f", $max_height / $sizing_factor);
 
+		$run = preg_replace('/[^a-z0-9]*/', '', $_GET['run']);
+		$url = ', URL="callgraph.php?run=' . $run . '&func=' . addslashes($symbol) . '"';
+
 		if ($symbol == "main()") {
+			$url = ', URL="callgraph.php?run=' . $run . '"';
 			$shape = 'shape=house, ';
 			$fillcolor = ', fillcolor="#4FAA4F:#fbfbfb"';
 			$name = "Total: " . ($totals["wt"] / 1000.0) . " ms\\n";
@@ -435,8 +439,9 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 					. " = " . (sprintf("%.3f", $info["ct"])) . "\"";
 			}
 		}
+//		$url = ', URL="http://www.google.nl"';
 		$result .= "N" . $sym_table[$symbol]["id"];
-		$result .= '[' . $shape . $label . $width
+		$result .= '[' . $shape . $label . $url . $width
 			. $height . $fontsize . $fillcolor . '];' . PHP_EOL;
 	}
 
