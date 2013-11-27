@@ -198,6 +198,10 @@ h1.xh-title a {
 	-webkit-transition: -webkit-transform 200ms ease-in-out;
 }
 
+#callGraph svg a {
+	cursor: pointer !important;
+}
+
 text[text-anchor="middle"] {
 	text-shadow: 0 0 3px #fbfbfb;
 }
