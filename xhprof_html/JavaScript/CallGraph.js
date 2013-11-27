@@ -33,8 +33,14 @@ jQuery(document).ready(function($) {
                     focal: e
                 });
             });
-            $('#callGraph').on('dblclick', function() {
-                $('#callGraph svg').panzoom('zoom', Number($('.zoomRange').val()) + 0.05);
+            $('#callGraph').on('dblclick', function(e) {
+                $('#callGraph svg').panzoom(
+                    'zoom',
+                    {
+                        scale: Number($('.zoomRange').val()) + 0.05,
+                        focal: e
+                    }
+                );
             });
         });
 });
