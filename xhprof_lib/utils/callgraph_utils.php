@@ -439,7 +439,6 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 					. " = " . (sprintf("%.3f", $info["ct"])) . "\"";
 			}
 		}
-//		$url = ', URL="http://www.google.nl"';
 		$result .= "N" . $sym_table[$symbol]["id"];
 		$result .= '[' . $shape . $label . $url . $width
 			. $height . $fontsize . $fillcolor . '];' . PHP_EOL;
