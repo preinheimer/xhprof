@@ -1,0 +1,28 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<title>XHGui: Hierarchical Profiler Callgraph</title>
+	<link href='css/normalize.css' rel='stylesheet' type='text/css'/>
+	<link
+		href='<?php echo ($_xhprof['styleSheet']) ? $_xhprof['styleSheet'] : 'css/xhprof.css' ?>'
+		rel='stylesheet' type='text/css'/>
+	<?php
+	if (isset($_xh_header)) {
+		echo $_xh_header;
+	}
+	?>
+</head>
+<body>
+<script src='third-party/jquery/jquery-2.0.3.min.js' type="text/javascript"></script>
+<div class="callGraphButtons">
+	<button class="form-button" onclick="history.back()">Back</button>
+	<button class="zoomIn form-button">Zoom In</button>
+	<button class="zoomOut form-button">Zoom Out</button>
+	<input type="range" class="zoomRange">
+	<button class="zoomReset form-button">Reset</button>
+</div>
+<div id="callGraph"></div>
+<script src='third-party/jquery/jquery.panzoom.min.js' type="text/javascript"></script>
+<script src='JavaScript/CallGraph.js' type="text/javascript"></script>
+</body>
+</html>

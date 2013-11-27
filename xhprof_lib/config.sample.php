@@ -46,7 +46,9 @@ $exceptionPostURLs[] = "login";
 
 $_xhprof['cookieName'] = '_profile';
 $_xhprof['display'] = FALSE;
+// Don't profile by default, only when a cookie is set (tirgger with ?_profile=1)
 $_xhprof['doprofile'] = FALSE;
+
 
 // Custom style sheet
 $_xhprof['styleSheet'] = 'css/xhprof.css';

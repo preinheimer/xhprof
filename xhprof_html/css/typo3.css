@@ -145,20 +145,22 @@ h1.xh-title a {
 }
 
 .form-button {
-	border: 1px solid #999999;
+	border: 1px solid #777;
 	cursor: pointer;
 	color: #fefefe;
 	background: linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%);
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .form-button:hover {
-	border: 1px solid #999999;
+	border: 1px solid #777;
 	cursor: pointer;
-	background-color: #e8edff;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
+	background: linear-gradient(to top, #ffba82 0%, #f58006 65%, #f58006 100%);
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .runTitle {
@@ -170,6 +172,34 @@ h1.xh-title a {
 	border-bottom: 1px solid #e87d0d;
 	padding: 4px;
 	word-wrap: break-word;
+}
+
+.callGraphButtons {
+	position: fixed;
+	padding: 3px;
+	z-index: 50;
+	border: 1px solid #e97e0d;
+	border-top: 0;
+	border-left: 0;
+	border-radius: 4px;
+	background-color: #fbfbfb;
+}
+
+#callGraph {
+	position: relative;
+	overflow: hidden;
+}
+
+#callGraph svg {
+	border: 1px solid rgba(232, 125, 13, 0.52);
+	-webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+	cursor: move;
+	transition: -webkit-transform 200ms ease-in-out;
+	-webkit-transition: -webkit-transform 200ms ease-in-out;
+}
+
+text[text-anchor="middle"] {
+	text-shadow: 0 0 3px #fbfbfb;
 }
 
 .box-tables,
@@ -430,3 +460,4 @@ img {
 :focus {
 	outline: none;
 }
+
