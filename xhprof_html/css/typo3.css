@@ -146,6 +146,7 @@ h1.xh-title a {
 
 .unit {
 	color: #aaa;
+	white-space: pre;
 }
 
 .form-button {

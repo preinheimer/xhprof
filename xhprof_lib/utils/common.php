@@ -40,9 +40,9 @@ function displayRuns($resultSet, $title = "") {
  *
  * @return string
  */
-function printBytes($size, $sizes = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
+function printBytes($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
 	if ($size == 0) {
-		 return ('n/a');
+		 return ('<span class="unit">n/a</span>');
 	}
 	return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' <span class="unit">' . $sizes[$i] . '</span>');
 }
@@ -55,7 +55,7 @@ function printBytes($size, $sizes = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB
  *
  * @return string
  */
-function printBytesPlain($size, $sizes = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
+function printBytesPlain($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
 	if ($size == 0) {
 		 return ('n/a');
 	}
