@@ -44,7 +44,8 @@ include_once XHPROF_LIB_ROOT . '/display/xhprof.php';
 
 ini_set('max_execution_time', 100);
 
-$params = array( // run id param
+$params = array(
+	// run id param
 	'run' => array(XHPROF_STRING_PARAM, ''),
 
 	// source/namespace/type of run
@@ -63,7 +64,7 @@ $params = array( // run id param
 	'threshold' => array(XHPROF_FLOAT_PARAM, 0.01),
 
 	// whether to show critical_path
-	'critical' => array(XHPROF_BOOL_PARAM, TRUE),
+	'critical' => array(XHPROF_BOOL_PARAM, true),
 
 	// first run in diff mode.
 	'run1' => array(XHPROF_STRING_PARAM, ''),
@@ -85,14 +86,13 @@ if (!array_key_exists($type, $xhprof_legal_image_types)) {
 	$type = $params['type'][1]; // default image type.
 }
 
+/** @var $xhprof_runs_impl XHProfRuns_Default */
 $xhprof_runs_impl = new XHProfRuns_Default();
 
 if (!empty($run)) {
 	// single run call graph image generation
-	xhprof_render_image($xhprof_runs_impl, $run, $type,
-		$threshold, $func, $source, $critical);
+	xhprof_render_image($xhprof_runs_impl, $run, $type, $threshold, $func, $source, $critical);
 } else {
 	// diff report call graph image generation
-	xhprof_render_diff_image($xhprof_runs_impl, $run1, $run2,
-		$type, $threshold, $source);
+	xhprof_render_diff_image($xhprof_runs_impl, $run1, $run2, $type, $threshold, $source);
 }

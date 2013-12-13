@@ -2,9 +2,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<title>XHGui: Hierarchical Profiler Callgraph</title>
-	<link href='css/normalize.css' rel='stylesheet' type='text/css'/>
+	<link href="css/normalize.css" rel="stylesheet" type="text/css"/>
 	<link
-		href='<?php echo ($_xhprof['styleSheet']) ? $_xhprof['styleSheet'] : 'css/xhprof.css' ?>'
+		href='<?php echo (isset($_xhprof['styleSheet'])) ? $_xhprof['styleSheet'] : 'css/xhprof.css' ?>'
 		rel='stylesheet' type='text/css'/>
 	<?php
 	if (isset($_xh_header)) {
@@ -15,7 +15,17 @@
 <body>
 <script src='third-party/jquery/jquery-2.0.3.min.js' type="text/javascript"></script>
 <div class="callGraphButtons">
-	<button class="form-button" onclick="history.back()">Back</button>
+	<?php
+	$parameters = array();
+	$runs = array('run', 'run1', 'run2');
+	foreach ($runs as $run) {
+		if (isset($_GET[$run])) {
+			$parameters[] = $run . '=' . $_GET[$run];
+		}
+	}
+	$url = dirname($_SERVER['DOCUMENT_URI']) . '?' . implode('&amp;', $parameters);
+	?>
+	<button class="form-button" onclick="window.location.assign('<?php echo $url ?>')">Back to Run</button>
 	<button class="zoomIn form-button">Zoom In</button>
 	<button class="zoomOut form-button">Zoom Out</button>
 	<input type="range" class="zoomRange">

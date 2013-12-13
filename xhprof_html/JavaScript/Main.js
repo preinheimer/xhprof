@@ -5,7 +5,15 @@
 'use strict';
 
 jQuery(document).ready(function($) {
-    $('table').tablesorter();
+    $('table').tablesorter({
+        textExtraction: function(node) {
+            var attr = $(node).attr('data-sort-value');
+            if (typeof attr !== 'undefined' && attr !== false) {
+                return attr;
+            }
+            return $(node).text();
+        }
+    });
     $('#box-table-a').stickyTableHeaders();
     $('#domainFilterDomain').change(function() {
         $('#domainFilter').submit();

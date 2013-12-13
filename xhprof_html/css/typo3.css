@@ -144,6 +144,10 @@ h1.xh-title a {
 	line-height: 100px;
 }
 
+.unit {
+	color: #aaa;
+}
+
 .form-button {
 	border: 1px solid #777;
 	cursor: pointer;

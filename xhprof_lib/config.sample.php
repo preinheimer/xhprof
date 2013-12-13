@@ -34,6 +34,10 @@ $_xhprof['dot_tempdir'] = '/tmp';
 $_xhprof['dot_errfile'] = '/tmp/xh_dot.err';
 */
 
+// Number formatting
+$_xhprof['thousandsSeparator'] = ',';
+$_xhprof['decimalSeparator'] = '.';
+
 $ignoreURLs = array();
 
 $ignoreDomains = array();

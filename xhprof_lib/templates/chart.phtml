@@ -1,6 +1,12 @@
 <script type="text/javascript">
 	var chart;
 	$(document).ready(function() {
+		Highcharts.setOptions({
+			lang: {
+				thousandsSep: '<?php echo  $_xhprof['thousandsSeparator'] ?>',
+				decimalPoint: '<?php echo $_xhprof['decimalSeparator'] ?>'
+			}
+		});
 		chart = new Highcharts.Chart({
 			chart: {
 				renderTo: 'container',
@@ -19,7 +25,7 @@
 				enabled: false
 			},
 			title: {
-				text: 'Data for XH Gui',
+				text: 'Comparison of (similar) urls',
 				style: {
 					margin: '10px 0 0 0' // center it
 				}
@@ -47,7 +53,8 @@
 				{ // Primary yAxis
 					labels: {
 						formatter: function() {
-							return this.value;
+							var yValue = Math.ceil(this.value / 1024 / 1024);
+							return yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' MB';
 						},
 						style: {
 							color: '#89A54E'
@@ -58,7 +65,7 @@
 						style: {
 							color: '#89A54E'
 						},
-						margin: 80
+						margin: 20
 					},
 					opposite: true
 
@@ -66,14 +73,15 @@
 				{ // Secondary yAxis
 					title: {
 						text: 'CPU',
-						margin: 50,
+						margin: 20,
 						style: {
 							color: '#4572A7'
 						}
 					},
 					labels: {
 						formatter: function() {
-							return this.value;
+							var yValue = Math.ceil(this.value / 1000);
+							return yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' ms';
 						},
 						style: {
 							color: '#4572A7'
@@ -83,15 +91,16 @@
 				},
 				{ // Tertiary yAxis
 					title: {
-						text: 'Wall Time (ms)',
-						margin: 80,
+						text: 'Wall Time',
+						margin: 20,
 						style: {
 							color: '#AA4643'
 						}
 					},
 					labels: {
 						formatter: function() {
-							return this.value;
+							var yValue = Math.ceil(this.value / 1000);
+							return yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' ms';
 						},
 						style: {
 							color: '#AA4643'
@@ -105,8 +114,14 @@
 				formatter: function() {
 					var unit = {
 						'': ''
-					}[this.series.name];
-					return '<b>' + this.series.name + '</b><br/><br/>' + this.y + '';
+					}[this.series.name],
+						yValue = Math.ceil(this.y / 1000);
+
+					if (this.series.index === 2) {
+						yValue = Math.ceil(this.y / 1024);
+						return '<b>' + this.series.name + '</b><br/><br/>' + yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' KB';
+					}
+					return '<b>' + this.series.name + '</b><br/><br/>' + yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' ms';
 				}
 			},
 			legend: {
