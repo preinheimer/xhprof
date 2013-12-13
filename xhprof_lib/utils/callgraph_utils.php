@@ -509,8 +509,6 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 	}
 	$result = $result . "\n}";
 
-	file_put_contents('/tmp/Debug.log', $result . PHP_EOL);
-
 	return $result;
 }
 
