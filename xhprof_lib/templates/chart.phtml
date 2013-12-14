@@ -1,5 +1,7 @@
 <script type="text/javascript">
 	var chart;
+	var runIds = [<?php echo $idsJS ?>];
+	var domains = [<?php echo $domainsJS ?>];
 	$(document).ready(function() {
 		Highcharts.setOptions({
 			lang: {
@@ -25,7 +27,7 @@
 				enabled: false
 			},
 			title: {
-				text: 'Comparison of (similar) urls',
+				text: 'Comparison of <?php echo (isset($_GET['getcurl'])) ? 'similar' : 'the same' ?> urls',
 				style: {
 					margin: '10px 0 0 0' // center it
 				}
@@ -65,7 +67,7 @@
 						style: {
 							color: '#89A54E'
 						},
-						margin: 20
+						margin: 15
 					},
 					opposite: true
 
@@ -73,7 +75,7 @@
 				{ // Secondary yAxis
 					title: {
 						text: 'CPU',
-						margin: 20,
+						margin: 15,
 						style: {
 							color: '#4572A7'
 						}
@@ -92,7 +94,7 @@
 				{ // Tertiary yAxis
 					title: {
 						text: 'Wall Time',
-						margin: 20,
+						margin: 15,
 						style: {
 							color: '#AA4643'
 						}
@@ -119,19 +121,20 @@
 
 					if (this.series.index === 2) {
 						yValue = Math.ceil(this.y / 1024);
-						return '<b>' + this.series.name + '</b><br/><br/>' + yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' KB';
+						return '<b>' + this.series.name + '</b><br/><br/>' +
+							yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' KB' +
+							'<br/>' + runIds[this.series.index] +
+							'<br/>' + domains[this.series.index];
 					}
-					return '<b>' + this.series.name + '</b><br/><br/>' + yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' ms';
+					return '<b>' + this.series.name + '</b><br/><br/>' +
+						yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' ms' +
+						'<br/>' + runIds[this.series.index] +
+						'<br/>' + domains[this.series.index];
 				}
 			},
 			legend: {
-				layout: 'vertical',
-				style: {
-					left: '120px',
-					bottom: 'auto',
-					right: 'auto',
-					top: '90px'
-				},
+				verticalAlign: 'top',
+				y: 35,
 				backgroundColor: '#FFFFFF'
 			},
 			plotOptions: {
@@ -141,8 +144,7 @@
 						events: {
 							'click': function() {
 								if (this.series.data.length > 1) {
-									var runid = (this.category).split(" ");
-									document.location = '?run=' + runid[2];
+									document.location = '?run=' + runIds[this.series.index];
 								}
 							}
 						}

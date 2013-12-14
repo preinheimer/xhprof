@@ -279,7 +279,7 @@ class XHProfRuns_Default implements iXHProfRuns {
 	 * @return resource result set from the database query
 	 */
 	public function getUrlStats($data) {
-		$data['select'] = '`id`, ' . $this->db->unixTimestamp(`timestamp`) . ' as `timestamp`, `pmu`, `wt`, `cpu`';
+		$data['select'] = '`id`, ' . $this->db->unixTimestamp(`timestamp`) . ' as `timestamp`, `pmu`, `wt`, `cpu`, `server name`';
 		$rs = $this->getRuns($data);
 		return $rs;
 	}

@@ -35,14 +35,14 @@ function displayRuns($resultSet, $title = "") {
 /**
  * Print a value as Bytes and add a span around the unit
  *
- * @param integer $size  The size to format.
+ * @param integer $size The size to format.
  * @param array   $sizes The list of size units.
  *
  * @return string
  */
 function printBytes($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
 	if ($size == 0) {
-		 return ('<span class="unit">n/a</span>');
+		return ('<span class="unit">n/a</span>');
 	}
 	return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' <span class="unit">' . $sizes[$i] . '</span>');
 }
@@ -50,14 +50,14 @@ function printBytes($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'E
 /**
  * Print a value as Bytes without a span around the unit
  *
- * @param integer $size  The size to format.
+ * @param integer $size The size to format.
  * @param array   $sizes The list of size units.
  *
  * @return string
  */
 function printBytesPlain($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
 	if ($size == 0) {
-		 return ('n/a');
+		return ('n/a');
 	}
 	return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i]);
 }
@@ -126,24 +126,24 @@ function printSecondsPlain($time) {
  * @return array
  */
 function showChart($rs, $flip = false) {
+	// Used in chart.pthml
 	global $_xhprof;
 
-	$dataPoints = "";
-	$ids = array();
 	$arCPU = array();
 	$arWT = array();
 	$arPEAK = array();
 	$arIDS = array();
 	$arDateIDs = array();
+	$arDomains = array();
+	$date = array();
 
 	while ($row = XHProfRuns_Default::getNextAssoc($rs)) {
 		$date[] = "'" . date("Y-m-d", $row['timestamp']) . "'";
-
 		$arCPU[] = $row['cpu'];
 		$arWT[] = $row['wt'];
 		$arPEAK[] = $row['pmu'];
 		$arIDS[] = $row['id'];
-
+		$arDomains[] = $row['server name'];
 		$arDateIDs[] = "'" . date("Y-m-d", $row['timestamp']) . " <br/> " . $row['id'] . "'";
 	}
 
@@ -153,14 +153,15 @@ function showChart($rs, $flip = false) {
 	$arPEAK = $flip ? array_reverse($arPEAK) : $arPEAK;
 	$arIDS = $flip ? array_reverse($arIDS) : $arIDS;
 	$arDateIDs = $flip ? array_reverse($arDateIDs) : $arDateIDs;
+	$arDomains = $flip ? array_reverse($arDomains) : $arDomains;
 
 	$dateJS = implode(", ", $date);
 	$cpuJS = implode(", ", $arCPU);
 	$wtJS = implode(", ", $arWT);
 	$pmuJS = implode(", ", $arPEAK);
-	$idsJS = implode(", ", $arIDS);
+	$idsJS = "'" . implode("', '", $arIDS) . "'";
 	$dateidsJS = implode(", ", $arDateIDs);
-
+	$domainsJS = "'" . implode("', '", $arDomains) . "'";
 
 	ob_start();
 	require("../xhprof_lib/templates/chart.phtml");
