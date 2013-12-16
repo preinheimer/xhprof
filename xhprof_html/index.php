@@ -91,7 +91,7 @@ if (isset($_GET['run1']) || isset($_GET['run'])) {
 	$criteria['limit'] = $last;
 	$criteria['order by'] = 'timestamp';
 	$rs = $xhprof_runs_impl->getUrlStats($criteria);
-	list($header, $body) = showChart($rs, true);
+	list($header, $body) = showChart($rs, false);
 	$_xh_header .= $header;
 
 	include("../xhprof_lib/templates/header.phtml");
@@ -108,7 +108,7 @@ if (isset($_GET['run1']) || isset($_GET['run'])) {
 	$criteria['order by'] = 'timestamp';
 
 	$rs = $xhprof_runs_impl->getUrlStats($criteria);
-	list($header, $body) = showChart($rs, true);
+	list($header, $body) = showChart($rs, false);
 	$_xh_header .= $header;
 	include("../xhprof_lib/templates/header.phtml");
 

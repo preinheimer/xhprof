@@ -123,13 +123,13 @@
 						yValue = Math.ceil(this.y / 1024);
 						return '<b>' + this.series.name + '</b><br/><br/>' +
 							yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' KB' +
-							'<br/>' + runIds[this.series.index] +
-							'<br/>' + domains[this.series.index];
+							'<br/>' + runIds[this.point.x] +
+							'<br/>' + domains[this.point.x];
 					}
 					return '<b>' + this.series.name + '</b><br/><br/>' +
 						yValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "<?php echo $_xhprof['thousandsSeparator'] ?>") + ' ms' +
-						'<br/>' + runIds[this.series.index] +
-						'<br/>' + domains[this.series.index];
+						'<br/>' + runIds[this.point.x] +
+						'<br/>' + domains[this.point.x];
 				}
 			},
 			legend: {
