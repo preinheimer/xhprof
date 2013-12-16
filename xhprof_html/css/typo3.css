@@ -280,14 +280,15 @@ text[text-anchor="middle"] {
 .diff-box td,
 #box-table-a td,
 #box-table-b td {
+	border-top: 1px solid transparent;
 	font-family: 'Menlo', Monospace, 'Courier New', sans-serif;
 	font-size: 12px;
-	padding: 4px;
-	border-top: 1px solid transparent;
 	max-width: 300px;
 	overflow: hidden;
-	white-space: nowrap;;
+	padding: 4px;
 	text-align: right;
+	text-overflow: ellipsis;
+	white-space: nowrap;;
 }
 
 #box-table-a td:nth-child(1),
