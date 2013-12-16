@@ -242,6 +242,7 @@ text[text-anchor="middle"] {
 	font-weight: normal;
 	padding: 3px;
 	border: 1px solid #e97e0d;
+	border-top: 0px solid #ffba82;
 	border-left: 1px solid #ffba82;
 	background: linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%);
 	color: #fefefe;
@@ -284,7 +285,8 @@ text[text-anchor="middle"] {
 	padding: 4px;
 	border-top: 1px solid transparent;
 	max-width: 300px;
-	word-wrap: break-word;
+	overflow: hidden;
+	white-space: nowrap;;
 	text-align: right;
 }
 

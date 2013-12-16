@@ -18,6 +18,11 @@ jQuery(document).ready(function($) {
     $('#domainFilterDomain').change(function() {
         $('#domainFilter').submit();
     });
+    $('.filterByDomain').click(function(e) {
+        e.preventDefault();
+        $('#domainFilterDomain').val(e.target.innerText);
+        $('#domainFilter').submit();
+    });
     $('#serverFilterServer').change(function() {
         $('#serverFilter').submit();
     });
