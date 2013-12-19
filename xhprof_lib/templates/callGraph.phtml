@@ -23,13 +23,18 @@
 			$parameters[] = $run . '=' . $_GET[$run];
 		}
 	}
-	$url = dirname($_SERVER['DOCUMENT_URI']) . '?' . implode('&amp;', $parameters);
+	$runUrl = dirname($_SERVER['DOCUMENT_URI']) . '?' . implode('&amp;', $parameters);
+	$currentUrl = $_SERVER['DOCUMENT_URI'] . '?' . implode('&amp;', $parameters);
+	$criticalPathUrl = $currentUrl . '&amp;criticalOnly=1';
 	?>
-	<button class="form-button" onclick="window.location.assign('<?php echo $url ?>')">Back to Run</button>
+	<button class="form-button" onclick="window.location.assign('<?php echo $runUrl ?>')">Back to Run</button>
+	<button class="form-button" onclick="window.location.assign('<?php echo $currentUrl ?>')">Show all</button>
+	<button class="form-button" onclick="window.location.assign('<?php echo $criticalPathUrl ?>')">Show Critical Path only</button>
 	<button class="zoomIn form-button">Zoom In</button>
 	<button class="zoomOut form-button">Zoom Out</button>
 	<input type="range" class="zoomRange">
 	<button class="zoomReset form-button">Reset</button>
+	<div class="loading"><img src="../../xhprof_html/img/loading.gif" alt="Loading . . ." width="32" height="32"/></div>
 </div>
 <div id="callGraph"></div>
 <script src='third-party/jquery/jquery.panzoom.min.js' type="text/javascript"></script>

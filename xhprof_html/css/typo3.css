@@ -114,6 +114,11 @@ ul.xhprof_actions li a:hover {
 	margin-right: 25px;
 }
 
+.loading {
+	display: none;
+	text-align: center;
+}
+
 .link-options {
 	width: auto;
 	float: right;

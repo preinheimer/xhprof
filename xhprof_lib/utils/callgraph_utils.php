@@ -264,6 +264,16 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
                                     $func, $critical_path, $right = null,
                                     $left = null) {
 
+	$run = $run1 = $run2 = '';
+	if (isset($_GET['run'])) {
+		$run = preg_replace('/[^a-z0-9]*/', '', $_GET['run']);
+	}
+	if (isset($_GET['run1']) && isset($_GET['run2'])) {
+		$run1 = preg_replace('/[^a-z0-9]*/', '', $_GET['run1']);
+		$run2 = preg_replace('/[^a-z0-9]*/', '', $_GET['run2']);
+	}
+	$criticalOnly = (isset($_GET['criticalOnly'])) ? (boolean)$_GET['criticalOnly'] : false;
+
 	$max_width = 5;
 	$max_height = 3.5;
 	$max_fontsize = 35;
@@ -401,16 +411,11 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 		$width = ', width="' . number_format($max_width / $sizing_factor, 2, '.', '') . '"';
 		$height = ', height="' . number_format($max_height / $sizing_factor, 2, '.', '') . '"';
 
-		$url = $baseUrl = '';
-		$toolTip = '';
-		if (isset($_GET['run'])) {
-			$run = preg_replace('/[^a-z0-9]*/', '', $_GET['run']);
+		$toolTip = $url = '';
+		if (empty($run1)) {
 			$baseUrl = ', URL="callgraph.php?run=' . $run;
 			$url = $baseUrl . '&func=' . addslashes($symbol) . '"';
-		}
-		if (isset($_GET['run1']) && isset($_GET['run2'])) {
-			$run1 = preg_replace('/[^a-z0-9]*/', '', $_GET['run1']);
-			$run2 = preg_replace('/[^a-z0-9]*/', '', $_GET['run2']);
+		} else {
 			$baseUrl = ', URL="callgraph.php?run1=' . $run1 . '&run2=' . $run2;
 			$url = $baseUrl . '&func=' . addslashes($symbol) . '"';
 		}
@@ -539,11 +544,16 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 			) {
 				$color = ', color="#FFA241"';
 				$linewidth = 4;
+				$result .= 'N' . $sym_table[$parent]['id'] . ' -> N' . $sym_table[$child]['id'] .
+					"[style=\"setlinewidth($linewidth)\"," .
+					' label="' . $label . '", headlabel="' . $headlabel . '", taillabel="' . $taillabel . '"' . $color . '];' . PHP_EOL;
+			} else {
+				if (!$criticalOnly) {
+					$result .= 'N' . $sym_table[$parent]['id'] . ' -> N' . $sym_table[$child]['id'] .
+						"[style=\"setlinewidth($linewidth)\"," .
+						' label="' . $label . '", headlabel="' . $headlabel . '", taillabel="' . $taillabel . '"' . $color . '];' . PHP_EOL;
+				}
 			}
-
-			$result .= 'N' . $sym_table[$parent]['id'] . ' -> N' . $sym_table[$child]['id'] .
-				"[style=\"setlinewidth($linewidth)\"," .
-				' label="' . $label . '", headlabel="' . $headlabel . '", taillabel="' . $taillabel . '"' . $color . '];' . PHP_EOL;
 		}
 	}
 	$result = $result . "\n}";

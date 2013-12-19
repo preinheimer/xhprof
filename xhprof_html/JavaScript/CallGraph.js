@@ -5,11 +5,13 @@
 'use strict';
 
 jQuery(document).ready(function($) {
+    $('.loading').show();
     $.ajax({
         url: './callGraphRenderer.php' + window.location.search,
         cache: false
     })
         .done(function(html) {
+            $('.loading').hide();
             $('#callGraph').append(html);
             $('#callGraph svg').panzoom({
                 $zoomIn: $('.zoomIn'),
