@@ -260,7 +260,7 @@ function xhprof_get_children_table($raw_data) {
  *
  * @author cjiang
  */
-function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
+function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $page,
                                     $func, $critical_path, $right = null,
                                     $left = null) {
 
@@ -353,7 +353,7 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 		}
 	}
 
-	$result = 'digraph call_graph {' . PHP_EOL .
+	$result = 'digraph "' . $runData['server name'] . $runData['url'] . '" {' . PHP_EOL .
 		'node [shape=Mrecord, color="#555555", fontname="Helvetica", style=filled, fillcolor="#ffba82:#fbfbfb", gradientangle="270"];' . PHP_EOL .
 		'edge [arrowhead=open, arrowtail=dot, color="#555555", fontname="Helvetica"];' . PHP_EOL;
 
@@ -402,6 +402,7 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 		$height = ', height="' . number_format($max_height / $sizing_factor, 2, '.', '') . '"';
 
 		$url = $baseUrl = '';
+		$toolTip = '';
 		if (isset($_GET['run'])) {
 			$run = preg_replace('/[^a-z0-9]*/', '', $_GET['run']);
 			$baseUrl = ', URL="callgraph.php?run=' . $run;
@@ -418,18 +419,56 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 			$url = $baseUrl . '"';
 			$shape = 'shape=house, ';
 			$fillcolor = ', fillcolor="#4FAA4F:#fbfbfb"';
-			$name = "Total: " . printSecondsPlain($totals['wt']) . PHP_EOL;
-			$name .= addslashes(isset($page) ? $page : $symbol);
 		} else {
 			$shape = '';
-			$name = addslashes($symbol) . "\\nInc: " . printSecondsPlain($info['wt']) .
-				" (" . sprintf("%.1f%%", 100 * $info['wt'] / $totals['wt']) . ")";
 		}
+
 		if ($left === null) {
-			$label = "label=\"" . $name . "\\nExcl: "
-				. printSecondsPlain($info['excl_wt']) . " ("
-				. sprintf("%.1f%%", 100 * $info['excl_wt'] / $totals['wt'])
-				. ")\\n" . $info['ct'] . " total calls\"";
+			$info['wtPercent'] = 100 * $info['wt'] / $totals['wt'];
+			$info['wt'] = printSecondsPlain($info['wt']);
+			$info['exclWtPercent'] = 100 * $info['excl_wt'] / $totals['wt'];
+			$info['exclWt'] = printSecondsPlain($info['excl_wt']);
+			$info['muPercent'] = 100 * $info['mu'] / $totals['mu'];
+			$info['mu'] = (($info['mu'] < 0) ? '-' : '') . printBytesPlain(abs($info['mu']));
+			$info['exclMuPercent'] = 100 * $info['excl_mu'] / $totals['mu'];
+			$info['exclMu'] = (($info['mu'] < 0) ? '-' : '') . printBytesPlain(abs($info['excl_mu']));
+
+			$label = 'label=<' .
+				'<table border="0" cellborder="0" cellpadding="0">' .
+				'<tr><td colspan="4">' . addslashes($symbol) . '</td></tr>' .
+				'<tr><td colspan="4">Calls ' .
+				$info['ct'] .
+				'</td></tr>' .
+				'<tr><td align="left">CPU</td><td align="right">Inc. </td><td align="right">' .
+				$info['wt'] .
+				'</td><td align="right">' .
+				sprintf(' %.1f%%', $info['wtPercent']) .
+				'</td></tr>' . PHP_EOL .
+				'<tr><td></td><td align="right">Excl. </td><td align="right">' .
+				$info['exclWt'] .
+				'</td><td align="right">' .
+				sprintf(' %.1f%%', $info['exclWtPercent']) .
+				'</td></tr>' . PHP_EOL .
+				'<tr><td align="left">Mem</td><td align="right">Inc. </td><td align="right">' .
+				$info['mu'] .
+				'</td><td align="right">' .
+				sprintf(' %.1f%%', $info['muPercent']) .
+				'</td></tr>' . PHP_EOL .
+				'<tr><td></td><td align="right">Excl. </td><td align="right">' .
+				$info['exclMu'] .
+				'</td><td align="right">' .
+				sprintf(' %.1f%%', $info['exclMuPercent']) .
+				'</td></tr>' . PHP_EOL .
+				'</table>>';
+			$toolTip = ', tooltip="' . addslashes($symbol) . PHP_EOL .
+				'Calls: ' . $info['ct'] . PHP_EOL .
+				'CPU:' . PHP_EOL .
+				"\t" . sprintf('Inc.  %10s (%.1f%%)', $info['wt'], $info['wtPercent']) . PHP_EOL .
+				"\t" . sprintf('Excl. %10s (%.1f%%)', $info['exclWt'], $info['exclWtPercent']) . PHP_EOL .
+				'Mem:' . PHP_EOL .
+				"\t" . sprintf('Inc.  %10s (%.1f%%)', $info['mu'], $info['muPercent']) . PHP_EOL .
+				"\t" . sprintf('Excl. %10s (%.1f%%)', $info['exclMu'], $info['exclMuPercent']) . PHP_EOL .
+				'"';
 		} else {
 			if (isset($left[$symbol]) && isset($right[$symbol])) {
 				$label = "label=\"" . addslashes($symbol) .
@@ -467,7 +506,7 @@ function xhprof_generate_dot_script($raw_data, $threshold, $source, $page,
 			}
 		}
 		$result .= "N" . $sym_table[$symbol]["id"];
-		$result .= '[' . $shape . $label . $url . $width
+		$result .= '[' . $shape . $label . $toolTip . $url . $width
 			. $height . $fontsize . $fillcolor . '];' . PHP_EOL;
 	}
 
@@ -578,13 +617,14 @@ function xhprof_get_content_by_run($xhprof_runs_impl, $run_id, $type,
 	}
 
 	$description = '';
-	list($raw_data, $a) = $xhprof_runs_impl->get_run($run_id, $source, $description);
+	list($raw_data, $runData) = $xhprof_runs_impl->get_run($run_id, $source, $description);
+
 	if (!$raw_data) {
 		xhprof_error('Raw data is empty');
 		return '';
 	}
 
-	$script = xhprof_generate_dot_script($raw_data, $threshold, $source,
+	$script = xhprof_generate_dot_script($raw_data, $runData, $threshold, $source,
 		$description, $func, $critical_path);
 
 	$content = xhprof_generate_image_by_dot($script, $type);
