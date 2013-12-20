@@ -26,4 +26,30 @@ jQuery(document).ready(function($) {
     $('#serverFilterServer').change(function() {
         $('#serverFilter').submit();
     });
+    $('[title!=""]').qtip({
+        style: {
+            classes: 'qtip-rounded qtip-shadow'
+        },
+        title: {
+            button: true
+        },
+        show: {
+            solo: true,
+            effect: function() {
+                $(this).fadeTo(200, 1);
+            }
+
+        },
+        hide: {
+            event: false,
+            inactive: 1500,
+            effect: function() {
+                $(this).fadeTo(200, 0);
+            }
+        },
+        position: {
+            my: 'bottom cencter',
+            at: 'top cencter'
+        }
+    });
 });
