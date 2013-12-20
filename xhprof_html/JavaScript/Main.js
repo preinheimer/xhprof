@@ -5,7 +5,7 @@
 'use strict';
 
 jQuery(document).ready(function($) {
-    $('table').tablesorter({
+    $('.tablesorter').tablesorter({
         textExtraction: function(node) {
             var attr = $(node).attr('data-sort-value');
             if (typeof attr !== 'undefined' && attr !== false) {
