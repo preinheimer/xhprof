@@ -43,7 +43,14 @@
 				} else {
 					echo '';
 				} ?></td>
-			<td class="peakMemoryUsage" data-sort-value="<?php echo isset($element['pmu']) ? $element['pmu'] : ''; ?>"><?php echo isset($element['pmu']) ? printBytes($element['pmu']) : ''; ?></td>
+			<td class="peakMemoryUsage" data-sort-value="<?php echo isset($element['pmu']) ? $element['pmu'] : ''; ?>"><?php if (isset($element['pmu'])) {
+					if ($element['pmu'] < 0) {
+						echo '-';
+					}
+					echo printBytes(abs($element['pmu']));
+				} else {
+					echo '';
+				} ?></td>
 			<td class="wallTime" data-sort-value="<?php echo isset($element['excl_wt']) ? $element['excl_wt'] : ''; ?>"><?php echo isset($element['excl_wt']) ? printSeconds($element['excl_wt']) : ''; ?></td>
 			<td class="cpuTime" data-sort-value="<?php echo isset($element['excl_cpu']) ? $element['excl_cpu'] : ''; ?>"><?php echo isset($element['excl_cpu']) ? printSeconds($element['excl_cpu']) : ''; ?></td>
 			<td class="memoryUsage" data-sort-value="<?php echo isset($element['excl_mu']) ? $element['excl_mu'] : ''; ?>"><?php if (isset($element['excl_mu'])) {
@@ -54,7 +61,14 @@
 				} else {
 					echo '';
 				} ?></td>
-			<td class="peakMemoryUsage" data-sort-value="<?php echo isset($element['excl_pmu']) ? $element['excl_pmu'] : ''; ?>"><?php echo isset($element['excl_pmu']) ? printBytes($element['excl_pmu']) : ''; ?></td>
+			<td class="peakMemoryUsage" data-sort-value="<?php echo isset($element['excl_pmu']) ? $element['excl_pmu'] : ''; ?>"><?php if (isset($element['excl_pmu'])) {
+					if ($element['excl_pmu'] < 0) {
+						echo '-';
+					}
+					echo printBytes(abs($element['excl_pmu']));
+				} else {
+					echo '';
+				} ?></td>
 		</tr>
 	<?php
 	}
