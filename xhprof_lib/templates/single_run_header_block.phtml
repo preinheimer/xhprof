@@ -3,7 +3,7 @@ $arrayOfTotal = array();
 $i = 0;
 foreach ($metrics as $metric) {
 
-	$arrayOfTotal[$i]['label'] = str_replace('<br />', ' ', stat_description($metric));
+	$arrayOfTotal[$i]['label'] = stat_description($metric);
 	$arrayOfTotal[$i]['value'] = $totals[$metric];
 	$arrayOfTotal[$i]['metric'] = $possible_metrics[$metric][1];
 	$i++;

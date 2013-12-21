@@ -154,7 +154,7 @@ if ($display_calls) {
 foreach ($metrics as $metric) {
 	$m = $metric;
 	print('<tr>');
-	print("<td>" . str_replace("<br>", " ", $descriptions[$m]) . "</td>");
+	print("<td>" . $descriptions[$m] . "</td>");
 	print_td_num($totals_1[$m], $format_cbk[$m]);
 	print_td_num($totals_2[$m], $format_cbk[$m]);
 	print_td_num($totals_2[$m] - $totals_1[$m], $format_cbk[$m], TRUE);

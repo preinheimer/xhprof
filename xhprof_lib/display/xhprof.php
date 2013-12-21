@@ -889,7 +889,7 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2, $links) {
 		$limit = 100; // display only limited number of rows
 	}
 
-	$desc = str_replace("<br />", " ", $descriptions[$sort_col]);
+	$desc = $descriptions[$sort_col];
 
 	if ($diff_mode) {
 		if ($all) {
@@ -993,7 +993,7 @@ function print_pc_array($url_params, $results, $base_ct, $base_info, $parent,
 function print_symbol_summary($symbol_info, $stat, $base) {
 
 	$val = $symbol_info[$stat];
-	$desc = str_replace("<br />", " ", stat_description($stat));
+	$desc = stat_description($stat);
 
 	print("$desc: </td>");
 	print(number_format($val));
@@ -1078,7 +1078,7 @@ function symbol_report($url_params,
 
 			// Inclusive stat for metric
 			print('<tr>');
-			print("<td>" . str_replace("<br />", " ", $descriptions[$m]) . "</td>");
+			print("<td>" . $descriptions[$m] . "</td>");
 			print_td_num($symbol_info1[$m], $format_cbk[$m]);
 			print_td_num($symbol_info2[$m], $format_cbk[$m]);
 			print_td_num($symbol_info2[$m] - $symbol_info1[$m], $format_cbk[$m], true);
@@ -1087,7 +1087,7 @@ function symbol_report($url_params,
 
 			// AVG (per call) Inclusive stat for metric
 			print('<tr>');
-			print("<td>" . str_replace("<br />", " ", $descriptions[$m]) . " per call </td>");
+			print("<td>" . $descriptions[$m] . " per call </td>");
 			$avg_info1 = 'N/A';
 			$avg_info2 = 'N/A';
 			if ($symbol_info1['ct'] > 0) {
@@ -1105,7 +1105,7 @@ function symbol_report($url_params,
 			// Exclusive stat for metric
 			$m = "excl_" . $metric;
 			print('<tr style="border-bottom: 1px solid black;">');
-			print("<td>" . str_replace("<br />", " ", $descriptions[$m]) . "</td>");
+			print("<td>" . $descriptions[$m] . "</td>");
 			print_td_num($symbol_info1[$m], $format_cbk[$m]);
 			print_td_num($symbol_info2[$m], $format_cbk[$m]);
 			print_td_num($symbol_info2[$m] - $symbol_info1[$m], $format_cbk[$m], true);
