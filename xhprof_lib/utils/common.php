@@ -45,10 +45,15 @@ function displayRuns($resultSet, $title = "") {
  * @return string
  */
 function printBytes($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
+	$prefix = '';
 	if ($size == 0) {
 		return ('n/a');
 	}
-	return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i]);
+	if ($size < 0) {
+		$size = abs($size);
+		$prefix = '-';
+	}
+	return $prefix . round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i];
 }
 
 /**
@@ -59,7 +64,12 @@ function printBytes($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'E
  * @return string
  */
 function printSeconds($time) {
+	$prefix = '';
 	$suffix = 'μs';
+	if ($time < 0) {
+		$time = abs($time);
+		$prefix = '-';
+	}
 
 	if ($time > 1000) {
 		$time = $time / 1000;
@@ -76,7 +86,7 @@ function printSeconds($time) {
 		$suffix = 'min!';
 	}
 
-	return sprintf("%.2f {$suffix}", $time);
+	return $prefix . sprintf("%.2f {$suffix}", $time);
 }
 
 /**
