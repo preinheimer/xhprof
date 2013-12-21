@@ -107,6 +107,11 @@ function xhprof_count_format($num) {
 	}
 }
 
+function xhprof_number_format($number, $decimals = 0) {
+	global $_xhprof;
+	return number_format($number, $decimals, $_xhprof['decimalSeparator'], $_xhprof['thousandsSeparator']);
+}
+
 function xhprof_percent_format($s, $precision = 1) {
 	return sprintf('%.' . $precision . 'f%%', 100 * $s);
 }
@@ -278,10 +283,10 @@ $descriptions = array(
 // Formatting Callback Functions...
 $format_cbk = array(
 	'fn' => '',
-	'ct' => 'xhprof_count_format',
+	'ct' => 'xhprof_number_format',
 	'Calls%' => 'xhprof_percent_format',
 
-	'wt' => 'number_format',
+	'wt' => 'printSeconds',
 	'IWall%' => 'xhprof_percent_format',
 	'excl_wt' => 'number_format',
 	'EWall%' => 'xhprof_percent_format',
@@ -296,17 +301,17 @@ $format_cbk = array(
 	'excl_st' => 'number_format',
 	'ESys%' => 'xhprof_percent_format',
 
-	'cpu' => 'number_format',
+	'cpu' => 'printSeconds',
 	'ICpu%' => 'xhprof_percent_format',
 	'excl_cpu' => 'number_format',
 	'ECpu%' => 'xhprof_percent_format',
 
-	'mu' => 'number_format',
+	'mu' => 'printBytes',
 	'IMUse%' => 'xhprof_percent_format',
 	'excl_mu' => 'number_format',
 	'EMUse%' => 'xhprof_percent_format',
 
-	'pmu' => 'number_format',
+	'pmu' => 'printBytes',
 	'IPMUse%' => 'xhprof_percent_format',
 	'excl_pmu' => 'number_format',
 	'EPMUse%' => 'xhprof_percent_format',
