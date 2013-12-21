@@ -264,14 +264,14 @@ $descriptions = array(
 	'excl_cpu' => 'Excl. CPU',
 	'ECpu%' => 'ECPU%',
 
-	'mu' => 'Incl.<br />MemUse',
+	'mu' => 'Incl. MemUse',
 	'IMUse%' => 'IMemUse%',
-	'excl_mu' => 'Excl.<br />MemUse',
+	'excl_mu' => 'Excl. MemUse',
 	'EMUse%' => 'EMemUse%',
 
-	'pmu' => 'Incl.<br /> PeakMemUse',
+	'pmu' => 'Incl. PeakMemUse',
 	'IPMUse%' => 'IPeakMemUse%',
-	'excl_pmu' => 'Excl.<br />PeakMemUse',
+	'excl_pmu' => 'Excl. PeakMemUse',
 	'EPMUse%' => 'EPeakMemUse%',
 
 	'samples' => 'Incl. Samples',
