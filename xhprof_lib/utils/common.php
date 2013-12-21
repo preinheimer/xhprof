@@ -37,7 +37,7 @@ function displayRuns($resultSet, $title = "") {
 }
 
 /**
- * Print a value as Bytes and add a span around the unit
+ * Print a value as Bytes
  *
  * @param integer $size The size to format.
  * @param array   $sizes The list of size units.
@@ -46,28 +46,13 @@ function displayRuns($resultSet, $title = "") {
  */
 function printBytes($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
 	if ($size == 0) {
-		return ('<span class="unit">n/a</span>');
-	}
-	return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' <span class="unit">' . $sizes[$i] . '</span>');
-}
-
-/**
- * Print a value as Bytes without a span around the unit
- *
- * @param integer $size The size to format.
- * @param array   $sizes The list of size units.
- *
- * @return string
- */
-function printBytesPlain($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
-	if ($size == 0) {
 		return ('n/a');
 	}
 	return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i]);
 }
 
 /**
- * Format an integer as a time value with a span around the unit
+ * Format an integer as a time value
  *
  * @param integer $time The value to format
  *
@@ -91,37 +76,8 @@ function printSeconds($time) {
 		$suffix = 'min!';
 	}
 
-	return sprintf("%.2f <span class=\"unit\">{$suffix}</span>", $time);
-}
-
-/**
- * Format an integer as a time value without a span around the unit
- *
- * @param integer $time The value to format
- *
- * @return string
- */
-function printSecondsPlain($time) {
-	$suffix = 'μs';
-
-	if ($time > 1000) {
-		$time = $time / 1000;
-		$suffix = 'ms';
-	}
-
-	if ($time > 1000) {
-		$time = $time / 1000;
-		$suffix = ' s';
-	}
-
-	if ($time > 60 && $suffix == ' s') {
-		$time = $time / 60;
-		$suffix = 'min!';
-	}
-
 	return sprintf("%.2f {$suffix}", $time);
 }
-
 
 /**
  * @param      $rs

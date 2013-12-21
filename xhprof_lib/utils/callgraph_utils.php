@@ -430,13 +430,13 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 
 		if ($left === null) {
 			$info['wtPercent'] = 100 * $info['wt'] / $totals['wt'];
-			$info['wt'] = printSecondsPlain($info['wt']);
+			$info['wt'] = printSeconds($info['wt']);
 			$info['exclWtPercent'] = 100 * $info['excl_wt'] / $totals['wt'];
-			$info['exclWt'] = printSecondsPlain($info['excl_wt']);
+			$info['exclWt'] = printSeconds($info['excl_wt']);
 			$info['muPercent'] = 100 * $info['mu'] / $totals['mu'];
-			$info['mu'] = (($info['mu'] < 0) ? '-' : '') . printBytesPlain(abs($info['mu']));
+			$info['mu'] = (($info['mu'] < 0) ? '-' : '') . printBytes(abs($info['mu']));
 			$info['exclMuPercent'] = 100 * $info['excl_mu'] / $totals['mu'];
-			$info['exclMu'] = (($info['mu'] < 0) ? '-' : '') . printBytesPlain(abs($info['excl_mu']));
+			$info['exclMu'] = (($info['mu'] < 0) ? '-' : '') . printBytes(abs($info['excl_mu']));
 
 			$label = 'label=<' .
 				'<table border="0" cellborder="0" cellpadding="0">' .
@@ -477,35 +477,35 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 		} else {
 			if (isset($left[$symbol]) && isset($right[$symbol])) {
 				$label = "label=\"" . addslashes($symbol) .
-					"\\nInc: " . printSecondsPlain($left[$symbol]['wt'])
+					"\\nInc: " . printSeconds($left[$symbol]['wt'])
 					. " - "
-					. printSecondsPlain($right[$symbol]['wt']) . " = "
-					. printSecondsPlain($info['wt']) .
+					. printSeconds($right[$symbol]['wt']) . " = "
+					. printSeconds($info['wt']) .
 					"\\nExcl: "
-					. printSecondsPlain($left[$symbol]['excl_wt'])
-					. " - " . printSecondsPlain($right[$symbol]['excl_wt'])
-					. " = " . printSecondsPlain($info['excl_wt']) .
+					. printSeconds($left[$symbol]['excl_wt'])
+					. " - " . printSeconds($right[$symbol]['excl_wt'])
+					. " = " . printSeconds($info['excl_wt']) .
 					"\\nCalls: " . (sprintf("%.3f", $left[$symbol]['ct'])) . " - "
 					. (sprintf("%.3f", $right[$symbol]['ct'])) . " = "
 					. (sprintf("%.3f", $info['ct'])) . "\"";
 			} else if (isset($left[$symbol])) {
 				$label = "label=\"" . addslashes($symbol) .
-					"\\nInc: " . printSecondsPlain($left[$symbol]['wt'])
-					. " - 0 = " . printSecondsPlain($info['wt'])
+					"\\nInc: " . printSeconds($left[$symbol]['wt'])
+					. " - 0 = " . printSeconds($info['wt'])
 					. "\\nExcl: "
-					. printSecondsPlain($left[$symbol]['excl_wt'])
+					. printSeconds($left[$symbol]['excl_wt'])
 					. " - 0 = "
-					. printSecondsPlain($info['excl_wt']) .
+					. printSeconds($info['excl_wt']) .
 					"\\nCalls: " . (sprintf("%.3f", $left[$symbol]['ct'])) . " - 0 = "
 					. (sprintf("%.3f", $info['ct'])) . "\"";
 			} else {
 				$label = "label=\"" . addslashes($symbol) .
 					"\\nInc: 0 - "
-					. printSecondsPlain($right[$symbol]['wt'])
-					. " = " . printSecondsPlain($info['wt']) .
+					. printSeconds($right[$symbol]['wt'])
+					. " = " . printSeconds($info['wt']) .
 					"\\nExcl: 0 - "
-					. printSecondsPlain($right[$symbol]['excl_wt'])
-					. " = " . printSecondsPlain($info['excl_wt']) .
+					. printSeconds($right[$symbol]['excl_wt'])
+					. " = " . printSeconds($info['excl_wt']) .
 					"\\nCalls: 0 - " . (sprintf("%.3f", $right[$symbol]['ct']))
 					. " = " . (sprintf("%.3f", $info['ct'])) . "\"";
 			}

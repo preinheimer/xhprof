@@ -239,34 +239,34 @@ $descriptions = array(
 	'ct' => 'Calls',
 	'Calls%' => 'Calls%',
 
-	'wt' => 'Incl. Wall Time<br />(μs)',
+	'wt' => 'Incl. Wall Time',
 	'IWall%' => 'IWall%',
-	'excl_wt' => 'Excl. Wall Time<br />(μs)',
+	'excl_wt' => 'Excl. Wall Time',
 	'EWall%' => 'EWall%',
 
-	'ut' => 'Incl. User<br />(μs)',
+	'ut' => 'Incl. User',
 	'IUser%' => 'IUser%',
-	'excl_ut' => 'Excl. User<br />(μs)',
+	'excl_ut' => 'Excl. User',
 	'EUser%' => 'EUser%',
 
-	'st' => 'Incl. Sys <br />(μs)',
+	'st' => 'Incl. Sys ',
 	'ISys%' => 'ISys%',
-	'excl_st' => 'Excl. Sys <br />(μs)',
+	'excl_st' => 'Excl. Sys ',
 	'ESys%' => 'ESys%',
 
-	'cpu' => 'Incl. CPU<br />(μs)',
+	'cpu' => 'Incl. CPU',
 	'ICpu%' => 'ICpu%',
-	'excl_cpu' => 'Excl. CPU<br />(μs)',
+	'excl_cpu' => 'Excl. CPU',
 	'ECpu%' => 'ECPU%',
 
-	'mu' => 'Incl.<br />MemUse<br />(bytes)',
+	'mu' => 'Incl.<br />MemUse',
 	'IMUse%' => 'IMemUse%',
-	'excl_mu' => 'Excl.<br />MemUse<br />(bytes)',
+	'excl_mu' => 'Excl.<br />MemUse',
 	'EMUse%' => 'EMemUse%',
 
-	'pmu' => 'Incl.<br /> PeakMemUse<br />(bytes)',
+	'pmu' => 'Incl.<br /> PeakMemUse',
 	'IPMUse%' => 'IPeakMemUse%',
-	'excl_pmu' => 'Excl.<br />PeakMemUse<br />(bytes)',
+	'excl_pmu' => 'Excl.<br />PeakMemUse',
 	'EPMUse%' => 'EPeakMemUse%',
 
 	'samples' => 'Incl. Samples',
@@ -324,34 +324,34 @@ $diff_descriptions = array(
 	'ct' => 'Calls Diff',
 	'Calls%' => 'Calls<br />Diff%',
 
-	'wt' => 'Incl. Wall<br />Diff<br />(μs)',
+	'wt' => 'Incl. Wall<br />Diff',
 	'IWall%' => 'IWall<br /> Diff%',
-	'excl_wt' => 'Excl. Wall<br />Diff<br />(μs)',
+	'excl_wt' => 'Excl. Wall<br />Diff',
 	'EWall%' => 'EWall<br />Diff%',
 
-	'ut' => 'Incl. User Diff<br />(μs)',
+	'ut' => 'Incl. User Diff',
 	'IUser%' => 'IUser<br />Diff%',
-	'excl_ut' => 'Excl. User<br />Diff<br />(μs)',
+	'excl_ut' => 'Excl. User<br />Diff',
 	'EUser%' => 'EUser<br />Diff%',
 
-	'cpu' => 'Incl. CPU Diff<br />(μs)',
+	'cpu' => 'Incl. CPU Diff',
 	'ICpu%' => 'ICpu<br />Diff%',
-	'excl_cpu' => 'Excl. CPU<br />Diff<br />(μs)',
+	'excl_cpu' => 'Excl. CPU<br />Diff',
 	'ECpu%' => 'ECpu<br />Diff%',
 
-	'st' => 'Incl. Sys Diff<br />(μs)',
+	'st' => 'Incl. Sys Diff',
 	'ISys%' => 'ISys<br />Diff%',
-	'excl_st' => 'Excl. Sys Diff<br />(μs)',
+	'excl_st' => 'Excl. Sys Diff',
 	'ESys%' => 'ESys<br />Diff%',
 
-	'mu' => 'Incl.<br />MemUse<br />Diff<br />(bytes)',
+	'mu' => 'Incl.<br />MemUse<br />Diff',
 	'IMUse%' => 'IMemUse<br />Diff%',
-	'excl_mu' => 'Excl.<br />MemUse<br />Diff<br />(bytes)',
+	'excl_mu' => 'Excl.<br />MemUse<br />Diff',
 	'EMUse%' => 'EMemUse<br />Diff%',
 
-	'pmu' => 'Incl.<br /> PeakMemUse<br />Diff<br />(bytes)',
+	'pmu' => 'Incl.<br /> PeakMemUse<br />Diff',
 	'IPMUse%' => 'IPeakMemUse<br />Diff%',
-	'excl_pmu' => 'Excl.<br />PeakMemUse<br />Diff<br />(bytes)',
+	'excl_pmu' => 'Excl.<br />PeakMemUse<br />Diff',
 	'EPMUse%' => 'EPeakMemUse<br />Diff%',
 
 	'samples' => 'Incl. Samples Diff',
@@ -749,7 +749,7 @@ function print_function_info($url_params, $info, $sort, $run1, $run2) {
 		http_build_query(xhprof_array_set($url_params,
 			'symbol', $info["fn"]));
 
-	print('<td>');
+	print('<td title="' . $info["fn"] . '">' . xhprof_render_link($info["fn"], $href) . '</td>');
 	print(xhprof_render_link($info["fn"], $href));
 	print("</td>\n");
 
@@ -848,6 +848,7 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2, $links) {
 	global $format_cbk;
 	global $display_calls;
 	global $base_path;
+	global $_xhprof;
 
 	$possible_metrics = xhprof_get_possible_metrics();
 
@@ -977,7 +978,7 @@ function print_pc_array($url_params, $results, $base_ct, $base_info, $parent,
 			print('<tr bgcolor="#e5e5e5">');
 		}
 
-		print("<td>" . xhprof_render_link($info["fn"], $href) . "</td>");
+		print('<td title="' . $info["fn"] . '">' . xhprof_render_link($info["fn"], $href) . '</td>');
 		pc_info($info, $base_ct, $base_info, $parent);
 		print("</tr>");
 	}
@@ -1148,7 +1149,7 @@ function symbol_report($url_params,
 
 	print("<tr>");
 	// make this a self-reference to facilitate copy-pasting snippets to e-mails
-	print("<td><a href=''>$rep_symbol</a></td>");
+	print('<td title="' . $rep_symbol . '"><a href="">' . $rep_symbol . '</a></td>');
 
 	if ($display_calls) {
 		// Call Count

@@ -3,13 +3,13 @@ $arrayOfTotal = array();
 $i = 0;
 foreach ($metrics as $metric) {
 
-	$arrayOfTotal[$i]["label"] = "Display run " . str_replace("<br />", " ", stat_description($metric));
-	$arrayOfTotal[$i]["value"] = number_format($totals[$metric]) . " " . $possible_metrics[$metric][1];
-	$arrayOfTotal[$i]["metric"] = $possible_metrics[$metric][1];
+	$arrayOfTotal[$i]['label'] = str_replace('<br />', ' ', stat_description($metric));
+	$arrayOfTotal[$i]['value'] = $totals[$metric];
+	$arrayOfTotal[$i]['metric'] = $possible_metrics[$metric][1];
 	$i++;
 }
 if ($display_calls) {
-	$format_total = number_format($totals['ct']);
+	$format_total = number_format($totals['ct'], 0, '', $_xhprof['thousandsSeparator']);
 }
 
 if (!isset($GLOBALS['_xhprof']['serializer']) || strtolower($GLOBALS['_xhprof']['serializer'] == 'php')) {
@@ -74,7 +74,7 @@ global $comparative;
 					</tr>
 					<tr>
 						<td style="font-weight: bold;"><?php echo $arrayOfTotal[0]["label"]; ?></td>
-						<td style="font-weight: bold;"><?php echo $arrayOfTotal[0]["value"]; ?></td>
+						<td style="font-weight: bold;"><?php echo printSeconds($arrayOfTotal[0]["value"]); ?></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
@@ -99,7 +99,7 @@ global $comparative;
 					</tr>
 					<tr>
 						<td style="font-weight: bold;"><?php echo $arrayOfTotal[1]["label"]; ?></td>
-						<td style="font-weight: bold;"><?php echo $arrayOfTotal[1]["value"]; ?></td>
+						<td style="font-weight: bold;"><?php echo printSeconds($arrayOfTotal[1]["value"]); ?></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
@@ -160,7 +160,6 @@ global $comparative;
 				</thead>
 				<tbody>
 				<?php
-				// echo '<pre>'.print_r($cookieArr, true).'</pre>';
 				foreach ($cookieArr as $key => $value) {
 					if (is_array($value)) {
 						$value = implode(", ", $value);
@@ -180,23 +179,13 @@ global $comparative;
 			<table class="box-tables">
 				<thead>
 				<tr>
-					<th>Get</th>
-					<th>Results</th>
+					<th>Get Parameters</th>
 				</tr>
 				</thead>
 				<tbody>
 				<?php
-				// echo '<pre>'.print_r($getArr, true).'</pre>';
-				foreach ($getArr as $key => $value) {
-					if (is_array($value)) {
-						$value = implode(", ", $value);
-					}
-					echo "<tr>";
-					echo "<td>" . $key . "</td><td>" . $value . "</td>";
-					echo "</tr>";
-				}
-				if (count($getArr) == 0) {
-					echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				if (count($getArr)) {
+					echo '<tr><td><pre>' . print_r($getArr, true) . '</pre></td></tr>';
 				}
 				?>
 				</tbody>
@@ -206,23 +195,13 @@ global $comparative;
 			<table class="box-tables">
 				<thead>
 				<tr>
-					<th>Post</th>
-					<th>Results</th>
+					<th>Post Parameters</th>
 				</tr>
 				</thead>
 				<tbody>
 				<?php
-				// echo '<pre>'.print_r($postArr, true).'</pre>';
-				foreach ($postArr as $key => $value) {
-					if (is_array($value)) {
-						$value = implode(", ", $value);
-					}
-					echo "<tr>";
-					echo "<td>" . $key . "</td><td>" . $value . "</td>";
-					echo "</tr>";
-				}
-				if (count($postArr) == 0) {
-					echo "<tr><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				if (count($postArr)) {
+					echo '<tr><td><pre>' . print_r($postArr, true) . '</pre></td></tr>';
 				}
 				?>
 				</tbody>
