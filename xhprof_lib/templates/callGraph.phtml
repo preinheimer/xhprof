@@ -26,10 +26,14 @@
 	$runUrl = dirname($_SERVER['DOCUMENT_URI']) . '?' . implode('&amp;', $parameters);
 	$currentUrl = $_SERVER['DOCUMENT_URI'] . '?' . implode('&amp;', $parameters);
 	$criticalPathUrl = $currentUrl . '&amp;criticalOnly=1';
+	$criticalOnly = (isset($_GET['criticalOnly'])) ? (boolean)$_GET['criticalOnly'] : false;
 	?>
 	<button class="form-button" onclick="window.location.assign('<?php echo $runUrl ?>')">Back to Run</button>
+	<?php if ($criticalOnly) { ?>
 	<button class="form-button" onclick="window.location.assign('<?php echo $currentUrl ?>')">Show all</button>
+	<?php } else { ?>
 	<button class="form-button" onclick="window.location.assign('<?php echo $criticalPathUrl ?>')">Show Critical Path only</button>
+	<?php } ?>
 	<button class="zoomIn form-button">Zoom In</button>
 	<button class="zoomOut form-button">Zoom Out</button>
 	<input type="range" class="zoomRange">

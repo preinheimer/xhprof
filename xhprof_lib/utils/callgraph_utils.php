@@ -307,8 +307,7 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 								$node,
 								$child
 							)]['wt']
-						)
-						> abs(
+						) > abs(
 							$raw_data[xhprof_build_parent_child_key(
 								$node,
 								$max_child
@@ -425,6 +424,9 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 			$shape = 'shape=house, ';
 			$fillcolor = ', fillcolor="#4FAA4F:#fbfbfb"';
 		} else {
+			if (!array_key_exists($symbol, $path) && $criticalOnly) {
+				continue;
+			}
 			$shape = '';
 		}
 
@@ -521,7 +523,7 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 
 		if (isset($sym_table[$parent]) && isset($sym_table[$child])
 			&& (empty($func)
-				|| (!empty($func) && ($parent == $func || $child == $func)))
+			|| (!empty($func) && ($parent == $func || $child == $func)))
 		) {
 
 			$label = $info['ct'] == 1 ? $info['ct'] . " call" : $info['ct'] . " calls";
@@ -531,9 +533,11 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 				: "0.0%";
 
 			$taillabel = ($sym_table[$parent]['wt'] > 0) ?
-				sprintf("%.1f%%",
+				sprintf(
+					"%.1f%%",
 					100 * $info['wt'] /
-					($sym_table[$parent]['wt'] - $sym_table["$parent"]['excl_wt']))
+					($sym_table[$parent]['wt'] - $sym_table["$parent"]['excl_wt'])
+				)
 				: "0.0%";
 
 			$color = '';
