@@ -26,9 +26,9 @@ function displayRuns($resultSet, $title = "") {
 			'<td class="id"><a href="?run=' . $row['id'] . '">' . $row['id'] . '</a></td>' .
 			'<td class="date">' . $date . '</td>' .
 			'<td class="serverName"><a class="filterByDomain" href="#" title="Show only runs for ' . $row['server name'] . '">' . $row['server name'] . '</a></td>' .
-			'<td class="cpu" data-sort-value="' . $row['cpu'] . '">' . printSeconds($row['cpu']) . '</td>' .
-			'<td class="wt" data-sort-value="' . $row['wt'] . '">' . printSeconds($row['wt']) . '</td>' .
-			'<td class="pmu" data-sort-value="' . $row['pmu'] . '">' . printBytes($row['pmu']) . '</td>' .
+			'<td class="cpu" data-sort="' . $row['cpu'] . '">' . printSeconds($row['cpu']) . '</td>' .
+			'<td class="wt" data-sort="' . $row['wt'] . '">' . printSeconds($row['wt']) . '</td>' .
+			'<td class="pmu" data-sort="' . $row['pmu'] . '">' . printBytes($row['pmu']) . '</td>' .
 			'<td class="url"><a href="?geturl=' . $url . '" title="' . $html['url'] . ' ">' . $html['url'] . '</a></td>' .
 			'<td class="c_url"><a href="?getcurl=' . $c_url . '" title="' . $html['c_url'] . '">' . $html['c_url'] . '</a></td></tr>' . PHP_EOL;
 	}

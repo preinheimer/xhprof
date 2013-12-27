@@ -7,7 +7,7 @@
 jQuery(document).ready(function($) {
     $('.tablesorter').tablesorter({
         textExtraction: function(node) {
-            var attr = $(node).attr('data-sort-value');
+            var attr = $(node).attr('data-sort');
             if (typeof attr !== 'undefined' && attr !== false) {
                 return attr;
             }
@@ -26,6 +26,7 @@ jQuery(document).ready(function($) {
     $('#serverFilterServer').change(function() {
         $('#serverFilter').submit();
     });
+    /*
     $('[title!=""]').qtip({
         style: {
             classes: 'qtip-rounded qtip-shadow'
@@ -52,4 +53,5 @@ jQuery(document).ready(function($) {
             at: 'top cencter'
         }
     });
+    */
 });

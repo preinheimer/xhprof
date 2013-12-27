@@ -466,6 +466,13 @@ function xhprof_compute_diff($xhprof_data1, $xhprof_data2) {
 
 		if ($display_calls) {
 			$xhprof_delta[$parent_child]['ct'] -= $info['ct'];
+			/*
+			if ($xhprof_delta[$parent_child]['ct'] > 0) {
+				$xhprof_delta[$parent_child]['ctPercentage'] = ($info['ct'] / $xhprof_delta[$parent_child]['ct']) * 100;
+			} else {
+				$xhprof_delta[$parent_child]['ctPercentage'] = 0;
+			}
+			*/
 		}
 
 		foreach ($metrics as $metric) {

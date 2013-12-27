@@ -391,32 +391,27 @@ $metrics = null;
 function sort_cbk($a, $b) {
 	global $sort_col;
 	global $diff_mode;
-
 	if ($sort_col == 'fn') {
-
 		// case insensitive ascending sort for function names
 		$left = strtoupper($a['fn']);
 		$right = strtoupper($b['fn']);
-
-		if ($left == $right)
+		if ($left == $right) {
 			return 0;
-		return ($left < $right) ? -1 : 1;
-
+		}
+		return $right < $left;
 	} else {
-
 		// descending sort for all others
 		$left = $a[$sort_col];
 		$right = $b[$sort_col];
-
 		// if diff mode, sort by absolute value of regression/improvement
 		if ($diff_mode) {
 			$left = abs($left);
 			$right = abs($right);
 		}
-
-		if ($left == $right)
+		if ($left == $right) {
 			return 0;
-		return ($left > $right) ? -1 : 1;
+		}
+		return $right < $left;
 	}
 }
 
@@ -854,21 +849,15 @@ function full_report($url_params, $symbol_tab, $sort, $run1, $run2, $links) {
 	global $display_calls;
 	global $base_path;
 	global $_xhprof;
+	global $xhprof_runs_impl;
 
 	$possible_metrics = xhprof_get_possible_metrics();
 
 	if ($diff_mode) {
-		global $xhprof_runs_impl;
 		include "../xhprof_lib/templates/diff_run_header_block.phtml";
-
 	} else {
-		global $xhprof_runs_impl;
 		include "../xhprof_lib/templates/single_run_header_block.phtml";
 	}
-
-
-	//echo xhprof_render_actions($links);
-
 
 	$flat_data = array();
 	foreach ($symbol_tab as $symbol => $info) {
