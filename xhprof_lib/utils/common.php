@@ -47,7 +47,7 @@ function displayRuns($resultSet, $title = "") {
 function printBytes($size, $sizes = array(' B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')) {
 	$prefix = '';
 	if ($size == 0) {
-		return ('n/a');
+		return ('-');
 	}
 	if ($size < 0) {
 		$size = abs($size);
