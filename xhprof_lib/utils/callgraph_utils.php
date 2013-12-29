@@ -525,7 +525,25 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 			&& (empty($func)
 			|| (!empty($func) && ($parent == $func || $child == $func)))
 		) {
-
+			/**
+			 * $parent can have the forms:
+			 * someMethod
+			 * SomeClass::someMethod
+			 * Some\Long\Namespace\SomeClass::someMethod
+			 */
+			if (strcspn($parent, '\\')) {
+				$parentMainParts = explode('\\', $parent);
+				$parentLabel = array_pop($parentMainParts);
+			} else {
+				$parentLabel = $parent;
+			}
+			if (strcspn($child, '\\')) {
+				$childMainParts = explode('\\', $child);
+				$childLabel = array_pop($childMainParts);
+			} else {
+				$childLabel = $child;
+			}
+			$tooltip = $parentLabel . ' -> ' . $childLabel;
 			$label = $info['ct'] == 1 ? $info['ct'] . " call" : $info['ct'] . " calls";
 
 			$headlabel = $sym_table[$child]['wt'] > 0 ?
@@ -549,12 +567,20 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 				$color = ', color="#FFA241"';
 				$linewidth = 4;
 				$result .= 'N' . $sym_table[$parent]['id'] . ' -> N' . $sym_table[$child]['id'] .
-					"[style=\"setlinewidth($linewidth)\"," .
+					'[style="setlinewidth(' . $linewidth . ')",' .
+					' tooltip="' . $tooltip . '",' .
+					' headtooltip="' . $tooltip . '",' .
+					' labeltooltip="' . $tooltip . '",' .
+					' tailtooltip="' . $tooltip . '",' .
 					' label="' . $label . '", headlabel="' . $headlabel . '", taillabel="' . $taillabel . '"' . $color . '];' . PHP_EOL;
 			} else {
 				if (!$criticalOnly) {
 					$result .= 'N' . $sym_table[$parent]['id'] . ' -> N' . $sym_table[$child]['id'] .
-						"[style=\"setlinewidth($linewidth)\"," .
+						'[style="setlinewidth(' . $linewidth . ')",' .
+						' tooltip="' . $tooltip . '",' .
+						' headtooltip="' . $tooltip . '",' .
+						' labeltooltip="' . $tooltip . '",' .
+						' tailtooltip="' . $tooltip . '",' .
 						' label="' . $label . '", headlabel="' . $headlabel . '", taillabel="' . $taillabel . '"' . $color . '];' . PHP_EOL;
 				}
 			}
