@@ -161,8 +161,8 @@ if (isset($_GET['run1']) || isset($_GET['run'])) {
 		$url = urlencode($row['url']);
 		$html['url'] = htmlentities($row['url'], ENT_QUOTES, 'UTF-8');
 		echo '   <tr><td><a href="?geturl=' . $url . '">' . $html['url'] . '</a></td><td>' .
-			$row['count'] . '</td><td data-sort="' . $row['total_wall'] . '" >' .
-			printSeconds($row['total_wall']) . '</td><td data-sort="' . $row['avg_wall'] . '">' .
+			$row['count'] . '</td><td title="' . $row['total_wall'] . '" >' .
+			printSeconds($row['total_wall']) . '</td><td title="' . $row['avg_wall'] . '">' .
 			printSeconds($row['avg_wall']) . '</td></tr>' . PHP_EOL;
 	}
 	echo "</tbody>\n";

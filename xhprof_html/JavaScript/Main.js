@@ -7,7 +7,7 @@
 jQuery(document).ready(function($) {
     $('.tablesorter').tablesorter({
         textExtraction: function(node) {
-            var attr = $(node).attr('data-sort');
+            var attr = $(node).attr('title');
             if (typeof attr !== 'undefined' && attr !== false) {
                 return attr;
             }

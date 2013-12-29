@@ -54,48 +54,48 @@ global $comparative;
 					</tr>
 					<tr>
 						<td>Min Wall Time</td>
-						<td><?php echo printSeconds($comparative['url']['min(`wt`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['min(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['url']['min(`wt`)']; ?>"><?php echo printSeconds($comparative['url']['min(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['min(`wt`)']; ?>"><?php echo printSeconds($comparative['c_url']['min(`wt`)']); ?></td>
 					</tr>
 					<tr>
 						<td>Max Wall Time</td>
-						<td><?php echo printSeconds($comparative['url']['max(`wt`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['max(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['url']['max(`wt`)']; ?>"><?php echo printSeconds($comparative['url']['max(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['max(`wt`)']; ?>"><?php echo printSeconds($comparative['c_url']['max(`wt`)']); ?></td>
 					</tr>
 					<tr>
 						<td>Avg Wall Time</td>
-						<td><?php echo printSeconds($comparative['url']['avg(`wt`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['avg(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['url']['avg(`wt`)']; ?>"><?php echo printSeconds($comparative['url']['avg(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['avg(`wt`)']; ?>"><?php echo printSeconds($comparative['c_url']['avg(`wt`)']); ?></td>
 					</tr>
 					<tr>
 						<td>95% Wall Time</td>
-						<td><?php echo printSeconds($comparative['url']['95(`wt`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['95(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['url']['95(`wt`)']; ?>"><?php echo printSeconds($comparative['url']['95(`wt`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['95(`wt`)']; ?>"><?php echo printSeconds($comparative['c_url']['95(`wt`)']); ?></td>
 					</tr>
 					<tr>
 						<td style="font-weight: bold;"><?php echo $arrayOfTotal[0]["label"]; ?></td>
-						<td style="font-weight: bold;"><?php echo printSeconds($arrayOfTotal[0]["value"]); ?></td>
+						<td style="font-weight: bold;" title="<?php echo $arrayOfTotal[0]["value"]; ?>"><?php echo printSeconds($arrayOfTotal[0]["value"]); ?></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td>Min CPU Ticks</td>
-						<td><?php echo printSeconds($comparative['url']['min(`cpu`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['min(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['min(`cpu`)']; ?>"><?php echo printSeconds($comparative['url']['min(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['min(`cpu`)']; ?>"><?php echo printSeconds($comparative['c_url']['min(`cpu`)']); ?></td>
 					</tr>
 					<tr>
 						<td>Max CPU Ticks</td>
-						<td><?php echo printSeconds($comparative['url']['max(`cpu`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['max(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['max(`cpu`)']; ?>"><?php echo printSeconds($comparative['url']['max(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['max(`cpu`)']; ?>"><?php echo printSeconds($comparative['c_url']['max(`cpu`)']); ?></td>
 					</tr>
 					<tr>
 						<td>Avg CPU Ticks</td>
-						<td><?php echo printSeconds($comparative['url']['avg(`cpu`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['avg(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['avg(`cpu`)']; ?>"><?php echo printSeconds($comparative['url']['avg(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['avg(`cpu`)']; ?>"><?php echo printSeconds($comparative['c_url']['avg(`cpu`)']); ?></td>
 					</tr>
 					<tr>
 						<td>95% CPU Ticks</td>
-						<td><?php echo printSeconds($comparative['url']['95(`cpu`)']); ?></td>
-						<td><?php echo printSeconds($comparative['c_url']['95(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['95(`cpu`)']; ?>"><?php echo printSeconds($comparative['url']['95(`cpu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['95(`cpu`)']; ?>"><?php echo printSeconds($comparative['c_url']['95(`cpu`)']); ?></td>
 					</tr>
 					<tr>
 						<td style="font-weight: bold;"><?php echo $arrayOfTotal[1]["label"]; ?></td>
@@ -104,32 +104,32 @@ global $comparative;
 					</tr>
 					<tr>
 						<td>Min Peak Memory Usage</td>
-						<td><?php echo printBytes($comparative['url']['min(`pmu`)']); ?></td>
-						<td><?php echo printBytes($comparative['c_url']['min(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['min(`pmu`)']; ?>"><?php echo printBytes($comparative['url']['min(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['min(`pmu`)']; ?>"><?php echo printBytes($comparative['c_url']['min(`pmu`)']); ?></td>
 					</tr>
 					<tr>
 						<td>Max Peak Memory Usage</td>
-						<td><?php echo printBytes($comparative['url']['max(`pmu`)']); ?></td>
-						<td><?php echo printBytes($comparative['c_url']['max(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['max(`pmu`)']; ?>"><?php echo printBytes($comparative['url']['max(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['max(`pmu`)']; ?>"><?php echo printBytes($comparative['c_url']['max(`pmu`)']); ?></td>
 					</tr>
 					<tr>
 						<td>Avg Peak Memory Usage</td>
-						<td><?php echo printBytes($comparative['url']['avg(`pmu`)']); ?></td>
-						<td><?php echo printBytes($comparative['c_url']['avg(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['avg(`pmu`)']; ?>"><?php echo printBytes($comparative['url']['avg(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['avg(`pmu`)']; ?>"><?php echo printBytes($comparative['c_url']['avg(`pmu`)']); ?></td>
 					</tr>
 					<tr>
 						<td>95% Peak Memory Usage</td>
-						<td><?php echo printBytes($comparative['url']['95(`pmu`)']); ?></td>
-						<td><?php echo printBytes($comparative['c_url']['95(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['url']['95(`pmu`)']; ?>"><?php echo printBytes($comparative['url']['95(`pmu`)']); ?></td>
+						<td title="<?php echo $comparative['c_url']['95(`pmu`)']; ?>"><?php echo printBytes($comparative['c_url']['95(`pmu`)']); ?></td>
 					</tr>
 					<tr>
 						<td style="font-weight: bold;"><?php echo $arrayOfTotal[2]['label']; ?></td>
-						<td style="font-weight: bold;"><?php echo printBytes(intval(str_replace(',', '', $arrayOfTotal[2]['value']))); ?></td>
+						<td style="font-weight: bold;" title="<?php echo intval(str_replace(',', '', $arrayOfTotal[2]['value'])); ?>"><?php echo printBytes(intval(str_replace(',', '', $arrayOfTotal[2]['value']))); ?></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td style="font-weight: bold;"><?php echo $arrayOfTotal[3]['label']; ?></td>
-						<td style="font-weight: bold;"><?php echo printBytes(intval(str_replace(',', '', $arrayOfTotal[3]['value']))); ?></td>
+						<td style="font-weight: bold;" title="<?php echo intval(str_replace(',', '', $arrayOfTotal[3]['value'])); ?>"><?php echo printBytes(intval(str_replace(',', '', $arrayOfTotal[3]['value']))); ?></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>

@@ -38,15 +38,15 @@
 			<td class="function" title="<?php echo $element['fn'] ?>">
 				<a href="index.php?run=<?php echo $run1; ?>&amp;symbol=<?php echo urlencode($element['fn']); ?>"><?php echo htmlentities($element['fn'], ENT_QUOTES, 'UTF-8'); ?></a>
 			</td>
-			<td data-sort="<?php echo $element['ct'] ?>"><?php echo xhprof_number_format($element['ct']) ?></td>
-			<td data-sort="<?php echo $element['wt'] ?>"><?php echo printSeconds($element['wt']) ?></td>
-			<td data-sort="<?php echo $element['cpu'] ?>"><?php echo printSeconds($element['cpu']) ?></td>
-			<td data-sort="<?php echo $element['mu'] ?>"><?php echo printBytes($element['mu']) ?></td>
-			<td data-sort="<?php echo $element['pmu'] ?>"><?php echo printBytes($element['pmu']) ?></td>
-			<td data-sort="<?php echo $element['excl_wt'] ?>"><?php echo printSeconds($element['excl_wt']) ?></td>
-			<td data-sort="<?php echo $element['excl_cpu'] ?>"><?php echo printSeconds($element['excl_cpu']) ?></td>
-			<td data-sort="<?php echo $element['excl_mu'] ?>"><?php echo printBytes($element['excl_mu']) ?></td>
-			<td data-sort="<?php echo $element['excl_pmu'] ?>"><?php echo printBytes($element['excl_pmu']) ?></td>
+			<td title="<?php echo $element['ct'] ?>"><?php echo xhprof_number_format($element['ct']) ?></td>
+			<td title="<?php echo $element['wt'] ?>"><?php echo printSeconds($element['wt']) ?></td>
+			<td title="<?php echo $element['cpu'] ?>"><?php echo printSeconds($element['cpu']) ?></td>
+			<td title="<?php echo $element['mu'] ?>"><?php echo printBytes($element['mu']) ?></td>
+			<td title="<?php echo $element['pmu'] ?>"><?php echo printBytes($element['pmu']) ?></td>
+			<td title="<?php echo $element['excl_wt'] ?>"><?php echo printSeconds($element['excl_wt']) ?></td>
+			<td title="<?php echo $element['excl_cpu'] ?>"><?php echo printSeconds($element['excl_cpu']) ?></td>
+			<td title="<?php echo $element['excl_mu'] ?>"><?php echo printBytes($element['excl_mu']) ?></td>
+			<td title="<?php echo $element['excl_pmu'] ?>"><?php echo printBytes($element['excl_pmu']) ?></td>
 		</tr>
 	<?php
 	}
