@@ -31,6 +31,9 @@
 					enabled: true,
 					color: '#777',
 					formatter: function() {
+						if (this.point.name == 'Loading' || this.point.name == 'Other') {
+							return this.point.name + Highcharts.numberFormat(this.percentage) + '%';
+						}
 						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + this.point.name + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
 					}
 				}
@@ -53,13 +56,10 @@
 					<?php
 							$iterations = 0;
 							$other = 0;
-							foreach($data_copy as $dataPoint)
-							{
-								 if (++$iterations > 14)
-								 {
+							foreach($data_copy as $dataPoint) {
+								 if (++$iterations > 18) {
 									  $other+= $dataPoint['excl_wt'];
-								 }else
-								 {
+								 } else {
 									  echo "['{$dataPoint['fn']}', {$dataPoint['excl_wt']}],\n";
 								 }
 							}
@@ -91,6 +91,9 @@
 					enabled: true,
 					color: '#777',
 					formatter: function() {
+						if (this.point.name == 'Loading' || this.point.name == 'Other') {
+							return this.point.name + Highcharts.numberFormat(this.percentage) + '%';
+						}
 						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + this.point.name + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
 					}
 				}
@@ -115,7 +118,7 @@
 							$other = 0;
 							foreach($data_cpu as $dataPoint)
 							{
-								 if (++$iterations > 14)
+								 if (++$iterations > 18)
 								 {
 									  $other+= $dataPoint['excl_cpu'];
 								 }else
@@ -151,7 +154,10 @@
 					enabled: true,
 					color: '#777',
 					formatter: function() {
-						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + this.point.name + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
+						if (this.point.name == 'Loading' || this.point.name == 'Other') {
+							return this.point.name + Highcharts.numberFormat(this.percentage) + '%';
+						}
+						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + this.point.name + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '% - ' + this.point.y + ' calls';
 					}
 				}
 			}
@@ -175,7 +181,7 @@
 							$other = 0;
 							foreach($data_calls as $dataPoint)
 							{
-								 if (++$iterations > 14)
+								 if (++$iterations > 18)
 								 {
 									  $other+= $dataPoint['ct'];
 								 }else

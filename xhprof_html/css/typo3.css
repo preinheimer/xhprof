@@ -352,6 +352,8 @@ tr:hover td a {
 h2.run-details {
 	font-family: 'Menlo', Monospace, 'Courier New', sans-serif;
 	font-size: 16px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 h2.diff-details {
