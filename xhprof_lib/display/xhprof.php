@@ -822,6 +822,17 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
 		}
 	}
 
+	// USed in charts for linking the data labels to the callGraph.
+	$callGraphUrl = 'http';
+ 	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+ 		$callGraphUrl .= 's';
+ 	}
+ 	$callGraphUrl .= '://' . $_SERVER['SERVER_NAME'];
+ 	if ($_SERVER['SERVER_PORT'] != '80') {
+		$callGraphUrl .= ':'.$_SERVER['SERVER_PORT'].$_SERVER['REQUEST_URI'];
+	}
+	$callGraphUrl .= dirname($_SERVER['REQUEST_URI']) . '/callgraph.php?run=';
+
 	include("../xhprof_lib/templates/profChart.phtml");
 	include("../xhprof_lib/templates/profTable.phtml");
 

@@ -30,7 +30,9 @@
 				dataLabels: {
 					enabled: true,
 					color: '#777',
-					format: '<b>{point.name}</b>: {point.percentage:.1f}%'
+					formatter: function() {
+						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + this.point.name + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
+					}
 				}
 			}
 		},
@@ -88,7 +90,9 @@
 				dataLabels: {
 					enabled: true,
 					color: '#777',
-					format: '<b>{point.name}</b>: {point.percentage:.1f}%'
+					formatter: function() {
+						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + this.point.name + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
+					}
 				}
 			}
 		},
@@ -135,7 +139,7 @@
 		},
 		tooltip: {
 			formatter: function() {
-				return '<b>' + this.point.name + '</b>: ' + this.y;
+				return '<b>' + this.point.name + '</b>: ' + this.y + ' calls';
 			}
 		},
 		plotOptions: {
@@ -146,7 +150,9 @@
 				dataLabels: {
 					enabled: true,
 					color: '#777',
-					format: '<b>{point.name}</b>: {point.percentage:.1f}%'
+					formatter: function() {
+						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + this.point.name + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
+					}
 				}
 			}
 		},
