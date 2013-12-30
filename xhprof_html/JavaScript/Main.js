@@ -14,7 +14,8 @@ jQuery(document).ready(function($) {
             return $(node).text();
         }
     });
-    $('#box-table-a').stickyTableHeaders();
+    // This kills scrolling performance for large tables
+    //$('#box-table-a').stickyTableHeaders();
     $('#domainFilterDomain').change(function() {
         $('#domainFilter').submit();
     });

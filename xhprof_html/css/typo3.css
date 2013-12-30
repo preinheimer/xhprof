@@ -328,7 +328,7 @@ tr:hover td a {
 
 #view-diff-tables,
 #view-center-tables {
-	min-height: 575px;
+	min-height: 600px;
 	border-top: 1px solid #e87d0d;
 	border-bottom: 1px solid #e87d0d;
 	background: #fefefe;
