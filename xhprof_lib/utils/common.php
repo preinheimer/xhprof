@@ -90,12 +90,13 @@ function printSeconds($time) {
 }
 
 /**
- * @param      $rs
- * @param bool $flip
+ * @param        $rs
+ * @param bool   $flip
+ * @param string $container
  *
  * @return array
  */
-function showChart($rs, $flip = false) {
+function showChart($rs, $flip = false, $class = 'container') {
 	// Used in chart.pthml
 	global $_xhprof;
 
@@ -137,7 +138,7 @@ function showChart($rs, $flip = false) {
 	require("../xhprof_lib/templates/chart.phtml");
 	$stuff = ob_get_contents();
 	ob_end_clean();
-	return array($stuff, "<div id=\"container\" style=\"width: 1000px; height: 500px; margin: 0 auto\"></div>");
+	return array($stuff, '<div id="' . $class . '"></div>');
 }
 
 

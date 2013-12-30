@@ -227,7 +227,9 @@ text[text-anchor="middle"] {
 	box-shadow: 0 0 3px rgba(232, 125, 13, 0.52);
 }
 
-#container {
+#mostCalledMethodsChart,
+#exclusiveCpuTimeChart,
+#exclusiveWallTimeChart {
 	box-shadow: 0 0 3px rgba(232, 125, 13, 0.52);
 	margin: 20px auto 8px auto;
 }
@@ -333,6 +335,7 @@ tr:hover td a {
 	position: relative;
 	top: 30px;
 	padding: 10px;
+	margin-bottom: 50px;
 }
 
 #run-id-wrapper {
@@ -390,7 +393,7 @@ h2.diff-details {
 #left-col {
 	width: 51%;
 	float: left;
-	margin-top: 15px;
+	margin-top: 2px;
 }
 
 #right-col {
@@ -477,4 +480,3 @@ img {
 :focus {
 	outline: none;
 }
-

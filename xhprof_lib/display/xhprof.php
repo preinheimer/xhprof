@@ -806,6 +806,10 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
 	//Find top $n requests
 	$data_copy = $flat_data;
 	$data_copy = _aggregateCalls($data_copy, null, $run2);
+	$data_calls = $data_copy;
+	$data_cpu = $data_copy;
+	usort($data_calls, 'sortCalls');
+	usort($data_cpu, 'sortCPU');
 	usort($data_copy, 'sortWT');
 
 	$iterations = 0;
@@ -823,11 +827,25 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
 
 }
 
-function sortWT($a, $b) {
-	if ($a['excl_wt'] == $b['excl_wt']) {
-		return 0;
+function sortCalls($a, $b) {
+	if ($a['ct'] === $b['ct']) {
+		return false;
 	}
-	return ($a['excl_wt'] < $b['excl_wt']) ? 1 : -1;
+	return ($a['ct'] < $b['ct']);
+}
+
+function sortCPU($a, $b) {
+	if ($a['excl_cpu'] === $b['excl_cpu']) {
+		return false;
+	}
+	return ($a['excl_cpu'] < $b['excl_cpu']);
+}
+
+function sortWT($a, $b) {
+	if ($a['excl_wt'] === $b['excl_wt']) {
+		return false;
+	}
+	return ($a['excl_wt'] < $b['excl_wt']);
 }
 
 /**
