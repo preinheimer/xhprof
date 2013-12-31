@@ -92,14 +92,20 @@
 					<?php
 							$iterations = 0;
 							$other = 0;
+							$otherCpu = 0;
+							$otherWall = 0;
+							$otherCalls = 0;
 							foreach($data_copy as $dataPoint) {
 								 if (++$iterations > 18) {
 									  $other+= $dataPoint['excl_wt'];
+									  $otherCpu+= $dataPoint['excl_cpu'];
+									  $otherWall+= $dataPoint['excl_wt'];
+									  $otherCalls+= $dataPoint['ct'];
 								 } else {
 									  echo "{name: '{$dataPoint['fn']}', y: {$dataPoint['excl_wt']}, cpu: {$dataPoint['excl_cpu']}, wall: {$dataPoint['excl_wt']}, calls: {$dataPoint['ct']}},\n";
 								 }
 							}
-							echo "['Other', $other]";
+							echo "{name: 'Other',y: $other, cpu: $otherCpu, wall: $otherWall, calls: $otherCalls}";
 					  ?>
 				]
 			}
@@ -155,14 +161,20 @@
 					<?php
 							$iterations = 0;
 							$other = 0;
+							$otherCpu = 0;
+							$otherWall = 0;
+							$otherCalls = 0;
 							foreach($data_cpu as $dataPoint) {
 								 if (++$iterations > 18) {
 									  $other+= $dataPoint['excl_cpu'];
+									  $otherCpu+= $dataPoint['excl_cpu'];
+									  $otherWall+= $dataPoint['excl_wt'];
+									  $otherCalls+= $dataPoint['ct'];
 								 } else {
 									  echo "{name: '{$dataPoint['fn']}', y: {$dataPoint['excl_cpu']}, cpu: {$dataPoint['excl_cpu']}, wall: {$dataPoint['excl_wt']}, calls: {$dataPoint['ct']}},\n";
 								 }
 							}
-							echo "['Other', $other]";
+							echo "{name: 'Other',y: $other, cpu: $otherCpu, wall: $otherWall, calls: $otherCalls}";
 					  ?>
 				]
 			}
@@ -218,15 +230,21 @@
 					<?php
 							$iterations = 0;
 							$other = 0;
+							$otherCpu = 0;
+							$otherWall = 0;
+							$otherCalls = 0;
 							foreach($data_calls as $dataPoint)
 							{
 								 if (++$iterations > 18) {
 									  $other+= $dataPoint['ct'];
+									  $otherCpu+= $dataPoint['excl_cpu'];
+									  $otherWall+= $dataPoint['excl_wt'];
+									  $otherCalls+= $dataPoint['ct'];
 								 } else {
 									  echo "{name: '{$dataPoint['fn']}', y: {$dataPoint['ct']}, cpu: {$dataPoint['excl_cpu']}, wall: {$dataPoint['excl_wt']}, calls: {$dataPoint['ct']}},\n";
 								 }
 							}
-							echo "['Other', $other]";
+							echo "{name: 'Other',y: $other, cpu: $otherCpu, wall: $otherWall, calls: $otherCalls}";
 					  ?>
 				]
 			}
