@@ -302,6 +302,7 @@ text[text-anchor="middle"] {
 #box-table-a td:nth-child(2),
 td:nth-child(1) {
 	text-align: left !important;
+	direction: rtl;
 }
 
 tbody tr {

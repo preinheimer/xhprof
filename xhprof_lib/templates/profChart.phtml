@@ -89,7 +89,7 @@
 				return '<b>' + this.point.name + '</b><br/>' +
 					'Wall: ' + printSeconds(this.point.wall.toString()) + '<br/>' +
 					'CPU: ' + printSeconds(this.point.cpu.toString()) + '<br/>' +
-					'Calls: ' + this.point.calls;
+					'Calls: ' + Highcharts.numberFormat(this.point.calls, 0);
 			}
 		}
 	});
