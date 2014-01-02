@@ -444,7 +444,7 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 				'<table border="0" cellborder="0" cellpadding="0">' .
 				'<tr><td colspan="4">' . addslashes($symbol) . '</td></tr>' .
 				'<tr><td colspan="4">Calls ' .
-				$info['ct'] .
+				xhprof_number_format($info['ct']) .
 				'</td></tr>' .
 				'<tr><td align="left">CPU</td><td align="right">Inc. </td><td align="right">' .
 				$info['wt'] .
@@ -468,7 +468,7 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 				'</td></tr>' . PHP_EOL .
 				'</table>>';
 			$toolTip = ', tooltip="' . addslashes($symbol) . PHP_EOL .
-				'Calls: ' . $info['ct'] . PHP_EOL .
+				'Calls: ' . xhprof_number_format($info['ct']) . PHP_EOL .
 				'CPU:' . PHP_EOL .
 				"\t" . sprintf('Inc.  %10s (%.1f%%)', $info['wt'], $info['wtPercent']) . PHP_EOL .
 				"\t" . sprintf('Excl. %10s (%.1f%%)', $info['exclWt'], $info['exclWtPercent']) . PHP_EOL .
@@ -544,7 +544,7 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 				$childLabel = $child;
 			}
 			$tooltip = $parentLabel . ' -> ' . $childLabel;
-			$label = $info['ct'] == 1 ? $info['ct'] . " call" : $info['ct'] . " calls";
+			$label = $info['ct'] == 1 ? $info['ct'] . " call" : xhprof_number_format($info['ct']) . " calls";
 
 			$headlabel = $sym_table[$child]['wt'] > 0 ?
 				sprintf("%.1f%%", 100 * $info['wt'] / $sym_table[$child]['wt'])
