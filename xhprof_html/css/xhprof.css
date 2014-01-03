@@ -69,7 +69,54 @@ ul.xhprof_actions li a:hover {
   background:#3B5998 none repeat scroll 0 0;
   color:#FFFFFF;
 }
+
                                            /*   Styling for New Pages   */
+
+.c1 {
+	background-color: #4572A7;
+}
+.c2 {
+	background-color: #AA4643;
+}
+.c3 {
+	background-color: #89A54E;
+}
+.c4 {
+	background-color: #80699B;
+}
+.c5 {
+	background-color: #3D96AE;
+}
+.c6 {
+	background-color: #DB843D;
+}
+.c7 {
+	background-color: #92A8CD;
+}
+.c8 {
+	background-color: #A47D7C;
+}
+.c9 {
+	background-color: #B5CA92;
+}
+.c10 {
+	background-color: #EAFEBB;
+}
+.c11 {
+	background-color: #FEB4B1;
+}
+.c12 {
+	background-color: #E9D6FE;
+}
+.c13 {
+	background-color: #FECDA3;
+}
+.c14 {
+	background-color: #4572A7;
+}
+.c15 {
+	background-color: #FED980;
+}
 
 .dash-header {width:100%;height:100px;background:#e8edff;border: 2px solid #b9c9fe;margin-right:auto;margin-left:auto;}
 .search {width:auto;float:right;height:25px;margin-top:10px;margin-right:25px;font-family:"Lucida Grande", Sans-Serif;font-size:13px;}

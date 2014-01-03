@@ -26,7 +26,13 @@ print("</div>");
 print("</div>");
 
 print('<div id="diff-graph">');
-print('<a href="callgraph.php?' . http_build_query($runs) . '" class="callgraph">View Callgraph</a>');
+print('<form action="callgraph.php" method="get">');
+foreach($runs as $key => $runId) {
+	print('<input type="hidden" name="' . $key . '" value="' . $runId . '">');
+}
+print('<input type="hidden" name="criticalOnly" value="1">');
+print('<input type="submit" value="View Callgraph" class="form-button">');
+print('</form>');
 print("</div>");
 
 print("<div id=\"clear\"></div>");
