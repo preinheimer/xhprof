@@ -67,6 +67,7 @@ p.blue {
 	color: blue
 }
 
+svg a:hover,
 a {
 	text-decoration: none;
 }

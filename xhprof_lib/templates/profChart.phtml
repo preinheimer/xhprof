@@ -3,33 +3,40 @@
 	 * Format an integer as a time value
 	 *
 	 * @param {String} time The value to format.
+	 * @param {Number} decimals The amount of decimals
 	 *
 	 * @return string
 	 */
-	function printSeconds(time) {
+	function printSeconds(time, decimals) {
+	   decimals = typeof decimals !== 'undefined' ? decimals : 2;
+		time = time * 1000;
 		var prefix = '',
 			suffix = 'μs';
 		if (time < 0) {
-			time = abs(time);
+			time = Math.abs(time);
 			prefix = '-';
 		}
-	
+
+		if (time == 0) {
+			suffix = '';
+		}
+
 		if (time > 1000) {
 			time = time / 1000;
 			suffix = 'ms';
 		}
-	
+
 		if (time > 1000) {
 			time = time / 1000;
 			suffix = ' s';
 		}
-	
+
 		if (time > 60 && suffix == ' s') {
 			time = time / 60;
 			suffix = 'min!';
 		}
-	
-		return prefix + Highcharts.numberFormat(time) + ' ' + suffix;
+
+		return prefix + Highcharts.numberFormat(time, decimals) + ' ' + suffix;
 	}
 	
 	Highcharts.setOptions({
