@@ -167,7 +167,7 @@
 							'<br/>' + domains[this.point.x];
 					}
 					return '<b>' + this.series.name + '</b><br/><br/>' +
-						printSeconds(yValue.toString()) +
+						printSeconds(yValue * 1000) +
 						'<br/>' + runIds[this.point.x] +
 						'<br/>' + domains[this.point.x];
 				}
