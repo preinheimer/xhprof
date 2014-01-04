@@ -2,16 +2,16 @@
 	/**
 	 * Format an integer as a time value
 	 *
-	 * @param {String} time The value to format.
+	 * @param {String} time The value to format in microseconds.
 	 * @param {Number} decimals The amount of decimals
 	 *
 	 * @return string
 	 */
 	function printSeconds(time, decimals) {
 	   decimals = typeof decimals !== 'undefined' ? decimals : 2;
-		time = time * 1000;
 		var prefix = '',
 			suffix = 'μs';
+
 		if (time < 0) {
 			time = Math.abs(time);
 			prefix = '-';
@@ -123,7 +123,7 @@
 					labels: {
 						formatter: function() {
 							var yValue = Math.ceil(this.value / 1000);
-							return printSeconds(yValue.toString(), 0);
+							return printSeconds(yValue * 1000, 1);
 						},
 						style: {
 							color: '#4572A7'
@@ -142,7 +142,7 @@
 					labels: {
 						formatter: function() {
 							var yValue = Math.ceil(this.value / 1000);
-							return printSeconds(yValue.toString(), 0);
+							return printSeconds(yValue * 1000, 1);
 						},
 						style: {
 							color: '#AA4643'
