@@ -71,17 +71,21 @@ function printSeconds($time) {
 		$prefix = '-';
 	}
 
-	if ($time > 1000) {
+	if ($time == 0) {
+		$suffix = '';
+	}
+
+	if ($time >= 1000) {
 		$time = $time / 1000;
 		$suffix = 'ms';
 	}
 
-	if ($time > 1000) {
+	if ($time >= 1000) {
 		$time = $time / 1000;
 		$suffix = ' s';
 	}
 
-	if ($time > 60 && $suffix == ' s') {
+	if ($time >= 60 && $suffix == ' s') {
 		$time = $time / 60;
 		$suffix = 'min!';
 	}
