@@ -83,7 +83,7 @@ $_xh_header = "";
 if (isset($_GET['run1']) || isset($_GET['run'])) {
 	include("../xhprof_lib/templates/header.phtml");
 	displayXHProfReport($xhprof_runs_impl, $params, $source, $run, $wts,
-		$symbol, $sort, $run1, $run2);
+		$symbol, $run1, $run2);
 } elseif (isset($_GET['geturl'])) {
 	$last = (isset($_GET['last'])) ? $_GET['last'] : 100;
 	$last = (int)$last;
@@ -98,7 +98,7 @@ if (isset($_GET['run1']) || isset($_GET['run'])) {
 	$rs = $xhprof_runs_impl->getRuns($criteria);
 	include("../xhprof_lib/templates/emptyBody.phtml");
 
-	$url = htmlentities($_GET['geturl'], ENT_QUOTES, "UTF-8");
+	$url = $_GET['geturl'];
 	displayRuns($rs, "Runs with URL: $url");
 } elseif (isset($_GET['getcurl'])) {
 	$last = (isset($_GET['last'])) ? $_GET['last'] : 100;
@@ -112,7 +112,7 @@ if (isset($_GET['run1']) || isset($_GET['run'])) {
 	$_xh_header .= $header;
 	include("../xhprof_lib/templates/header.phtml");
 
-	$url = htmlentities($_GET['getcurl'], ENT_QUOTES, "UTF-8");
+	$url = urlencode($_GET['getcurl']);
 	$rs = $xhprof_runs_impl->getRuns($criteria);
 	include("../xhprof_lib/templates/emptyBody.phtml");
 	displayRuns($rs, "Runs with Simplified URL: $url");

@@ -5,15 +5,32 @@
 'use strict';
 
 jQuery(document).ready(function($) {
-    $('.tablesorter').tablesorter({
-        textExtraction: function(node) {
-            var attr = $(node).attr('title');
-            if (typeof attr !== 'undefined' && attr !== false) {
-                return attr;
-            }
-            return $(node).text();
+    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+        'title-numeric-pre': function(a) {
+            var x = a.match(/title="*(-?[0-9\.]+)/)[1];
+            return parseFloat(x);
+        },
+
+        'title-numeric-asc': function(a, b) {
+            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+        },
+
+        'title-numeric-desc': function(a, b) {
+            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
         }
     });
+    var sortableTable = $('.tablesorter').dataTable({
+        'bFilter': true,
+        'iDisplayLength': 50,
+        /* Disable initial sort */
+        'aaSorting': [],
+        'aoColumnDefs': [{
+            'sType': 'title-numeric',
+            'aTargets': ['title-numeric']
+        }],
+        'sDom': 'RClfrtip'
+    });
+    new FixedHeader(document.getElementById('box-table-a'));
     // This kills scrolling performance for large tables
     //$('#box-table-a').stickyTableHeaders();
     $('#domainFilterDomain').change(function() {

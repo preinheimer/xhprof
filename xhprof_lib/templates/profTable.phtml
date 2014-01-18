@@ -1,18 +1,18 @@
 <table id="box-table-a" class="tablesorter" summary="Stats">
 	<thead>
-	<tr>
-		<th title="Group">Group</th>
-		<th title="Class and Function name">Function</th>
-		<th title="The number of times this function was called">Call Count</th>
-		<th title="Elapsed time or 'wall clock time' in ms. If you perform a network call, that’s the CPU time to call the service and parse the response, plus the time spent waiting for the response itself and other resources">Wall Time</th>
-		<th title="CPU time in user space + CPU time in kernel space">CPU Time</th>
-		<th title="Memory Usage">Memory</th>
-		<th title="Peak Memory Usage">Peak Memory</th>
-		<th title="Wall Time for this function only">Excl. Wall</th>
-		<th title="CPU Time for this function only">Excl. CPU</th>
-		<th title="Memory Usage for this function only">Excl. Memory</th>
-		<th title="Peak Memory Usage for this function only">Excl. Peak Memory</th>
-	</tr>
+		<tr>
+			<th title="Group">Group</th>
+			<th title="Class and Function name">Function</th>
+			<th title="The number of times this function was called" class="title-numeric">Call Count</th>
+			<th title="Elapsed time or 'wall clock time' in ms. If you perform a network call, that’s the CPU time to call the service and parse the response, plus the time spent waiting for the response itself and other resources" class="title-numeric">Wall Time</th>
+			<th title="CPU time in user space + CPU time in kernel space" class="title-numeric">CPU Time</th>
+			<th title="Memory Usage" class="title-numeric">Memory</th>
+			<th title="Peak Memory Usage" class="title-numeric">Peak Memory</th>
+			<th title="Wall Time for this function only" class="title-numeric">Excl. Wall</th>
+			<th title="CPU Time for this function only" class="title-numeric">Excl. CPU</th>
+			<th title="Memory Usage for this function only" class="title-numeric">Excl. Memory</th>
+			<th title="Peak Memory Usage for this function only" class="title-numeric">Excl. Peak Memory</th>
+		</tr>
 	</thead>
 	<tbody>
 	<?php
@@ -32,19 +32,20 @@
 		}
 		?>
 		<tr>
-			<td class="<?php echo $color; ?>">&nbsp;</td>
-			<td title="<?php echo $element['fn'] ?>">
+			<td class="<?php echo $color; ?>"><span title="<?php echo $color; ?>"></span>&nbsp;</td>
+			<td>
+				<span title="<?php echo $element['fn'] ?>"></span>
 				<a href="?run=<?php echo $run1; ?>&amp;symbol=<?php echo urlencode($element['fn']); ?>"><?php echo htmlentities($element['fn'], ENT_QUOTES, 'UTF-8'); ?></a>
 			</td>
-			<td title="<?php echo $element['ct'] ?>"><?php echo xhprof_number_format($element['ct']) ?></td>
-			<td title="<?php echo $element['wt'] ?>"><?php echo printSeconds($element['wt']) ?></td>
-			<td title="<?php echo $element['cpu'] ?>"><?php echo printSeconds($element['cpu']) ?></td>
-			<td title="<?php echo $element['mu'] ?>"><?php echo printBytes($element['mu']) ?></td>
-			<td title="<?php echo $element['pmu'] ?>"><?php echo printBytes($element['pmu']) ?></td>
-			<td title="<?php echo $element['excl_wt'] ?>"><?php echo printSeconds($element['excl_wt']) ?></td>
-			<td title="<?php echo $element['excl_cpu'] ?>"><?php echo printSeconds($element['excl_cpu']) ?></td>
-			<td title="<?php echo $element['excl_mu'] ?>"><?php echo printBytes($element['excl_mu']) ?></td>
-			<td title="<?php echo $element['excl_pmu'] ?>"><?php echo printBytes($element['excl_pmu']) ?></td>
+			<td><span title="<?php echo $element['ct'] ?>"></span><?php echo xhprof_number_format($element['ct']) ?></td>
+			<td><span title="<?php echo $element['wt'] ?>"></span><?php echo printSeconds($element['wt']) ?></td>
+			<td><span title="<?php echo $element['cpu'] ?>"></span><?php echo printSeconds($element['cpu']) ?></td>
+			<td><span title="<?php echo $element['mu'] ?>"></span><?php echo printBytes($element['mu']) ?></td>
+			<td><span title="<?php echo $element['pmu'] ?>"></span><?php echo printBytes($element['pmu']) ?></td>
+			<td><span title="<?php echo $element['excl_wt'] ?>"></span><?php echo printSeconds($element['excl_wt']) ?></td>
+			<td><span title="<?php echo $element['excl_cpu'] ?>"></span><?php echo printSeconds($element['excl_cpu']) ?></td>
+			<td><span title="<?php echo $element['excl_mu'] ?>"></span><?php echo printBytes($element['excl_mu']) ?></td>
+			<td><span title="<?php echo $element['excl_pmu'] ?>"></span><?php echo printBytes($element['excl_pmu']) ?></td>
 		</tr>
 	<?php
 	}

@@ -38,13 +38,13 @@ global $comparative;
 		<div>
 			<form method="get" action="">
 				<input type="hidden" name="run1" value="<?php echo $xhprof_runs_impl->run_details['id']; ?>"/>
-				<table id="box-table-b">
+				<table class="box-table-b">
 					<thead>
-					<tr>
-						<th>Stat</th>
-						<th>Exact URL</th>
-						<th>Similar URLs</th>
-					</tr>
+						<tr>
+							<th>Stat</th>
+							<th>Exact URL</th>
+							<th>Similar URLs</th>
+						</tr>
 					</thead>
 					<tbody>
 					<tr>
@@ -213,6 +213,7 @@ global $comparative;
 		</div>
 	</div>
 </div>
+<div id="inclusiveWallTimeChart"></div>
 <div id="exclusiveWallTimeChart"></div>
 <div id="exclusiveCpuTimeChart"></div>
 <div id="mostCalledMethodsChart"></div>

@@ -44,7 +44,7 @@
 			height: '300',
 			events: {
 				load: function() {
-					var label = this['renderer']['label']('Clicking on a label (except Loading and Other) will show the callgraph for that function.')
+					var label = this['renderer']['label']('Clicking on a label (except Loading and Other) will show the detail view for that function.')
 						.css({
 							width: '200px',
 							color: '#777'
@@ -86,7 +86,13 @@
 				showInLegend: true,
 				dataLabels: {
 					enabled: true,
-					color: '#777'
+					color: '#777',
+					formatter: function() {
+						if (this.point.name == 'Loading' || this.point.name == 'Other') {
+							return this.point.name + ': ' + Highcharts.numberFormat(this.percentage) + '%';
+						}
+						return  '<a href="<?php echo $symbolDetailUrl . $run2['id']; ?>&symbol=' + encodeURIComponent(this.point.name) + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
+					}
 				}
 			}
 		},
@@ -99,24 +105,46 @@
 			}
 		}
 	});
+	var inclusiveWallTimeChart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'inclusiveWallTimeChart'
+		},
+		title: {
+			text: 'Expensive Calls by Inclusive Wall Time'
+		},
+		series: [
+			{
+				type: 'pie',
+				name: 'Expensive Calls by Inclusive Wall Time',
+				data: [
+					<?php
+							$iterations = 0;
+							$other = 0;
+							$otherCpu = 0;
+							$otherWall = 0;
+							$otherCalls = 0;
+							foreach($data_wt as $dataPoint) {
+								 if (++$iterations > 18) {
+									  $other+= $dataPoint['wt'];
+									  $otherCpu+= $dataPoint['cpu'];
+									  $otherWall+= $dataPoint['wt'];
+									  $otherCalls+= $dataPoint['ct'];
+								 } else {
+									  echo "{name: '" . str_replace('\\', '\\\\', $dataPoint['fn']) . "', y: {$dataPoint['wt']}, cpu: {$dataPoint['cpu']}, wall: {$dataPoint['wt']}, calls: {$dataPoint['ct']}},\n";
+								 }
+							}
+							echo "{name: 'Other',y: $other, cpu: $otherCpu, wall: $otherWall, calls: $otherCalls}";
+					  ?>
+				]
+			}
+		]
+	});
 	var exclusiveWallTimeChart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'exclusiveWallTimeChart'
 		},
 		title: {
 			text: 'Expensive Calls by Exclusive Wall Time'
-		},
-		plotOptions: {
-			pie: {
-				dataLabels: {
-					formatter: function() {
-						if (this.point.name == 'Loading' || this.point.name == 'Other') {
-							return this.point.name + ': ' + Highcharts.numberFormat(this.percentage) + '%';
-						}
-						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + encodeURIComponent(this.point.name) + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
-					}
-				}
-			}
 		},
 		series: [
 			{
@@ -152,18 +180,6 @@
 		title: {
 			text: 'Expensive Calls by Exclusive CPU Time'
 		},
-		plotOptions: {
-			pie: {
-				dataLabels: {
-					formatter: function() {
-						if (this.point.name == 'Loading' || this.point.name == 'Other') {
-							return this.point.name + ': ' + Highcharts.numberFormat(this.percentage) + '%';
-						}
-						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + encodeURIComponent(this.point.name) + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
-					}
-				}
-			}
-		},
 		series: [
 			{
 				type: 'pie',
@@ -197,18 +213,6 @@
 		},
 		title: {
 			text: 'Most called methods'
-		},
-		plotOptions: {
-			pie: {
-				dataLabels: {
-					formatter: function() {
-						if (this.point.name == 'Loading' || this.point.name == 'Other') {
-							return this.point.name + ': ' + Highcharts.numberFormat(this.percentage) + '%';
-						}
-						return  '<a href="<?php echo $callGraphUrl . $run2['id']; ?>&func=' + encodeURIComponent(this.point.name) + '">' + this.point.name + '</a>: ' + Highcharts.numberFormat(this.percentage) + '%';
-					}
-				}
-			}
 		},
 		series: [
 			{

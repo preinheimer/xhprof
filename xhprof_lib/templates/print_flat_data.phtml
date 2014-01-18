@@ -23,13 +23,13 @@ print("</tr>\n");
 if ($limit >= 0) {
 	$limit = min($size, $limit);
 	for ($i = 0; $i < $limit; $i++) {
-		print_function_info($url_params, $flat_data[$i], $sort, $run1, $run2);
+		print_function_info($url_params, $flat_data[$i], $run1, $run2);
 	}
 } else {
 	// if $limit is negative, print abs($limit) items starting from the end
 	$limit = min($size, abs($limit));
 	for ($i = 0; $i < $limit; $i++) {
-		print_function_info($url_params, $flat_data[$size - $i - 1], $sort, $run1, $run2);
+		print_function_info($url_params, $flat_data[$size - $i - 1], $run1, $run2);
 	}
 }
 print("</table>");

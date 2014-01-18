@@ -4,12 +4,10 @@
 	<title>XHGui: Hierarchical Profiler Report</title>
 
 	<link href='css/normalize.css' rel='stylesheet' type='text/css'/>
-	<link href="third-party/jquery/jquery.qtip.min.css" rel="stylesheet" type="text/css"/>
+	<link href='css/jquery.dataTables.css' rel='stylesheet' type='text/css'/>
 	<link
 		href='<?php echo ($_xhprof['styleSheet']) ? $_xhprof['styleSheet'] : 'css/xhprof.css' ?>'
 		rel='stylesheet' type='text/css'/>
-	<link href="css/tablesorter.pager.css" rel="stylesheet" type="text/css"/>
-	<!--<link href='third-party/jquery/jquery.tooltip.css'  rel='stylesheet' type='text/css'></link>-->
 	<link href='third-party/jquery/jquery.autocomplete.css' rel='stylesheet'
 	      type='text/css'/>
 	<script src='third-party/jquery/jquery-2.0.3.min.js'
@@ -36,7 +34,7 @@
 			<select name="domain_filter" id="domainFilterDomain">
 				<?php
 				foreach ($domainFilterOptions as $server) {
-					if ($server == $domainFilter) {
+					if ($server === $domainFilter) {
 						echo "<option value=\"{$server}\" selected=\"selected\">$server</option>\n";
 					} else {
 						echo "<option value=\"{$server}\">$server</option>\n";
@@ -53,7 +51,7 @@
 			<select name="server_filter" id="serverFilterServer">
 				<?php
 				foreach ($serverFilterOptions as $server) {
-					if ($server == $serverFilter) {
+					if ($server === $serverFilter) {
 						echo "<option value=\"{$server}\" selected=\"selected\">$server</option>\n";
 					} else {
 						echo "<option value=\"{$server}\">$server</option>\n";

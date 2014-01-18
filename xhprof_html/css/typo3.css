@@ -275,7 +275,7 @@ text[text-anchor="middle"] {
 .box-tables-small,
 .diff-box,
 #box-table-a,
-#box-table-b {
+.box-table-b {
 	width: 100%;
 	text-align: left;
 	border-collapse: collapse;
@@ -284,14 +284,15 @@ text[text-anchor="middle"] {
 
 #mostCalledMethodsChart,
 #exclusiveCpuTimeChart,
-#exclusiveWallTimeChart {
+#exclusiveWallTimeChart,
+#inclusiveWallTimeChart {
 	box-shadow: 0 0 3px rgba(232, 125, 13, 0.52);
 	margin: 20px auto 8px auto;
 }
 
 #box-table-a {
 	border: 0;
-	margin: 20px auto 45px auto;
+	margin-top: 20px;
 	box-shadow: none;
 }
 
@@ -299,15 +300,21 @@ text[text-anchor="middle"] {
 .box-tables-small th,
 .diff-box th,
 #box-table-a th,
-#box-table-b th {
+.box-table-b th,
+table.dataTable thead th {
 	font-size: 12px;
 	font-weight: normal;
 	padding: 3px;
+	text-align: left;
 	border: 1px solid #e97e0d;
 	border-top: 0px solid #ffba82;
 	border-left: 1px solid #ffba82;
 	background: linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%);
 	color: #fefefe;
+}
+
+table.dataTable thead th {
+	cursor: pointer;
 }
 
 #box-table-a th.headerSortUp {
@@ -318,21 +325,6 @@ text[text-anchor="middle"] {
 	background: linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%);
 }
 
-.tablesorter th {
-	padding: 3px 3px 3px 20px !important;
-	background: url(../img/bg.gif) left no-repeat, linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%) !important;
-}
-
-.tablesorter th.headerSortDown {
-	font-weight: bold !important;
-	background: url(../img/desc.gif) left no-repeat, linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%) !important;
-}
-
-.tablesorter th.headerSortUp {
-	font-weight: bold !important;
-	background: url(../img/asc.gif) left no-repeat, linear-gradient(to bottom, #ffba82 0%, #f58006 65%, #f58006 100%) !important;
-}
-
 .tableFloatingHeaderOriginal {
 	top: 0;
 }
@@ -341,7 +333,7 @@ text[text-anchor="middle"] {
 .box-tables-small td,
 .diff-box td,
 #box-table-a td,
-#box-table-b td {
+.box-table-b td {
 	border-top: 1px solid transparent;
 	font-family: 'Menlo', Monospace, 'Courier New', sans-serif;
 	font-size: 12px;
@@ -349,8 +341,7 @@ text[text-anchor="middle"] {
 	overflow: hidden;
 	padding: 4px;
 	text-align: right;
-	text-overflow: ellipsis;
-	white-space: nowrap;;
+	white-space: nowrap;
 }
 
 #box-table-a td:nth-child(1),
@@ -371,7 +362,7 @@ tbody tr:nth-child(2n) {
 .box-tables-small tr:hover td,
 .diff-box tr:hover td,
 #box-table-a tr:hover td,
-#box-table-b tr:hover td {
+.box-table-b tr:hover td {
 	background: linear-gradient(to bottom, rgba(255, 186, 130, 0.76) 0%, rgba(245, 128, 6, 0.75) 65%, rgba(245, 128, 6, 0.75) 100%);
 	color: #fefefe;
 }
@@ -451,21 +442,16 @@ h2.diff-details {
 #left-col {
 	width: 51%;
 	float: left;
-	margin-top: 2px;
 }
 
 #right-col {
 	width: 46%;
 	float: left;
 	margin-left: 2%;
-	margin-top: 15px;
 }
 
-#box-table-b {
-	width: 100%;
+.box-table-b {
 	text-align: left;
-	border-collapse: collapse;
-	float: left;
 }
 
 .box-fix {
