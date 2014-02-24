@@ -156,6 +156,54 @@ function xhprof_generate_image_by_dot($dot_script, $type) {
 }
 
 /**
+ * Get the dot version. Not all versions support multiline labels and gradients
+ *
+ * @return string with the dot version
+ */
+function xhprofGetDotVersion() {
+	global $_xhprof;
+
+	$errorFile = $_xhprof['dot_errfile'];
+	$tmpDirectory = $_xhprof['dot_tempdir'];
+	$dotBinary = $_xhprof['dot_binary'];
+
+	// dot writes version info to stderr
+	$descriptorspec = array(
+		// stdin is a pipe that the child will read from
+		0 => array('pipe', 'r'),
+		// stdout is a pipe that the child will write to
+		1 => array('file', $errorFile, 'a'),
+		// stderr is a file to write to
+		2 => array('pipe', 'w')
+	);
+
+	$versionCmd = ' "' . $dotBinary . '" -V';
+
+	$process = proc_open($versionCmd, $descriptorspec, $pipes, $tmpDirectory, array());
+
+	if (is_resource($process)) {
+		fwrite($pipes[0], '');
+		fclose($pipes[0]);
+
+		$output = stream_get_contents($pipes[2]);
+		fclose($pipes[2]);
+
+		proc_close($process);
+		if ($output == '' && filesize($errorFile) > 0) {
+			die("Error getting dot version, check $errorFile");
+		}
+		// dot - graphviz version 2.26.3 (20100126.1600)
+		$versionParts = explode(' ', $output);
+		return $versionParts[4];
+	}
+
+	$error = error_get_last();
+	if (isset($error['message'])) {
+		die($error['message']);
+	}
+}
+
+/**
  * Generate image according to DOT script. This function will make the
  * process working on windows boxes (some win-boxes seems to having problems
  * with creating processes via proc_open so we do it the lame win way by
@@ -209,8 +257,8 @@ function xhprof_generate_image_by_dot_on_win(
 	}
 
 	// 4. delete temp files
-	foreach ($files as $type => $file) {
-		//unlink($file);
+	foreach ($files as $file) {
+		unlink($file);
 	}
 
 	// 5. check for possible error (empty result)
@@ -263,6 +311,8 @@ function xhprof_get_children_table($raw_data) {
 function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $page,
                                     $func, $critical_path, $right = null,
                                     $left = null) {
+
+	$fancyDotVersion = version_compare(xhprofGetDotVersion(), '2.30.0', '>=');
 
 	$run = $run1 = $run2 = '';
 	if (isset($_GET['run'])) {
@@ -400,7 +450,7 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 		if ($critical_path) {
 			// highlight nodes along critical path.
 			if (!$fillcolor && array_key_exists($symbol, $path)) {
-				$fillcolor = ', fillcolor="yellow:#ffba82"';
+				$fillcolor = ', fillcolor="#ffff22:#ffba82"';
 			}
 		}
 
@@ -467,15 +517,19 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 				sprintf(' %.1f%%', $info['exclMuPercent']) .
 				'</td></tr>' . PHP_EOL .
 				'</table>>';
-			$toolTip = ', tooltip="' . addslashes($symbol) . PHP_EOL .
-				'Calls: ' . xhprof_number_format($info['ct']) . PHP_EOL .
-				'CPU:' . PHP_EOL .
-				"\t" . sprintf('Inc.  %10s (%.1f%%)', $info['wt'], $info['wtPercent']) . PHP_EOL .
-				"\t" . sprintf('Excl. %10s (%.1f%%)', $info['exclWt'], $info['exclWtPercent']) . PHP_EOL .
-				'Mem:' . PHP_EOL .
-				"\t" . sprintf('Inc.  %10s (%.1f%%)', $info['mu'], $info['muPercent']) . PHP_EOL .
-				"\t" . sprintf('Excl. %10s (%.1f%%)', $info['exclMu'], $info['exclMuPercent']) . PHP_EOL .
-				'"';
+			if ($fancyDotVersion) {
+				$toolTip = ', tooltip="' . addslashes($symbol) . PHP_EOL .
+					'Calls: ' . xhprof_number_format($info['ct']) . PHP_EOL .
+					'CPU:' . PHP_EOL .
+					"\t" . sprintf('Inc.  %10s (%.1f%%)', $info['wt'], $info['wtPercent']) . PHP_EOL .
+					"\t" . sprintf('Excl. %10s (%.1f%%)', $info['exclWt'], $info['exclWtPercent']) . PHP_EOL .
+					'Mem:' . PHP_EOL .
+					"\t" . sprintf('Inc.  %10s (%.1f%%)', $info['mu'], $info['muPercent']) . PHP_EOL .
+					"\t" . sprintf('Excl. %10s (%.1f%%)', $info['exclMu'], $info['exclMuPercent']) . PHP_EOL .
+					'"';
+			} else {
+				$toolTip = ', tooltip="' . addslashes($symbol);
+			}
 		} else {
 			if (isset($left[$symbol]) && isset($right[$symbol])) {
 				$label = "label=\"" . addslashes($symbol) .

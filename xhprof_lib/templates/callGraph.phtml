@@ -23,8 +23,8 @@
 			$parameters[] = $run . '=' . $_GET[$run];
 		}
 	}
-	$runUrl = dirname($_SERVER['DOCUMENT_URI']) . '?' . implode('&amp;', $parameters);
-	$currentUrl = $_SERVER['DOCUMENT_URI'] . '?' . implode('&amp;', $parameters);
+	$runUrl = dirname($_SERVER['SCRIPT_NAME']) . '?' . implode('&amp;', $parameters);
+	$currentUrl = $_SERVER['SCRIPT_NAME'] . '?' . implode('&amp;', $parameters);
 	$criticalPathUrl = $currentUrl . '&amp;criticalOnly=1';
 	$criticalOnly = (isset($_GET['criticalOnly'])) ? (boolean)$_GET['criticalOnly'] : false;
 	?>

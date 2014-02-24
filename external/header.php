@@ -95,7 +95,7 @@ unset($ignoreDomains);
 unset($domain);
 
 // Display warning if extension not available
-if (extension_loaded('xhprof') && $_xhprof['doprofile'] === TRUE) {
+if ($_xhprof['doprofile'] === TRUE && extension_loaded('xhprof')) {
 	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_lib.php';
 	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_runs.php';
 	if (isset($ignoredFunctions) && is_array($ignoredFunctions) && !empty($ignoredFunctions)) {
@@ -103,7 +103,7 @@ if (extension_loaded('xhprof') && $_xhprof['doprofile'] === TRUE) {
 	} else {
 		xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
 	}
-} elseif (!extension_loaded('xhprof') && $_xhprof['display'] === TRUE) {
+} elseif ($_xhprof['display'] === TRUE && !extension_loaded('xhprof')) {
 	$message = 'Warning! Unable to profile run, xhprof extension not loaded';
 	trigger_error($message, E_USER_WARNING);
 }
