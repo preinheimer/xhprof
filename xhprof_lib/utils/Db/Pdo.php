@@ -38,7 +38,20 @@ class Db_Pdo extends Db_Abstract
     
     public function connect()
     {
-        $connectionString = $this->config['dbtype'] . ':host=' . $this->config['dbhost'] . ';dbname=' . $this->config['dbname'];
+        $connectionString = $this->config['dbtype'] . ':';
+
+        // BC
+        if (empty($this->config['dbprotocol'])) {
+            $this->config['dbprotocol'] = 'tcp';
+        }
+        switch ($this->config['dbprotocol']) {
+        case 'unix':
+            $connectionString .= 'protocol=unix;unix_socket=' . $this->config['dbsocket'] . ';dbname=' . $this->config['dbname'];
+            break;
+        default:
+            $connectionString .= 'host=' . $this->config['dbhost'] . ';dbname=' . $this->config['dbname'];
+        }
+
         $db = new PDO($connectionString, $this->config['dbuser'], $this->config['dbpass']);
         if ($db === FALSE)
         {
