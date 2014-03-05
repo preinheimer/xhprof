@@ -485,10 +485,17 @@ function xhprof_generate_dot_script($raw_data, $runData, $threshold, $source, $p
 			$info['wt'] = printSeconds($info['wt']);
 			$info['exclWtPercent'] = 100 * $info['excl_wt'] / $totals['wt'];
 			$info['exclWt'] = printSeconds($info['excl_wt']);
-			$info['muPercent'] = 100 * $info['mu'] / $totals['mu'];
-			$info['mu'] = (($info['mu'] < 0) ? '-' : '') . printBytes(abs($info['mu']));
-			$info['exclMuPercent'] = 100 * $info['excl_mu'] / $totals['mu'];
-			$info['exclMu'] = (($info['mu'] < 0) ? '-' : '') . printBytes(abs($info['excl_mu']));
+			if (empty($info['mu']) || empty($totals['mu'])) {
+				$info['muPercent'] = 0;
+				$info['mu'] = 0;
+				$info['exclMu'] = 0;
+				$info['exclMuPercent'] = 0;
+			} else {
+				$info['muPercent'] = 100 * $info['mu'] / $totals['mu'];
+				$info['mu'] = (($info['mu'] < 0) ? '-' : '') . printBytes(abs($info['mu']));
+				$info['exclMuPercent'] = 100 * $info['excl_mu'] / $totals['mu'];
+				$info['exclMu'] = (($info['mu'] < 0) ? '-' : '') . printBytes(abs($info['excl_mu']));
+			}
 
 			$label = 'label=<' .
 				'<table border="0" cellborder="0" cellpadding="0">' .
