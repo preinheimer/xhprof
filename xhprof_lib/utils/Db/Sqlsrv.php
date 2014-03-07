@@ -19,7 +19,8 @@ CREATE TABLE dbo.details
    pmu int NULL DEFAULT NULL, 
    wt int NULL DEFAULT NULL, 
    cpu int NULL DEFAULT NULL, 
-   server_id nchar(3) NOT NULL DEFAULT N't11', 
+   ct int NULL DEFAULT NULL,
+   server_id nchar(3) NOT NULL DEFAULT N't11',
    aggregateCalls_include nvarchar(255) NULL DEFAULT NULL,
    CONSTRAINT PK_details_id PRIMARY KEY (id)
 )
@@ -32,6 +33,9 @@ CREATE NONCLUSTERED INDEX dbo.c_url
 GO
 CREATE NONCLUSTERED INDEX dbo.cpu
    ON dbo.details (cpu ASC)
+GO
+CREATE NONCLUSTERED INDEX dbo.ct
+   ON dbo.details (ct ASC)
 GO
 CREATE NONCLUSTERED INDEX dbo.wt
    ON dbo.details (wt ASC)

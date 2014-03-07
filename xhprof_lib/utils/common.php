@@ -13,7 +13,7 @@ setlocale(LC_NUMERIC, (isset($_xhprof['locale'])) ? $_xhprof['locale'] : 'en_US'
  */
 function displayRuns($resultSet, $title = "") {
 	echo "<div class=\"runTitle\">$title</div>\n";
-	echo "<table id=\"box-table-a\" class=\"tablesorter\" summary=\"Stats\"><thead><tr><th>Run</th><th>Timestamp</th><th>Domain</th><th>Wall Time</th><th>Cpu</th><th>Peak Mem.</th><th>URL</th><th>Simplified URL</th></tr></thead>";
+	echo "<table id=\"box-table-a\" class=\"tablesorter\" summary=\"Stats\"><thead><tr><th>Run</th><th>Timestamp</th><th>Domain</th><th>Wall Time</th><th>Cpu</th><th>Peak Mem.</th><th>Method Calls</th><th>URL</th><th>Simplified URL</th></tr></thead>";
 	echo "<tbody>\n";
 	while ($row = XHProfRuns_Default::getNextAssoc($resultSet)) {
 		$c_url = urlencode($row['c_url']);
@@ -29,6 +29,7 @@ function displayRuns($resultSet, $title = "") {
 			'<td class="wt" title="' . $row['wt'] . '">' . printSeconds($row['wt']) . '</td>' .
 			'<td class="cpu" title="' . $row['cpu'] . '">' . printSeconds($row['cpu']) . '</td>' .
 			'<td class="pmu" title="' . $row['pmu'] . '">' . printBytes($row['pmu']) . '</td>' .
+			'<td class="pmu" title="' . $row['ct'] . '">' . xhprof_number_format($row['ct']) . '</td>' .
 			'<td class="url"><a href="?geturl=' . $url . '" title="' . $html['url'] . ' ">' . $html['url'] . '</a></td>' .
 			'<td class="c_url"><a href="?getcurl=' . $c_url . '" title="' . $html['c_url'] . '">' . $html['c_url'] . '</a></td></tr>' . PHP_EOL;
 	}

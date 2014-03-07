@@ -117,12 +117,14 @@ class XHProfRuns_Default implements iXHProfRuns {
 	 * `pmu` int(11) unsigned default NULL,
 	 * `wt` int(11) unsigned default NULL,
 	 * `cpu` int(11) unsigned default NULL,
+	 * `ct` int(11) unsigned default NULL,
 	 * `server_id` char(3) NOT NULL default 't11',
 	 * `aggregateCalls_include` varchar(255) DEFAULT NULL,
 	 * PRIMARY KEY  (`id`),
 	 * KEY `url` (`url`),
 	 * KEY `c_url` (`c_url`),
 	 * KEY `cpu` (`cpu`),
+	 * KEY `ct` (`ct`),
 	 * KEY `wt` (`wt`),
 	 * KEY `pmu` (`pmu`),
 	 * KEY `timestamp` (`timestamp`)
@@ -279,7 +281,7 @@ class XHProfRuns_Default implements iXHProfRuns {
 	 * @return resource result set from the database query
 	 */
 	public function getUrlStats($data) {
-		$data['select'] = '`id`, ' . $this->db->unixTimestamp(`timestamp`) . ' as `timestamp`, `pmu`, `wt`, `cpu`, `server name`';
+		$data['select'] = '`id`, ' . $this->db->unixTimestamp(`timestamp`) . ' as `timestamp`, `pmu`, `wt`, `cpu`, `ct`, `server name`';
 		$rs = $this->getRuns($data);
 		return $rs;
 	}
@@ -298,7 +300,7 @@ class XHProfRuns_Default implements iXHProfRuns {
 		$c_url = $this->db->escape($c_url);
 		//Runs same URL
 		//  count, avg/min/max for wt, cpu, pmu
-		$query = "SELECT count(`id`), avg(`wt`), min(`wt`), max(`wt`),  avg(`cpu`), min(`cpu`), max(`cpu`), avg(`pmu`), min(`pmu`), max(`pmu`) FROM `details` WHERE `url` = '$url'";
+		$query = "SELECT count(`id`), avg(`wt`), min(`wt`), max(`wt`), avg(`cpu`), min(`cpu`), max(`cpu`), avg(`pmu`), min(`pmu`), max(`pmu`) FROM `details` WHERE `url` = '$url'";
 		$rs = $this->db->query($query);
 		$row = $this->db->getNextAssoc($rs);
 		$row['url'] = $url;
@@ -337,10 +339,10 @@ class XHProfRuns_Default implements iXHProfRuns {
 	/**
 	 * Save the run in the database.
 	 *
-	 * @param string $xhprof_data
-	 * @param mixed  $type
-	 * @param string $run_id
-	 * @param mixed  $xhprof_details
+	 * @param array  $xhprof_data    The run data
+	 * @param mixed  $type           Run type
+	 * @param string $run_id         Run id
+	 * @param mixed  $xhprof_details Details
 	 *
 	 * @return string
 	 */
@@ -405,6 +407,11 @@ class XHProfRuns_Default implements iXHProfRuns {
 		$sql['wt'] = isset($xhprof_data['main()']['wt']) ? $xhprof_data['main()']['wt'] : '';
 		$sql['cpu'] = isset($xhprof_data['main()']['cpu']) ? $xhprof_data['main()']['cpu'] : '';
 
+		// Log the total call count
+		$sql['ct'] = 0;
+		foreach ($xhprof_data as $segment) {
+			$sql['ct'] += $segment['ct'];
+		}
 
 		// The value of 2 seems to be light enugh that we're not killing the server, but still gives us lots of breathing room on 
 		// full production code. 
@@ -426,7 +433,7 @@ class XHProfRuns_Default implements iXHProfRuns {
 		$sql['server_id'] = $this->db->escape($_xhprof['servername']);
 		$sql['aggregateCalls_include'] = getenv('xhprof_aggregateCalls_include') ? getenv('xhprof_aggregateCalls_include') : '';
 
-		$query = "INSERT INTO `details` (`id`, `url`, `c_url`, `timestamp`, `server name`, `perfdata`, `type`, `cookie`, `post`, `get`, `pmu`, `wt`, `cpu`, `server_id`, `aggregateCalls_include`) VALUES('$run_id', '{$sql['url']}', '{$sql['c_url']}', FROM_UNIXTIME('{$sql['timestamp']}'), '{$sql['servername']}', '{$sql['data']}', '{$sql['type']}', '{$sql['cookie']}', '{$sql['post']}', '{$sql['get']}', '{$sql['pmu']}', '{$sql['wt']}', '{$sql['cpu']}', '{$sql['server_id']}', '{$sql['aggregateCalls_include']}')";
+		$query = "INSERT INTO `details` (`id`, `url`, `c_url`, `timestamp`, `server name`, `perfdata`, `type`, `cookie`, `post`, `get`, `pmu`, `wt`, `cpu`, `ct`, `server_id`, `aggregateCalls_include`) VALUES('$run_id', '{$sql['url']}', '{$sql['c_url']}', FROM_UNIXTIME('{$sql['timestamp']}'), '{$sql['servername']}', '{$sql['data']}', '{$sql['type']}', '{$sql['cookie']}', '{$sql['post']}', '{$sql['get']}', '{$sql['pmu']}', '{$sql['wt']}', '{$sql['cpu']}', '{$sql['ct']}', '{$sql['server_id']}', '{$sql['aggregateCalls_include']}')";
 
 		$this->db->query($query);
 		if ($this->db->affectedRows($this->db->linkID) == 1) {
