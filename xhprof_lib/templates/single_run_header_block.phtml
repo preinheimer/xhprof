@@ -104,7 +104,8 @@
     {  
         if (is_array($value))
         {
-            $value = implode(", ", $value);
+            // In case multidimentional array.
+            $value = var_export($value, TRUE);
         }     
         echo "<tr>";
         echo "<td>" . $key . "</td><td>" . $value . "</td>";
@@ -129,7 +130,8 @@
     foreach($postArr as $key=>$value){
         if (is_array($value))
         {
-            $value = implode(", ", $value);
+            // In case multidimentional array.
+            $value = var_export($value, TRUE);
         }         
         echo "<tr>";
         echo "<td>" . $key . "</td><td>" . $value . "</td>";
