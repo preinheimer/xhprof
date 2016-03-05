@@ -95,6 +95,19 @@ unset($ignoreDomains);
 unset($domain);
 
 // Display warning if extension not available
+if ($_xhprof['doprofile'] === TRUE && extension_loaded('tideways')) {
+	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_lib.php';
+	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_runs.php';
+	if (isset($ignoredFunctions) && is_array($ignoredFunctions) && !empty($ignoredFunctions)) {
+		tideways_enable(TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY, array('ignored_functions' => $ignoredFunctions));
+	} else {
+		tideways_enable(TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY);
+	}
+} elseif ($_xhprof['display'] === TRUE && !extension_loaded('tideways')) {
+	$message = 'Warning! Unable to profile run, xhprof extension not loaded';
+	trigger_error($message, E_USER_WARNING);
+}
+
 if ($_xhprof['doprofile'] === TRUE && extension_loaded('xhprof')) {
 	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_lib.php';
 	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_runs.php';
@@ -104,20 +117,6 @@ if ($_xhprof['doprofile'] === TRUE && extension_loaded('xhprof')) {
 		xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
 	}
 } elseif ($_xhprof['display'] === TRUE && !extension_loaded('xhprof')) {
-	$message = 'Warning! Unable to profile run, xhprof extension not loaded';
-	trigger_error($message, E_USER_WARNING);
-}
-
-if ($_xhprof['doprofile'] === TRUE && extension_loaded('tideways')) {
-	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_lib.php';
-	include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_runs.php';
-	if (isset($ignoredFunctions) && is_array($ignoredFunctions) && !empty($ignoredFunctions)) {
-		tideways_enable(TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY, array('ignored_functions' => $ignoredFunctions));
-	} else {
-		tideways_enable(TIDEWAYS_FLAGS_CPU + TIDEWAYS_FLAGS_MEMORY);
-	}
-	var_dump('ohai');
-} elseif ($_xhprof['display'] === TRUE && !extension_loaded('tideways')) {
 	$message = 'Warning! Unable to profile run, xhprof extension not loaded';
 	trigger_error($message, E_USER_WARNING);
 }
