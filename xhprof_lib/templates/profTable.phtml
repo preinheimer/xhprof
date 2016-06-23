@@ -31,13 +31,13 @@
 	<td style="background-color: <?php echo $color; ?>;"><span style="display: none"><?php echo $color; ?></span>&nbsp;</td>
         <td><a href="index.php?run=<?php echo $run1; ?>&amp;symbol=<?php echo urlencode($element['fn']); ?>"><?php echo htmlentities($element['fn'], ENT_QUOTES, 'UTF-8'); ?></a></td>
         <td><?php echo isset($element['ct'])?$element['ct']:''; ?></td>
-        <td><?php echo isset($element['wt'])?$element['wt']:''; ?></td>
+        <td raw="<?php echo $element['wt'] ?>"><?php echo isset($element['wt'])?usecToSize($element['wt']):''; ?></td>
         <td><?php echo isset($element['cpu'])?$element['cpu']:''; ?></td>
-        <td><?php echo isset($element['mu'])?$element['mu']:''; ?></td>
-        <td><?php echo isset($element['pmu'])?$element['pmu']:''; ?></td>
-        <td><?php echo isset($element['excl_wt'])?$element['excl_wt']:''; ?></td>
+        <td raw="<?php echo $element['mu'] ?>"><?php echo isset($element['mu'])?bytesToSize($element['mu']):''; ?></td>
+        <td raw="<?php echo $element['pmu'] ?>"><?php echo isset($element['pmu'])?bytesToSize($element['pmu']):''; ?></td>
+        <td raw="<?php echo $element['excl_wt'] ?>"><?php echo isset($element['excl_wt'])?usecToSize($element['excl_wt']):''; ?></td>
         <td><?php echo isset($element['excl_cpu'])?$element['excl_cpu']:''; ?></td>
-        <td><?php echo isset($element['excl_mu'])?$element['excl_mu']:''; ?></td>
+        <td raw="<?php echo $element['excl_mu'] ?>"><?php echo isset($element['excl_mu'])?bytesToSize($element['excl_mu']):''; ?></td>
         <td><?php echo isset($element['excl_pmu'])?$element['excl_pmu']:''; ?></td>
     </tr>
     <?php
@@ -49,7 +49,7 @@
 $(document).ready(function() 
     {
         $("#box-table-a").stickyTableHeaders();
-        $("#box-table-a").tablesorter( {sortList: []} ); 
+        $("#box-table-a").tablesorter( {sortList: [], textExtraction: rawextractor} );
     } 
 );
 </script>

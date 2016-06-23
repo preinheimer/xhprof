@@ -1420,3 +1420,58 @@ function displayXHProfReport($xhprof_runs_impl, $url_params, $source,
     echo "No XHProf runs specified in the URL.";
   }
 }
+
+
+function bytesToSize($bytes, $precision = 2)
+{
+    $kilobyte = 1024;
+    $megabyte = $kilobyte * 1024;
+    $gigabyte = $megabyte * 1024;
+    $terabyte = $gigabyte * 1024;
+
+    if (($bytes >= 0) && ($bytes < $kilobyte)) {
+        return $bytes . ' B';
+
+    } else if (($bytes >= $kilobyte) && ($bytes < $megabyte)) {
+        return number_format($bytes / $kilobyte, $precision) . ' KB';
+
+    } else if (($bytes >= $megabyte) && ($bytes < $gigabyte)) {
+        return number_format($bytes / $megabyte, $precision) . ' MB';
+
+    } else if (($bytes >= $gigabyte) && ($bytes < $terabyte)) {
+        return number_format($bytes / $gigabyte, $precision) . ' GB';
+
+    } else if ($bytes >= $terabyte) {
+        return number_format($bytes / $terabyte, $precision) . ' TB';
+
+    } else {
+        return $bytes . ' B';
+    }
+}
+
+function usecToSize($usec, $precision = 2)
+{
+    $millisec = 1024;
+    $second = $millisec * 1000;
+    $minute = $second * 60;
+    $hour = $minute * 60;
+
+    if (($usec >= 0) && ($usec < $millisec)) {
+        return $usec . ' µs';
+
+    } else if (($usec >= $millisec) && ($usec < $second)) {
+        return number_format($usec / $millisec, $precision) . ' ms';
+
+    } else if (($usec >= $second) && ($usec < $minute)) {
+        return number_format($usec / $second, $precision) . ' s';
+
+    } else if (($usec >= $minute) && ($usec < $hour)) {
+        return number_format($usec / $minute, $precision) . ' m';
+
+    } else if ($usec >= $hour) {
+        return number_format($usec / $hour, $precision) . ' h';
+
+    } else {
+        return $usec . ' µs';
+    }
+}

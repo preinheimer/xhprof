@@ -167,38 +167,23 @@ if(isset($_GET['run1']) || isset($_GET['run']))
     {
         $url = urlencode($row['url']);
         $html['url'] = htmlentities($row['url'], ENT_QUOTES, 'UTF-8');
-        echo "\t<tr><td><a href=\"?geturl={$url}\">{$html['url']}</a></td><td>{$row['count']}</td><td>" . number_format($row['total_wall']) . " ms</td><td>" . number_format($row['avg_wall']) . " ms</td></tr>\n";
+        echo "\t<tr>";
+        echo "\t\t<td><a href=\"?geturl={$url}\">{$html['url']}</a></td>";
+        echo "\t\t<td>{$row['count']}</td>";
+        echo "\t\t<td raw=\"".$row['total_wall']."\">" . usecToSize($row['total_wall']) . "</td>";
+        echo "\t\t<td raw=\"".$row['avg_wall']."\">" . usecToSize($row['avg_wall']) . "</td>";
+        echo "\t</tr>\n";
     }
     echo "</tbody>\n";
     echo "</table>\n";   
     echo <<<CODESE
     <script type="text/javascript">
     $(document).ready(function() { 
-      $.tablesorter.addParser({ 
-	  id: 'pretty', 
-	  is: function(s) { 
-	      return false; 
-	  }, 
-	  format: function(s) {
-	      s = s.replace(/ ms/g,"");
-	      return s.replace(/,/g,"");
-	  }, 
-	  // set type, either numeric or text 
-	  type: 'numeric' 
-      });
-      $(function() { 
-	  $("table").tablesorter({ 
-	      headers: { 
-		  2: { 
-		      sorter:'pretty' 
-		  },
-		  3: {
-		      sorter:'pretty'
-		  }
-	      }
-	  }); 
-      });
-    }); 
+        $("table").tablesorter({ 
+            sortList: [], 
+            textExtraction: rawextractor
+        }); 
+    });
     </script>
 CODESE;
 }else 
