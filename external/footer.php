@@ -16,6 +16,6 @@ if ( ( extension_loaded('tideways') || extension_loaded('xhprof') ) && $_xhprof[
     {
         // url to the XHProf UI libraries (change the host name and path)
         $profiler_url = sprintf($_xhprof['url'].'/index.php?run=%s&source=%s', $run_id, $profiler_namespace);
-        echo '<a href="'. $profiler_url .'" target="_blank">Profiler output</a>';    
+        echo '<a href="'. $profiler_url .'" target="_blank">Profiler output</a>';
     }
 }
