@@ -7,9 +7,9 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
     $isAjax = true;
 }
 
-if (extension_loaded('tideways') && $_xhprof['doprofile'] === true) {
+if ( ( extension_loaded('tideways') || extension_loaded('xhprof') ) && $_xhprof['doprofile'] === true) {
     $profiler_namespace = $_xhprof['namespace'];  // namespace for your application
-    $xhprof_data = tideways_disable();
+    $xhprof_data = (extension_loaded('tideways') ? tideways_disable() : xhprof_disable());
     $xhprof_runs = new XHProfRuns_Default();
     $run_id = $xhprof_runs->save_run($xhprof_data, $profiler_namespace, null, $_xhprof);
     if ($_xhprof['display'] === true && PHP_SAPI != 'cli' && !isset($isAjax))
