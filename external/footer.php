@@ -7,15 +7,15 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
     $isAjax = true;
 }
 
-if (extension_loaded('xhprof') && $_xhprof['doprofile'] === true) {
+if ( ( extension_loaded('tideways') || extension_loaded('xhprof') ) && $_xhprof['doprofile'] === true) {
     $profiler_namespace = $_xhprof['namespace'];  // namespace for your application
-    $xhprof_data = xhprof_disable();
+    $xhprof_data = (extension_loaded('tideways') ? tideways_disable() : xhprof_disable());
     $xhprof_runs = new XHProfRuns_Default();
     $run_id = $xhprof_runs->save_run($xhprof_data, $profiler_namespace, null, $_xhprof);
     if ($_xhprof['display'] === true && PHP_SAPI != 'cli' && !isset($isAjax))
     {
         // url to the XHProf UI libraries (change the host name and path)
         $profiler_url = sprintf($_xhprof['url'].'/index.php?run=%s&source=%s', $run_id, $profiler_namespace);
-        echo '<a href="'. $profiler_url .'" target="_blank">Profiler output</a>';    
+        echo '<a href="'. $profiler_url .'" target="_blank">Profiler output</a>';
     }
 }
