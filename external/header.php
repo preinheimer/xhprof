@@ -34,16 +34,17 @@ class visibilitator
 // Only users from authorized IP addresses may control Profiling
 if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || PHP_SAPI == 'cli')
 {
-  if (isset($_GET['_profile']))
+  if (isset($_GET[$_xhprof['getparam']]))
   {
     //Give them a cookie to hold status, and redirect back to the same page
-    setcookie('_profile', $_GET['_profile']);
-    $newURI = str_replace(array('_profile=1','_profile=0'), '', $_SERVER['REQUEST_URI']);
+    setcookie('_profile', $_GET[$_xhprof['getparam']]);
+    $newURI = str_replace(array($_xhprof['getparam'].'=1',$_xhprof['getparam'].'=0'), '', $_SERVER['REQUEST_URI']);
     header("Location: $newURI");
     exit;
   }
 
-  if (isset($_COOKIE['_profile']) && $_COOKIE['_profile'] || PHP_SAPI == 'cli' && ((isset($_SERVER['TIDEWAYS_PROFILE']) && $_SERVER['TIDEWAYS_PROFILE']) || (isset($_ENV['TIDEWAYS_PROFILE']) && $_ENV['TIDEWAYS_PROFILE'])))
+  if (isset($_COOKIE['_profile']) && $_COOKIE['_profile'] || PHP_SAPI == 'cli' && ( (isset($_SERVER['TIDEWAYS_PROFILE'])  && $_SERVER['TIDEWAYS_PROFILE']) || (isset($_ENV['TIDEWAYS_PROFILE']) && $_ENV['TIDEWAYS_PROFILE'])
+                                                                                 || (isset($_SERVER['XHPROF_PROFILE'])  && $_SERVER['XHPROF_PROFILE']) || (isset($_ENV['XHPROF_PROFILE']) && $_ENV['XHPROF_PROFILE'])  ))
   {
       $_xhprof['display'] = true;
       $_xhprof['doprofile'] = true;
