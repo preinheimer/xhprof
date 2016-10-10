@@ -20,6 +20,7 @@ function checkExtension()
 }
 $_xhprof['profiler'] = checkExtension();
 
+
 //I'm Magic :)
 class visibilitator
 {
@@ -47,11 +48,17 @@ class visibilitator
 // Only users from authorized IP addresses may control Profiling
 if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || PHP_SAPI == 'cli')
 {
-  if (isset($_GET['_profile']))
+  /* Backwards Compatibility getparam check*/
+  if( !isset($_xhprof['getparam']) )
+  {
+      $_xhprof['getparam'] = '_profile';
+  }
+  
+  if (isset($_GET[$_xhprof['getparam']]))
   {
     //Give them a cookie to hold status, and redirect back to the same page
-    setcookie('_profile', $_GET['_profile']);
-    $newURI = str_replace(array('_profile=1','_profile=0'), '', $_SERVER['REQUEST_URI']);
+    setcookie('_profile', $_GET[$_xhprof['getparam']]);
+    $newURI = str_replace(array($_xhprof['getparam'].'=1',$_xhprof['getparam'].'=0'), '', $_SERVER['REQUEST_URI']);
     header("Location: $newURI");
     exit;
   }
