@@ -50,12 +50,11 @@ if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || P
   if (isset($_GET['_profile']))
   {
     //Give them a cookie to hold status, and redirect back to the same page
-    setcookie('_profile', $_GET['profile']);
+    setcookie('_profile', $_GET['_profile']);
     $newURI = str_replace(array('_profile=1','_profile=0'), '', $_SERVER['REQUEST_URI']);
     header("Location: $newURI");
     exit;
   }
-
   
   if (isset($_COOKIE['_profile']) && $_COOKIE['_profile'] || PHP_SAPI == 'cli' && ( (isset($_SERVER[strtoupper($_xhprof['profiler']).'_PROFILE'])  
                                                                                && $_SERVER[strtoupper($_xhprof['profiler']).'_PROFILE']) 
