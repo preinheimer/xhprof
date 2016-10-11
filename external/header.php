@@ -9,20 +9,19 @@ include(dirname(__FILE__) . '/../xhprof_lib/config.php');
 
 function getExtensionName()
 {
-    if( extension_loaded( 'tideways' ) )
+    if (extension_loaded('tideways'))
     {
         return 'tideways';
-    }elseif( extension_loaded('xhprof') )
-    {
+    }elseif(extension_loaded('xhprof')) {
         return 'xhprof';
     }
     return false;
 }
 $_xhprof['ext_name'] = getExtensionName();
-if( $_xhprof['ext_name'] )
+if($_xhprof['ext_name'])
 {
-    $flagsCpu = constant(strtoupper($_xhprof['ext_name'])."_FLAGS_CPU");
-    $flagsMemory = constant(strtoupper($_xhprof['ext_name'])."_FLAGS_MEMORY");
+    $flagsCpu = constant(strtoupper($_xhprof['ext_name']).'_FLAGS_CPU');
+    $flagsMemory = constant(strtoupper($_xhprof['ext_name']).'_FLAGS_MEMORY');
     $envVarName = strtoupper($_xhprof['ext_name']).'_PROFILE';
 }
 
@@ -55,7 +54,7 @@ class visibilitator
 if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || PHP_SAPI == 'cli')
 {
   /* Backwards Compatibility getparam check*/
-  if( !isset($_xhprof['getparam']) )
+  if (!isset($_xhprof['getparam']))
   {
       $_xhprof['getparam'] = '_profile';
   }
@@ -69,8 +68,9 @@ if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || P
     exit;
   }
   
-  if (isset($_COOKIE['_profile']) && $_COOKIE['_profile'] || PHP_SAPI == 'cli' && ( (isset($_SERVER[$envVarName]) && $_SERVER[$envVarName]) 
-                                                          || (isset($_ENV[$envVarName]) && $_ENV[$envVarName]) ) )
+  if (isset($_COOKIE['_profile']) && $_COOKIE['_profile'] 
+          || PHP_SAPI == 'cli' && ( (isset($_SERVER[$envVarName]) && $_SERVER[$envVarName]) 
+          || (isset($_ENV[$envVarName]) && $_ENV[$envVarName])))
   {
       $_xhprof['display'] = true;
       $_xhprof['doprofile'] = true;
@@ -140,18 +140,18 @@ unset($ignoreDomains);
 unset($domain);
 
 //Display warning if extension not available
-if ( $_xhprof['ext_name'] && $_xhprof['doprofile'] === true) {
+if ($_xhprof['ext_name'] && $_xhprof['doprofile'] === true) {
     include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_lib.php';
     include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_runs.php';
     if (isset($ignoredFunctions) && is_array($ignoredFunctions) && !empty($ignoredFunctions)) {   
-        call_user_func($_xhprof['ext_name']."_enable", $flagsCpu + $flagsMemory, array('ignored_functions' => $ignoredFunctions));
+        call_user_func($_xhprof['ext_name'].'_enable', $flagsCpu + $flagsMemory, array('ignored_functions' => $ignoredFunctions));
     } else {
-        call_user_func($_xhprof['ext_name']."_enable", $flagsCpu + $flagsMemory );
+        call_user_func($_xhprof['ext_name'].'_enable', $flagsCpu + $flagsMemory);
     }
     unset($flagsCpu);
     unset($flagsMemory);
     
-}elseif( false === $_xhprof['ext_name'] && $_xhprof['display'] === true)
+}elseif(false === $_xhprof['ext_name'] && $_xhprof['display'] === true)
 {
     $message = 'Warning! Unable to profile run, tideways or xhprof extension not loaded';
     trigger_error($message, E_USER_WARNING);
