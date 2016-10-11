@@ -21,8 +21,8 @@ function getExtensionName()
 $_xhprof['ext_name'] = getExtensionName();
 if( $_xhprof['ext_name'] )
 {
-    $flagsCpu = strtoupper($_xhprof['ext_name'])."_FLAGS_CPU" ;
-    $flagsMemory = strtoupper($_xhprof['ext_name'])."_FLAGS_MEMORY";
+    $flagsCpu = constant(strtoupper($_xhprof['ext_name'])."_FLAGS_CPU");
+    $flagsMemory = constant(strtoupper($_xhprof['ext_name'])."_FLAGS_MEMORY");
     $envVarName = strtoupper($_xhprof['ext_name']).'_PROFILE';
 }
 
@@ -144,9 +144,9 @@ if ( $_xhprof['ext_name'] && $_xhprof['doprofile'] === true) {
     include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_lib.php';
     include_once dirname(__FILE__) . '/../xhprof_lib/utils/xhprof_runs.php';
     if (isset($ignoredFunctions) && is_array($ignoredFunctions) && !empty($ignoredFunctions)) {   
-        call_user_func($_xhprof['ext_name']."_enable", constant($flagsCpu) + constant($flagsMemory), array('ignored_functions' => $ignoredFunctions));
+        call_user_func($_xhprof['ext_name']."_enable", $flagsCpu + $flagsMemory, array('ignored_functions' => $ignoredFunctions));
     } else {
-        call_user_func($_xhprof['ext_name']."_enable", constant($flagsCpu) + constant($flagsMemory) );
+        call_user_func($_xhprof['ext_name']."_enable", $flagsCpu + $flagsMemory );
     }
     unset($flagsCpu);
     unset($flagsMemory);
