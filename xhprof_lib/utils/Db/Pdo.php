@@ -18,7 +18,7 @@
  `pmu` int(11) unsigned default NULL,
  `wt` int(11) unsigned default NULL,
  `cpu` int(11) unsigned default NULL,
- `server_id` char(3) NOT NULL default 't11',
+ `server_id` char(17) NOT NULL default 't11',
  `aggregateCalls_include` varchar(255) DEFAULT NULL,
  PRIMARY KEY  (`id`),
  KEY `url` (`url`),
