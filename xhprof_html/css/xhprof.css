@@ -313,9 +313,10 @@ h2.diff-details {
 
 #diff-graph {
     width: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 30px;
     float: left;
     height: auto;
+    margin-left: 10px;
     padding-top: 10px;
 }
 
@@ -345,7 +346,6 @@ a.callgraph:link {
 
 #box-table-b {
     width: 100%;
-    font-family: 'Inconsolata', monospace;
     font-size: 14px;
     text-align: left;
     border-collapse: collapse;
@@ -357,12 +357,14 @@ a.callgraph:link {
     font-size: 14px;
     font-weight: normal;
     padding: 4px 4px 4px 4px;
-    border-top: 4px solid #f6f6f6;
+    text-transform: uppercase;
     border-bottom: 1px solid #ececec;
+    background: #f6f6f6;
 }
 
 #box-table-b td {
     padding: 6px;
+    font-family: 'Inconsolata', monospace;
     border-bottom: 1px solid #ececec;
     border-top: 1px solid transparent;
 }
@@ -412,7 +414,6 @@ a.callgraph:link {
 .box-tables th {
     font-size: 14px;
     font-family: 'Lato', sans-serif;
-    text-align: center;
     text-transform: uppercase;
     font-weight: normal;
     padding: 4px 4px 4px 4px;
@@ -484,22 +485,24 @@ a.invert:visited {
 }
 
 .diff-box {
-    font-family: 'Inconsolata', monospace;
     font-size: 14px;
     border-collapse: collapse;
     text-align: left;
+    border: 1px solid #ececec;
 }
 
 .diff-box th {
     font-size: 14px;
     font-weight: normal;
+    text-transform: uppercase;
     padding: 4px 4px 4px 4px;
-    border-top: 4px solid #f6f6f6;
+    background: #f6f6f6;
     border-bottom: 1px solid #f6f6f6;
 }
 
 .diff-box td {
     padding: 6px;
+    font-family: 'Inconsolata', monospace;
     border-bottom: 1px solid #ffffff;
     border-bottom: 1px solid #ececec;
 }
@@ -526,7 +529,7 @@ a.invert:visited {
 }
 
 .box-tables-small {
-    font-family: 'Inconsolata', monospace;
+    border: 1px solid #ececec;
     font-size: 14px;
     border-collapse: collapse;
     text-align: left;
@@ -535,15 +538,16 @@ a.invert:visited {
 
 .box-tables-small th {
     font-size: 14px;
+    text-transform: uppercase;
     font-weight: normal;
     padding: 4px 4px 4px 4px;
-    border-top: 4px solid #f6f6f6;
+    background: #f6f6f6;
     border-bottom: 1px solid #ffffff;
-    color: #333333;
 }
 
 .box-tables-small td {
     padding: 4px;
+    font-family: 'Inconsolata', monospace;
     border-bottom: 1px solid #f6f6f6;
     border-top: 1px solid #f6f6f6;
 }
