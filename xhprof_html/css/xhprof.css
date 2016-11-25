@@ -51,13 +51,13 @@ td.vgbar {
 td.vwbar,
 th.vwbar {
     text-align: left;
-    border-left: solid 1px white;
+    border-left: solid 1px #ececec;
 }
 
 td.vwlbar,
 th.vwlbar {
     text-align: left;
-    border-left: solid 1px white;
+    border-left: solid 1px #ececec;
 }
 
 p.blue {
@@ -424,12 +424,6 @@ a.callgraph:link {
 .box-tables td {
     padding: 6px;
     border-bottom: 1px solid #ececec;
-    border-top: 1px solid transparent;
-}
-
-.box-tables tr:hover td {
-    background: #f6f6f6;
-    color: #339;
 }
 
 .colone {
