@@ -966,7 +966,7 @@ function print_pc_array($url_params, $results, $base_ct, $base_info, $parent,
     $title .= 's';
   }
 
-  print("<tr class='box-table-title'><td style='text-align:right;'>");
+  print("<tr class='box-table-title'><td>");
   print("<strong>" . $title . "</strong>");
   print("</td></tr>");
 
@@ -1117,15 +1117,15 @@ function symbol_report($url_params,
     print('</table>');
   }
 
-  print("<br /><h4><center>");
-  print("Parent/Child $regr_impr report for <b>$rep_symbol</b>");
+  print("<br /><h1 class='runTitle'>");
+  print("Parent/Child $regr_impr report for <b>$rep_symbol</b></h1>");
 
   $callgraph_href = "$base_path/callgraph.php?"
     . http_build_query(xhprof_array_set($url_params, 'func', $rep_symbol));
 
-  print(" <a href='$callgraph_href'>[View Callgraph $diff_text]</a><br />");
+  print(" <a class='callgraph' href='$callgraph_href'>View Callgraph $diff_text</a><br />");
 
-  print("</center></h4><br />");
+  print("<br />");
 
   print('<table class="box-tables" border=1 cellpadding=2 cellspacing=1 width="90%" '
         .'rules=rows align=center>' . "\n");
@@ -1150,7 +1150,7 @@ function symbol_report($url_params,
   }
   print("</tr>");
 
-  print("<tr class='box-table-title'><td style='text-align:right;'>");
+  print("<tr class='box-table-title'><td>");
   print("<strong>Current Function</strong>");
   print("</td></tr>");
 
@@ -1172,8 +1172,8 @@ function symbol_report($url_params,
   print("</tr>");
 
   print("<tr class='box-table-title'>");
-  print("<td style='text-align:right;'>"
-        ."Exclusive Metrics $diff_text for Current Function</td>");
+  print("<td><strong>"
+        ."Exclusive Metrics $diff_text for Current Function</strong></td>");
 
   if ($display_calls) {
     // Call Count

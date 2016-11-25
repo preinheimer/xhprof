@@ -225,6 +225,7 @@ a:visited{
 #box-table-a {
     width: 100%;
     font-size: 14px;
+    border:1px solid #ececec;
     margin: 20px auto 45px auto;
     text-align: left;
     border-collapse: collapse;
@@ -258,7 +259,6 @@ a:visited{
     margin-right: auto;
     margin-left: auto;
     position: relative;
-    top: 30px;
 }
 
 #view-diff-tables {
@@ -275,16 +275,17 @@ a:visited{
     margin-right: auto;
     margin-left: auto;
     height: auto;
+    margin-left:10px;
 }
 
 .runid {
     font-family: 'Inconsolata', monospace;
 }
 
-h2.run-details {
-    margin-left: 10px;
+.run-details {
     font-size: 1.125em;
     font-family: 'Inconsolata', monospace;
+    margin-bottom: 20px;
 }
 
 h2.diff-details {
@@ -324,7 +325,6 @@ h2.diff-details {
 }
 
 a.callgraph:link {
-    margin-left: 10px;
     font-size: 20px;
 }
 
@@ -350,6 +350,7 @@ a.callgraph:link {
     text-align: left;
     border-collapse: collapse;
     float: left;
+    border:1px solid #ececec;
 }
 
 #box-table-b th {
@@ -405,13 +406,17 @@ a.callgraph:link {
 
 .box-table-title{
   background: #f6f6f6;
+  text-align: center;
 }
 
 .box-tables th {
     font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    text-transform: uppercase;
     font-weight: normal;
     padding: 4px 4px 4px 4px;
-    border-top: 4px solid #f6f6f6;
+    background: #f6f6f6;
     border-bottom: 1px solid #ececec;
 }
 
@@ -424,18 +429,6 @@ a.callgraph:link {
 .box-tables tr:hover td {
     background: #f6f6f6;
     color: #339;
-}
-
-.box-tables .link-options a:link {
-    color: #0066ff;
-}
-
-.box-tables .link-options a:hover {
-    color: #0066ff;
-}
-
-.box-tables .link-options a:visited {
-    color: #cc0066;
 }
 
 .colone {
@@ -557,18 +550,6 @@ a.invert:visited {
 
 .box-tables-small tr:hover td {
     background: #f6f6f6;
-}
-
-.box-tables-small .link-options a:link {
-    color: #0066ff;
-}
-
-.box-tables-small .link-options a:hover {
-    color: #0066ff;
-}
-
-.box-tables-small .link-options a:visited {
-    color: #cc0066;
 }
 
 .different {
