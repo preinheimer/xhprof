@@ -493,7 +493,7 @@ function  xhprof_render_diff_image($xhprof_runs_impl, $run1, $run2,
                                        $symbol_tab1, $symbol_tab2);
   $content = xhprof_generate_image_by_dot($script, $type);
 
-  xhprof_generate_mime_header($type, strlen($content));
+  xhprof_generate_mime_header($type, mb_strlen($content, '8bit'));
   echo $content;
 }
 
@@ -564,6 +564,6 @@ function xhprof_render_image($xhprof_runs_impl, $run_id, $type, $threshold,
     exit();
   }
 
-  xhprof_generate_mime_header($type, strlen($content));
+  xhprof_generate_mime_header($type, mb_strlen($content, '8bit'));
   echo $content;
 }
