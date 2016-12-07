@@ -10,9 +10,9 @@ include(dirname(__FILE__) . '/../xhprof_lib/config.php');
 $_xhprof['ext_name'] = false;
 if (extension_loaded('tideways'))
 {
-	$_xhprof['ext_name'] = 'tideways';
+    $_xhprof['ext_name'] = 'tideways';
 }elseif(extension_loaded('xhprof')) {
-	$_xhprof['ext_name'] = 'xhprof';
+    $_xhprof['ext_name'] = 'xhprof';
 }
 
 if($_xhprof['ext_name'])
