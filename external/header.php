@@ -7,17 +7,14 @@ if (PHP_SAPI == 'cli') {
 
 include(dirname(__FILE__) . '/../xhprof_lib/config.php');
 
-function getExtensionName()
+$_xhprof['ext_name'] = false;
+if (extension_loaded('tideways'))
 {
-    if (extension_loaded('tideways'))
-    {
-        return 'tideways';
-    }elseif(extension_loaded('xhprof')) {
-        return 'xhprof';
-    }
-    return false;
+	$_xhprof['ext_name'] = 'tideways';
+}elseif(extension_loaded('xhprof')) {
+	$_xhprof['ext_name'] = 'xhprof';
 }
-$_xhprof['ext_name'] = getExtensionName();
+
 if($_xhprof['ext_name'])
 {
     $flagsCpu = constant(strtoupper($_xhprof['ext_name']).'_FLAGS_CPU');
