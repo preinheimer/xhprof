@@ -62,7 +62,7 @@ function xhprof_include_js_css($ui_dir_url_path = null) {
   }
 
   // style sheets
-  echo "<link href='$ui_dir_url_path/css/xhprof.css' rel='stylesheet' ".
+  echo "<link href='$ui_dir_url_path/css/xhprof.css?2016-11-28' rel='stylesheet' ".
     " type='text/css'></link>";
   echo "<link href='$ui_dir_url_path/jquery/jquery.tooltip.css' ".
     " rel='stylesheet' type='text/css'></link>";
