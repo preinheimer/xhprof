@@ -1,0 +1,19 @@
+sudo: false
+language: php
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+cache:
+  directories:
+    - $HOME/.composer/cache
+before_script:
+    - composer install --prefer-dist --dev -n
+    - composer dump-autoload
+script:
+# Uncomment next line if & when unit tests are implemented
+#  - php vendor/bin/phpunit test/unit
+  - php vendor/bin/phpcs xhprof_html/ --standard=PSR2 --report=summary -p
+  - php vendor/bin/phpcs xhprof_lib/ --standard=PSR2 --report=summary -p
+  - php vendor/bin/phpcs external/ --standard=PSR2 --report=summary -p
