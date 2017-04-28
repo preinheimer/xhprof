@@ -28,6 +28,4 @@ abstract class Db_Abstract
     {
         throw new RuntimeException("Method '".get_called_class()."::".__FUNCTION__."' not implemented");
     }
-    
-    
 }

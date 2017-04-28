@@ -28,17 +28,16 @@
  *
  * @author Changhao Jiang (cjiang@facebook.com)
  */
-require_once ("../xhprof_lib/config.php");
+require_once("../xhprof_lib/config.php");
 
-if (false !== $controlIPs && !in_array($_SERVER['REMOTE_ADDR'], $controlIPs))
-{
-  die("You do not have permission to view this page.");
+if (false !== $controlIPs && !in_array($_SERVER['REMOTE_ADDR'], $controlIPs)) {
+    die("You do not have permission to view this page.");
 }
 
 // by default assume that xhprof_html & xhprof_lib directories
 // are at the same level.
 if (!defined('XHPROF_LIB_ROOT')) {
-  define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
+    define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
 }
 
 include_once XHPROF_LIB_ROOT . '/display/xhprof.php';
@@ -78,22 +77,35 @@ xhprof_param_init($params);
 
 // if invalid value specified for threshold, then use the default
 if ($threshold < 0 || $threshold > 1) {
-  $threshold = $params['threshold'][1];
+    $threshold = $params['threshold'][1];
 }
 
 // if invalid value specified for type, use the default
 if (!array_key_exists($type, $xhprof_legal_image_types)) {
-  $type = $params['type'][1]; // default image type.
+    $type = $params['type'][1]; // default image type.
 }
 
 $xhprof_runs_impl = new XHProfRuns_Default();
 
 if (!empty($run)) {
   // single run call graph image generation
-  xhprof_render_image($xhprof_runs_impl, $run, $type,
-                      $threshold, $func, $source, $critical);
+    xhprof_render_image(
+        $xhprof_runs_impl,
+        $run,
+        $type,
+        $threshold,
+        $func,
+        $source,
+        $critical
+    );
 } else {
   // diff report call graph image generation
-  xhprof_render_diff_image($xhprof_runs_impl, $run1, $run2,
-                           $type, $threshold, $source);
+    xhprof_render_diff_image(
+        $xhprof_runs_impl,
+        $run1,
+        $run2,
+        $type,
+        $threshold,
+        $source
+    );
 }

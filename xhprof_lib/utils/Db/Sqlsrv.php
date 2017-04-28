@@ -2,24 +2,24 @@
 
   /**
   * When setting the `id` column, consider the length of the prefix you're specifying in $this->prefix
-  * 
+  *
   *
 CREATE TABLE dbo.details
 (
-   id nchar(17) NOT NULL, 
-   url nvarchar(255) NULL DEFAULT NULL, 
-   c_url nvarchar(255) NULL DEFAULT NULL, 
-   timestamp datetime NOT NULL DEFAULT getdate(), 
-   [server name] nvarchar(64) NULL DEFAULT NULL, 
-   perfdata nvarchar(max) NULL, 
-   type smallint NULL DEFAULT NULL, 
-   cookie nvarchar(max) NULL, 
-   post nvarchar(max) NULL, 
-   get nvarchar(max) NULL, 
-   pmu int NULL DEFAULT NULL, 
-   wt int NULL DEFAULT NULL, 
-   cpu int NULL DEFAULT NULL, 
-   server_id nchar(3) NOT NULL DEFAULT N't11', 
+   id nchar(17) NOT NULL,
+   url nvarchar(255) NULL DEFAULT NULL,
+   c_url nvarchar(255) NULL DEFAULT NULL,
+   timestamp datetime NOT NULL DEFAULT getdate(),
+   [server name] nvarchar(64) NULL DEFAULT NULL,
+   perfdata nvarchar(max) NULL,
+   type smallint NULL DEFAULT NULL,
+   cookie nvarchar(max) NULL,
+   post nvarchar(max) NULL,
+   get nvarchar(max) NULL,
+   pmu int NULL DEFAULT NULL,
+   wt int NULL DEFAULT NULL,
+   cpu int NULL DEFAULT NULL,
+   server_id nchar(3) NOT NULL DEFAULT N't11',
    aggregateCalls_include nvarchar(255) NULL DEFAULT NULL,
    CONSTRAINT PK_details_id PRIMARY KEY (id)
 )
@@ -41,7 +41,7 @@ CREATE NONCLUSTERED INDEX dbo.pmu
 GO
 CREATE NONCLUSTERED INDEX dbo.timestamp
    ON dbo.details (timestamp
-  
+
 */
 
 require_once XHPROF_LIB_ROOT.'/utils/Db/Abstract.php';
@@ -51,10 +51,9 @@ class Db_Sqlsrv extends Db_Abstract
     
     public function connect()
     {
-        $connectionInfo = array("UID" => $this->config['dbuser'], "PWD" =>  $this->config['dbpass'], "Database"=>$this->config['dbname'], "ReturnDatesAsStrings" => TRUE);
+        $connectionInfo = array("UID" => $this->config['dbuser'], "PWD" =>  $this->config['dbpass'], "Database"=>$this->config['dbname'], "ReturnDatesAsStrings" => true);
         $linkid = sqlsrv_connect($this->config['dbhost'], $connectionInfo);
-        if ($linkid === FALSE)
-        {
+        if ($linkid === false) {
             xhprof_error("Could not connect to db");
             throw new Exception("Unable to connect to database");
             return false;

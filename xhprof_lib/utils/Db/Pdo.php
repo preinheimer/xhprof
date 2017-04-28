@@ -40,8 +40,7 @@ class Db_Pdo extends Db_Abstract
     {
         $connectionString = $this->config['dbtype'] . ':host=' . $this->config['dbhost'] . ';dbname=' . $this->config['dbname'];
         $db = new PDO($connectionString, $this->config['dbuser'], $this->config['dbpass']);
-        if ($db === FALSE)
-        {
+        if ($db === false) {
             xhprof_error("Could not connect to db");
             $run_desc = "could not connect to db";
             throw new Exception("Unable to connect to database");
