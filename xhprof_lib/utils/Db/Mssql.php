@@ -50,8 +50,7 @@ class Db_Mssql extends Db_Abstract
     public function connect()
     {
         $linkid = mssql_connect($this->config['dbhost'], $this->config['dbuser'], $this->config['dbpass']);
-        if ($linkid === FALSE)
-        {
+        if ($linkid === false) {
             xhprof_error("Could not connect to db");
             throw new Exception("Unable to connect to database");
             return false;

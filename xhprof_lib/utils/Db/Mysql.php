@@ -38,8 +38,7 @@ class Db_Mysql extends Db_Abstract
     public function connect()
     {
         $this->linkID = mysql_connect($this->config['dbhost'], $this->config['dbuser'], $this->config['dbpass']);
-        if ($this->linkID === FALSE)
-        {
+        if ($this->linkID === false) {
             xhprof_error("Could not connect to db");
             throw new Exception("Unable to connect to database");
             return false;
