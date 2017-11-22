@@ -38,7 +38,6 @@ class Db_Pdo extends Db_Abstract
 
     public function connect()
     {
-        var_dump($this->config);
         $connectionString = $this->config['dbtype'] . ':host=' . $this->config['dbhost'] . ';dbname=' . $this->config['dbname'];
 
         if ($this->config['dbtype'] === 'sqlite')
