@@ -2,16 +2,16 @@
 $_xhprof = array();
 
 // Change these:
-$_xhprof['dbtype'] = 'mysql'; // Only relevant for PDO
-$_xhprof['dbhost'] = 'localhost';
-$_xhprof['dbuser'] = 'root';
-$_xhprof['dbpass'] = 'password';
-$_xhprof['dbname'] = 'xhprof';
-$_xhprof['dbadapter'] = 'Pdo';
+$_xhprof['dbtype']     = 'mysql';     // 数据库类型
+$_xhprof['dbhost']     = 'localhost'; // 数据库host
+$_xhprof['dbuser']     = 'root';      // 数据库用户名
+$_xhprof['dbpass']     = 'password';  // 数据库密码
+$_xhprof['dbname']     = 'xhprof';    // 数据库名称
+$_xhprof['dbadapter']  = 'Mysql';     // 驱动的方式 会掉起utils/db/下对于的数据库类
 $_xhprof['servername'] = 'myserver';
-$_xhprof['namespace'] = 'myapp';
-$_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
-$_xhprof['getparam'] = "_profile";
+$_xhprof['namespace']  = 'myapp';
+$_xhprof['url']        = 'http://127.0.0.1/xhprof/xhprof_html'; // ui网站的访问地址
+$_xhprof['getparam']   = "_profile";
 
 /*
  * MySQL/MySQLi/PDO ONLY
