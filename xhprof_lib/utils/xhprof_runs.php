@@ -450,7 +450,7 @@ CREATE TABLE `details` (
     $urlArr = parse_url($url);
 	
         $sql['url'] = $this->db->escape($url);
-        $sql['c_url'] = $this->db->escapei(($urlArr['path']));
+        $sql['c_url'] = $this->db->escape(($urlArr['path']));
         $sql['servername'] = $this->db->escape($sname);
         $sql['type']  = (int) (isset($xhprof_details['type']) ? $xhprof_details['type'] : 0);
         $sql['timestamp'] = $this->db->escape($_SERVER['REQUEST_TIME']);
