@@ -44,8 +44,10 @@ $exceptionPostURLs = array();
 $exceptionPostURLs[] = "login";
 
 
-$_xhprof['display'] = false;
+$_xhprof['display']   = false;
 $_xhprof['doprofile'] = false;
+$_xhprof['show_cpu']  = false;
+$_xhprof['show_mem']  = false;
 
 //Control IPs allow you to specify which IPs will be permitted to control when profiling is on or off within your application, and view the results via the UI.
 $controlIPs = false; //Disables access controlls completely. 
