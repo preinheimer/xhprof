@@ -96,13 +96,13 @@ $_xhprof['dot_tempdir'] = '/tmp';
 $_xhprof['dot_errfile'] = '/tmp/xh_dot.err';
 
 // 下面配置只要请求链接中包含都会过滤
-$ignoreURLs = array();    // 忽略的url 
-$ignoreDomains = array(); // 忽略的Domains
-$exceptionURLs = array(); // 提示错误的
+$ignoreURLs = array();        // 黑名单，即忽略的url
+$ignoreDomains = array();     // 忽略的Domains
+$exceptionURLs = array();     // 底部不显示性能采样的地址的接口
 $exceptionPostURLs = array(); // 不保存post的
 $exceptionPostURLs[] = "login";
 
-$_xhprof['display']   = false; // 是否打印错误信息
+$_xhprof['display']   = false; // 是否在接口底部显示性能采样的地址
 $_xhprof['doprofile'] = false; // 默认要不要开始性能监控，都会走上面过滤策略修改赋值
 $_xhprof['show_cpu']  = false; // 是否采样cpu信息 默认不开
 $_xhprof['show_mem']  = false; // 是否采样内存信息 默认不开
