@@ -4,9 +4,9 @@ include_once $XHPROF_ROOT . "/xhprof_lib/config.php";
         
 class XHProf {
 
-    public static function enable() {
+    public static function enable($flags = 0, $options = array()) {
         register_shutdown_function('XHProf::finish');
-        xhprof_enable();
+        xhprof_enable($flags, $options);
     }
 
     public static function finish() {
@@ -22,6 +22,5 @@ class XHProf {
 
         // save the run under a namespace "xhprof_foo"
         $run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_foo");
-        var_dump($run_id);exit;
     }
 }
