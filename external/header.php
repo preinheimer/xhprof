@@ -20,8 +20,8 @@ function getExtensionName()
 $_xhprof['ext_name'] = getExtensionName();
 if($_xhprof['ext_name'])
 {
-    $flagsCpu = constant(strtoupper($_xhprof['ext_name']).'_FLAGS_CPU');
-    $flagsMemory = constant(strtoupper($_xhprof['ext_name']).'_FLAGS_MEMORY');
+    $flagsCpu = $_xhprof['show_cpu'] === true ? constant(strtoupper($_xhprof['ext_name']).'_FLAGS_CPU') : 0;
+    $flagsMemory = $_xhprof['show_mem'] === true ? constant(strtoupper($_xhprof['ext_name']).'_FLAGS_MEMORY') : 0;
     $envVarName = strtoupper($_xhprof['ext_name']).'_PROFILE';
 }
 
