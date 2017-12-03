@@ -18,7 +18,7 @@
  `pmu` int(11) unsigned default NULL,
  `wt` int(11) unsigned default NULL,
  `cpu` int(11) unsigned default NULL,
- `server_id` char(3) NOT NULL default 't11',
+ `server_id` varchar(32) NOT NULL default 't11',
  `aggregateCalls_include` varchar(255) DEFAULT NULL,
  PRIMARY KEY  (`id`),
  KEY `url` (`url`),
@@ -27,7 +27,7 @@
  KEY `wt` (`wt`),
  KEY `pmu` (`pmu`),
  KEY `timestamp` (`timestamp`)
- ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+ ) ENGINE=innodb DEFAULT CHARSET=utf8;
 
  */
 

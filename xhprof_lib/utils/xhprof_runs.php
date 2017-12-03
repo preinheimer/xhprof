@@ -139,7 +139,12 @@ CREATE TABLE `details` (
     
   private function gen_run_id($type) 
   {
-    return uniqid();
+      $log_id = uniqid();
+      $log_id = defined('LOG_ID') ? LOG_ID : $log_id;
+      $log_id = isset($_SERVER['LOGID']) ? $_SERVER['LOGID'] : $log_id;
+      $log_id = isset($_SERVER['HTTP_X_BD_LOGID']) ? $_SERVER['HTTP_X_BD_LOGID'] : $log_id;
+      return $log_id;
+    //return uniqid();
   }
   
   /**
@@ -442,9 +447,10 @@ CREATE TABLE `details` (
         
 	$url   = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF'];
  	$sname = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+    $urlArr = parse_url($url);
 	
         $sql['url'] = $this->db->escape($url);
-        $sql['c_url'] = $this->db->escape(_urlSimilartor($_SERVER['REQUEST_URI']));
+        $sql['c_url'] = $this->db->escape(($urlArr['path']));
         $sql['servername'] = $this->db->escape($sname);
         $sql['type']  = (int) (isset($xhprof_details['type']) ? $xhprof_details['type'] : 0);
         $sql['timestamp'] = $this->db->escape($_SERVER['REQUEST_TIME']);
