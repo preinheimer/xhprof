@@ -2,16 +2,16 @@
 $_xhprof = array();
 
 // Change these:
-$_xhprof['dbtype'] = 'mysql'; // Only relevant for PDO
-$_xhprof['dbhost'] = 'localhost';
-$_xhprof['dbuser'] = 'root';
-$_xhprof['dbpass'] = 'password';
-$_xhprof['dbname'] = 'xhprof';
-$_xhprof['dbadapter'] = 'Pdo';
-$_xhprof['servername'] = 'myserver';
-$_xhprof['namespace'] = 'myapp';
-$_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
-$_xhprof['getparam'] = "_profile";
+$_xhprof['dbtype']     = 'mysql';     // 数据库类型
+$_xhprof['dbhost']     = 'localhost'; // 数据库host
+$_xhprof['dbuser']     = 'root';      // 数据库用户名
+$_xhprof['dbpass']     = 'root';  // 数据库密码
+$_xhprof['dbname']     = 'xhprof';    // 数据库名称
+$_xhprof['dbadapter']  = 'Mysql';     // 驱动的方式 会掉起utils/db/下对于的数据库类
+$_xhprof['servername'] = 'servername';
+$_xhprof['namespace']  = 'myapp';
+$_xhprof['url']        = 'http://127.0.0.1/xhprof/xhprof_html'; // ui网站的访问地址
+$_xhprof['getparam']   = "_profile";
 
 /*
  * MySQL/MySQLi/PDO ONLY
@@ -30,11 +30,9 @@ $_xhprof['dot_errfile'] = 'C:\\WINDOWS\\Temp\\xh_dot.err';
 */
 
 //These are good for linux and its derivatives.
-/*
 $_xhprof['dot_binary']  = '/usr/bin/dot';
 $_xhprof['dot_tempdir'] = '/tmp';
 $_xhprof['dot_errfile'] = '/tmp/xh_dot.err';
-*/
 
 $ignoreURLs = array();
 
@@ -46,14 +44,16 @@ $exceptionPostURLs = array();
 $exceptionPostURLs[] = "login";
 
 
-$_xhprof['display'] = false;
+$_xhprof['display']   = false;
 $_xhprof['doprofile'] = false;
+$_xhprof['show_cpu']  = false;
+$_xhprof['show_mem']  = false;
 
 //Control IPs allow you to specify which IPs will be permitted to control when profiling is on or off within your application, and view the results via the UI.
-// $controlIPs = false; //Disables access controlls completely. 
-$controlIPs = array();
-$controlIPs[] = "127.0.0.1";   // localhost, you'll want to add your own ip here
-$controlIPs[] = "::1";         // localhost IP v6
+$controlIPs = false; //Disables access controlls completely. 
+//$controlIPs = array();
+//$controlIPs[] = "127.0.0.1";   // localhost, you'll want to add your own ip here
+//$controlIPs[] = "::1";         // localhost IP v6
 
 //$otherURLS = array();
 
