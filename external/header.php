@@ -7,15 +7,18 @@ if (PHP_SAPI == 'cli') {
 
 // Search for config in different places - adding constant and env
 if(defined('XHPROF_CONFIG') && is_file(XHPROF_CONFIG)) {
-	include XHPROF_CONFIG;
+	require_once XHPROF_CONFIG;
 }
 else {
 	$ENV_XHPROF_CONFIG = getenv('ENV_XHPROF_CONFIG');
 	if(!empty($ENV_XHPROF_CONFIG) && is_file($ENV_XHPROF_CONFIG)) {
-		include $ENV_XHPROF_CONFIG;
+		require_once $ENV_XHPROF_CONFIG;
+	}
+	elseif(!empty($_SERVER['ENV_XHPROF_CONFIG']) && is_file($_SERVER['ENV_XHPROF_CONFIG'])) {
+		require_once $_SERVER['ENV_XHPROF_CONFIG'];
 	}
 	else {
-		include(dirname(__FILE__) . '/../xhprof_lib/config.php');
+		require_once (XHPROF_LIB_ROOT . "/config.php");
 	}
 }
 

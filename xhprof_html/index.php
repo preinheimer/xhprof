@@ -2,7 +2,22 @@
 if (!defined('XHPROF_LIB_ROOT')) {
   define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
 }
-require_once (XHPROF_LIB_ROOT . "/config.php");
+
+// Search for config in different places - adding constant and env
+if(defined('XHPROF_CONFIG') && is_file(XHPROF_CONFIG)) {
+	require_once XHPROF_CONFIG;
+}
+else {
+	$XHPROF_CONFIG = getenv('XHPROF_CONFIG');
+	if ( ! empty($XHPROF_CONFIG) && is_file($XHPROF_CONFIG)) {
+		require_once $XHPROF_CONFIG;
+	} elseif ( ! empty($_SERVER['XHPROF_CONFIG']) && is_file($_SERVER['XHPROF_CONFIG'])) {
+		require_once $_SERVER['XHPROF_CONFIG'];
+	} else {
+		require_once(XHPROF_LIB_ROOT . "/config.php");
+	}
+}
+
 include_once XHPROF_LIB_ROOT . '/display/xhprof.php';
 include (XHPROF_LIB_ROOT . "/utils/common.php");
 
