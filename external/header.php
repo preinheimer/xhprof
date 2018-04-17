@@ -5,14 +5,31 @@ if (PHP_SAPI == 'cli') {
   $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 }
 
-include(dirname(__FILE__) . '/../xhprof_lib/config.php');
+// Search for config in different places - adding constant and env
+if(defined('XHPROF_CONFIG') && is_file(XHPROF_CONFIG)) {
+	include XHPROF_CONFIG;
+}
+else {
+	$ENV_XHPROF_CONFIG = getenv('ENV_XHPROF_CONFIG');
+	if(!empty($ENV_XHPROF_CONFIG) && is_file($ENV_XHPROF_CONFIG)) {
+		include $ENV_XHPROF_CONFIG;
+	}
+	else {
+		include(dirname(__FILE__) . '/../xhprof_lib/config.php');
+	}
+}
 
 function getExtensionName()
 {
+    if (extension_loaded('tideways_xhprof'))
+    {
+        return 'tideways_xhprof';
+    }
     if (extension_loaded('tideways'))
     {
         return 'tideways';
-    }elseif(extension_loaded('xhprof')) {
+    }
+    elseif(extension_loaded('xhprof')) {
         return 'xhprof';
     }
     return false;
