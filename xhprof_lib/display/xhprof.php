@@ -42,8 +42,7 @@ include_once XHPROF_LIB_ROOT . '/utils/xhprof_runs.php';
  * Our coding convention disallows relative paths in hrefs.
  * Get the base URL path from the SCRIPT_NAME.
  */
-$base_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), "/");
-
+$base_path = $_xhprof['url'];
 
 /**
  * Generate references to required stylesheets & javascript.
@@ -791,6 +790,7 @@ function print_flat_data($url_params, $title, $flat_data, $sort, $run1, $run2, $
   global $sortable_columns;
   global $vwbar;
   global $base_path;
+  global $_xhprof;
 
   $size  = count($flat_data);
   if (!$limit) {              // no limit
