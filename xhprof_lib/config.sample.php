@@ -12,6 +12,7 @@ $_xhprof['servername'] = 'myserver';
 $_xhprof['namespace'] = 'myapp';
 $_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
 $_xhprof['getparam'] = "_profile";
+$_xhprof['displayparam'] = "_display";
 
 /*
  * MySQL/MySQLi/PDO ONLY
