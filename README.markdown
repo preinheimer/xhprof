@@ -53,22 +53,28 @@ Installation
 
 * Install your favourite mix of PHP and web server
 * Install MySQL server
-* Clone the project to some folder
+* Clone the project to some folder of your choice.
 * Map the sub folder `xhprof_html` to be accessible over HTTP
-* Move `xhprof_lib/config.sample.php` to `xhprof_lib/config.php`
+  * You can do it with an Alias directive or (if symlinks are enabled) by just symlinking `xhprof_html` to any location within your document root.
+* Copy `xhprof_lib/config.sample.php` to `xhprof_lib/config.php`
+  * Alternatively, you can copy the config.php to any place you like, and then specify the location of the config file in your ENV, in a PHP constant, or via Apache / Nginx Env variable (see below)
 * Edit `xhprof_lib/config.php`
- * Update the SQL server configuration
- * Update the URL of the service (should point to `xhprof_html` over HTTP)
- * Update the `dot_binary` configuration - otherwise no call graphs!
- * Update the `controlIPs` variable to enable access.
+  * Update the SQL server configuration
+  * Update the URL of the service (should point to `xhprof_html` over HTTP)
+  * Update the `dot_binary` configuration - otherwise no call graphs!
+  * Update the `controlIPs` variable to enable access.
   * For a development machine you can set this to `false` to disable IP checks.
 * Import the DB schema (it is just 1 table)
  * See the SQL at [xhprof_runs.php](https://github.com/toomasr/xhprof/blob/master/xhprof_lib/utils/xhprof_runs.php#L109)
 * Add a PHP configuration to enable the profiling
- * If using Apache you can edit your virtual host configuration
- * Add `php_admin_value auto_prepend_file "/path/to/xhprof/external/header.php"`
+  * If using Apache you can edit your virtual host configuration
+  * Add `php_admin_value auto_prepend_file "/path/to/xhprof/external/header.php"`
+  * (optional) Add `SetEnv XHPROF_CONFIG /absolute/path/to/config.php` to your apache config to set location of config file for that host
+  * (optional) If you include the header.php manually, you can define the location of the config file via define('XHPROF_CONFIG','/absolute/path/to/config.php');
+  * (optional) Within a shell script, you can export `XHPROF_CONFIG=/absolute/path/to/config.php` to specify location of config file
 * Visit http://your-server/xhprof/xhprof_html/ and be amazed!
- * To get profiler information showing up there visit your page with a `GET` variable `_profile=1`.
+ * To get profiler information showing up there visit your page with a `GET` variable `_profile=1`. 
+ This will enable it (via cookie) until you disable it by adding the parameter `_profile=0` to any url (or removing the _profile cookie manually)
  * For example `http://localhost/?_profile=1`
 
 We Are Working On
