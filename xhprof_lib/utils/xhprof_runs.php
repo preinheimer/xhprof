@@ -464,7 +464,7 @@ CREATE TABLE `details` (
             global $_xhprof;
             if ($_xhprof['display'] === true)
             {
-                echo "Failed to insert: $query <br>\n";
+                echo "Failed to insert: <pre>$query</pre><br>\n";
             }
             return -1;
         }

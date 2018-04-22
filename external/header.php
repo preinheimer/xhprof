@@ -5,14 +5,32 @@ if (PHP_SAPI == 'cli') {
   $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 }
 
-include(dirname(__FILE__) . '/../xhprof_lib/config.php');
+// Search for config in different places - adding constant and env
+if(defined('XHPROF_CONFIG') && is_file(XHPROF_CONFIG)) {
+	require_once XHPROF_CONFIG;
+}
+else {
+	$XHPROF_CONFIG = getenv('XHPROF_CONFIG');
+	if ( ! empty($XHPROF_CONFIG) && is_file($XHPROF_CONFIG)) {
+		require_once $XHPROF_CONFIG;
+	} elseif ( ! empty($_SERVER['XHPROF_CONFIG']) && is_file($_SERVER['XHPROF_CONFIG'])) {
+		require_once $_SERVER['XHPROF_CONFIG'];
+	} else {
+		require_once(XHPROF_LIB_ROOT . "/config.php");
+	}
+}
 
 function getExtensionName()
 {
+    if (extension_loaded('tideways_xhprof'))
+    {
+        return 'tideways_xhprof';
+    }
     if (extension_loaded('tideways'))
     {
         return 'tideways';
-    }elseif(extension_loaded('xhprof')) {
+    }
+    elseif(extension_loaded('xhprof')) {
         return 'xhprof';
     }
     return false;
@@ -51,32 +69,72 @@ class visibilitator
 }
 
 // Only users from authorized IP addresses may control Profiling
-if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || PHP_SAPI == 'cli')
-{
-  /* Backwards Compatibility getparam check*/
-  if (!isset($_xhprof['getparam']))
-  {
-      $_xhprof['getparam'] = '_profile';
-  }
-  
-  if (isset($_GET[$_xhprof['getparam']]))
-  {
-    //Give them a cookie to hold status, and redirect back to the same page
-    setcookie('_profile', $_GET[$_xhprof['getparam']]);
-    $newURI = str_replace(array($_xhprof['getparam'].'=1',$_xhprof['getparam'].'=0'), '', $_SERVER['REQUEST_URI']);
-    header("Location: $newURI");
-    exit;
-  }
-  
-  if (isset($_COOKIE['_profile']) && $_COOKIE['_profile'] 
-          || PHP_SAPI == 'cli' && ( (isset($_SERVER[$envVarName]) && $_SERVER[$envVarName]) 
-          || (isset($_ENV[$envVarName]) && $_ENV[$envVarName])))
-  {
-      $_xhprof['display'] = true;
-      $_xhprof['doprofile'] = true;
-      $_xhprof['type'] = 1;
-  }
-  unset($envVarName);
+if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || PHP_SAPI == 'cli') {
+
+	/* Backwards Compatibility getparam check*/
+	if ( ! isset($_xhprof['getparam'])) {
+		$_xhprof['getparam'] = '_profile';
+	}
+
+	if ( ! isset($_xhprof['displayparam'])) {
+		$_xhprof['displayparam'] = '_display';
+	}
+
+	$handleRuntimeToggle = function($key, $uri, $cookieName = null) {
+		if (isset($_GET[ $key ])) {
+			if (null === $cookieName) {
+				$cookieName = $key;
+			}
+			// Give them a cookie to hold status, and redirect back to the same page
+			if ($_GET[ $key ] === "1") {
+				setcookie($cookieName, $_GET[ $key ]);
+			} elseif ($_GET[ $key ] === "0") {
+				setcookie($cookieName, null, - 1);
+				unset($_COOKIE[ $cookieName ]);
+			}
+
+			$cleanURI = str_replace(array(
+				'&' . $key . '=1',
+				'&' . $key . '=0',
+				'?' . $key . '=1',
+				'?' . $key . '=0',
+			), '', $uri);
+
+			return [ true, $cleanURI ];
+		} else {
+			return [ false, $uri ];
+		}
+	};
+
+	$toggleParams = [ $_xhprof['getparam'], $_xhprof['displayparam'] ];
+
+	$currentURI = $_SERVER['REQUEST_URI'];
+	$changes    = false;
+	foreach($toggleParams as $toggleParam) {
+		list($changed, $currentURI) = $handleRuntimeToggle($toggleParam, $currentURI);
+		$changes = ($changes or $changed);
+	}
+
+	if (isset($_COOKIE[ $_xhprof['getparam'] ]) && $_COOKIE[ $_xhprof['displayparam'] ]
+	    || PHP_SAPI == 'cli' && ((isset($_SERVER[ $envVarName ]) && $_SERVER[ $envVarName ])
+	                             || (isset($_ENV[ $envVarName ]) && $_ENV[ $envVarName ]))) {
+		$_xhprof['doprofile'] = true;
+		$_xhprof['type']      = 1;
+	}
+
+	if (isset($_COOKIE[ $_xhprof['displayparam'] ]) && $_COOKIE[ $_xhprof['displayparam'] ]
+	    || PHP_SAPI == 'cli' && ((isset($_SERVER[ $envVarName ]) && $_SERVER[ $envVarName ])
+	                             || (isset($_ENV[ $envVarName ]) && $_ENV[ $envVarName ]))) {
+		$_xhprof['display'] = true;
+	}
+
+	if (true === $changes) {
+		header('HTTP/1.1 302 Found');
+		header("Location: $currentURI");
+		die("Redirecting you to " . $currentURI);
+	}
+
+	unset($envVarName);
 }
 
 

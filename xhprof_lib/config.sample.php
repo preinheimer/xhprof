@@ -8,10 +8,11 @@ $_xhprof['dbuser'] = 'root';
 $_xhprof['dbpass'] = 'password';
 $_xhprof['dbname'] = 'xhprof';
 $_xhprof['dbadapter'] = 'Pdo';
-$_xhprof['servername'] = 'myserver';
+$_xhprof['servername'] = 's01';
 $_xhprof['namespace'] = 'myapp';
 $_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
 $_xhprof['getparam'] = "_profile";
+$_xhprof['displayparam'] = "_display";
 
 /*
  * MySQL/MySQLi/PDO ONLY

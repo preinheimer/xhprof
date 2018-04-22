@@ -1,0 +1,32 @@
+{
+  "name": "xhprof/xhgui",
+  "description": "XHGUI is a GUI for the XHProf PHP extension, using a database backend, and pretty graphs to make it easy to use and interpret.",
+  "keywords": ["php", "profiling", "xhprof", "gui"],
+  "authors": [
+    {
+      "name": "Changhao Jiang",
+      "role": "Creator"
+    },
+    {
+      "name": "Kannan Muthukkaruppan",
+      "role": "Creator"
+    },
+    {
+      "name": "Venkat Venkataramani",
+      "role": "Creator"
+    },
+    {
+      "name": "George Cabrera",
+      "role": "Additional Contributor - UI Enhancements"
+    },
+    {
+      "name": "Paul Saab",
+      "role": "Additional Contributor - FreeBSD port"
+    },
+    {
+      "name": "Lorenzo Perone",
+      "role": "Additional Contributor "
+    }
+  ],
+  "license": "Apache"
+}
