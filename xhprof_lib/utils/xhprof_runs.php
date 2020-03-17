@@ -442,7 +442,7 @@ CREATE TABLE `details` (
 		}
 			
         
-	$url   = isset($_SERVER['REQUEST_URI']) ? $_SERVER["REQUEST_URI"] : implode(' ', $_SERVER['argv']);
+	$url   = PHP_SAPI === 'cli' ? implode(' ', $_SERVER['argv']) : $_SERVER['REQUEST_URI'];
  	$sname = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
 	
         $sql['url'] = $this->db->escape($url);
