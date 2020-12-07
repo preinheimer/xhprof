@@ -35,10 +35,16 @@ require_once XHPROF_LIB_ROOT.'/utils/Db/Abstract.php';
 class Db_Pdo extends Db_Abstract
 {
     protected $curStmt;
-    
+
     public function connect()
     {
         $connectionString = $this->config['dbtype'] . ':host=' . $this->config['dbhost'] . ';dbname=' . $this->config['dbname'];
+
+        if ($this->config['dbtype'] === 'sqlite')
+        {
+            $connectionString = $this->config['dbtype'] .':'.$this->config['dbname'];
+        }
+
         $db = new PDO($connectionString, $this->config['dbuser'], $this->config['dbpass']);
         if ($db === FALSE)
         {
@@ -50,18 +56,18 @@ class Db_Pdo extends Db_Abstract
         $this->db = $db;
         $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
-    
+
     public function query($sql)
     {
         $this->curStmt = $this->db->query($sql);
         return $this->curStmt;
     }
-    
+
     public static function getNextAssoc($resultSet)
     {
         return $resultSet->fetch();
     }
-    
+
     public function escape($str)
     {
         $str = $this->db->quote($str);
@@ -71,7 +77,7 @@ class Db_Pdo extends Db_Abstract
         $str = substr($str, 1);
         return $str;
     }
-    
+
     public function affectedRows()
     {
         if ($this->curStmt === false) {
@@ -79,12 +85,12 @@ class Db_Pdo extends Db_Abstract
         }
         return $this->curStmt->rowCount();
     }
-    
+
     public static function unixTimestamp($field)
     {
         return 'UNIX_TIMESTAMP('.$field.')';
     }
-    
+
     public static function dateSub($days)
     {
         return 'DATE_SUB(CURDATE(), INTERVAL '.$days.' DAY)';
