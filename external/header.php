@@ -57,7 +57,28 @@ class visibilitator
 }
 
 // Only users from authorized IP addresses may control Profiling
-if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || PHP_SAPI == 'cli')
+function get_client_ip() {
+    $ipaddress = '';
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+    {
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    }elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }elseif(isset($_SERVER['HTTP_X_FORWARDED'])){
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    }elseif(isset($_SERVER['HTTP_FORWARDED_FOR'])){
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    }elseif(isset($_SERVER['HTTP_FORWARDED'])){
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    }elseif(isset($_SERVER['REMOTE_ADDR'])){
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    }else{
+        $ipaddress = 'UNKNOWN';
+    }
+    return $ipaddress;
+}
+
+if ($controlIPs === false || in_array(get_client_ip(), $controlIPs) || PHP_SAPI == 'cli')
 {
   /* Backwards Compatibility getparam check*/
   if (!isset($_xhprof['getparam']))
